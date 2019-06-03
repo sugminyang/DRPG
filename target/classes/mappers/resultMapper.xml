@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="kr.ac.mapper.resultMapper">
+     
+	<!-- 
+        mybatis-config.xml의 typeAlias에 등록해두지 않았다면 
+        
+        <select id="selectMember" resultType="com.example.dto.MemberVO" >
+            SELECT ID, PW ,NAME FROM TEST
+        </select>
+        
+        이렇게 해야 한다.
+    -->
+    
+    <select id="selectResult" resultType="resultVO" >
+        SELECT pmid, disease, gene, snp FROM test.`disease-gene_pairs` 
+    </select>
+    
+    <select id="getResultByDisease" resultType="resultVO" parameterType="string">
+        SELECT pmid, disease, gene, snp FROM test.`disease-gene_pairs` where disease LIKE CONCAT('%',#{disease},'%') order by snp desc;
+    </select>
+    
+	<select id="getResultByGene" resultType="resultVO" parameterType="string">
+        SELECT pmid, disease, gene, snp FROM test.`disease-gene_pairs` where gene LIKE CONCAT('%',#{gene},'%') order by snp desc;
+    </select>
+    
+	<select id="getResultByPmid" resultType="resultVO" parameterType="string">
+        SELECT pmid, disease, gene, snp FROM test.`disease-gene_pairs` where pmid LIKE '#{pmid}';
+    </select>        
+
+    <select id="getResultByDiseaseForDR" resultType="DrugRepoVO" parameterType="string">
+        SELECT distinct pair.gene, pair.disease, dgi.interaction_types, dgi.drug_name
+		FROM test.`disease-gene_pairs` as pair
+		join test.`dgi_interactions` as dgi
+	    on(pair.gene = dgi.gene_name)
+		where pair.disease LIKE CONCAT('%',#{disease},'%') and dgi.interaction_types != '' and dgi.drug_name != '';
+    </select>
+	<select id="getResultByGeneForDR" resultType="DrugRepoVO" parameterType="string">
+        SELECT distinct pair.gene, pair.disease, dgi.interaction_types, dgi.drug_name
+		FROM test.`disease-gene_pairs` as pair
+		join test.`dgi_interactions` as dgi
+    	on(pair.gene = dgi.gene_name)
+		where pair.gene LIKE CONCAT('',#{gene},'') and dgi.interaction_types != '' and dgi.drug_name != '';
+    </select>
+	<select id="getResultByDrugForDR" resultType="DrugRepoVO" parameterType="string">
+        SELECT distinct pair.gene, pair.disease, dgi.interaction_types, dgi.drug_name
+		FROM test.`disease-gene_pairs` as pair		
+		join test.`dgi_interactions` as dgi
+    	on(pair.gene = dgi.gene_name)
+		where dgi.drug_name LIKE CONCAT('',#{drug},'') and dgi.interaction_types != '' and dgi.drug_name != '';
+    </select>    
+    
+</mapper>
