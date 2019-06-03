@@ -66,21 +66,6 @@ public class HomeController {
 
 		//TODO: 2. text에 color정보 입혀 client에 보내면 완료(굳이 client에서 처리하지 않고 해당하는 keyword를 찾아서 tag를 달아서 보내자!).
 		
-		String title = "Immunohistochemical Evaluation of the Role of p53 Mutation in Cervical Cancer: Ser-20 p53-Mutant Correlates with Better Prognosis.";
-		String ab = "Abstract\n" + 
-				"BACKGROUND:\n" + 
-				"Cervical cancer is driven by human papillomavirus virus-specific oncoprotein E6. E6 interacts with E3 ubiquitin-protein ligase, resulting in the proteolysis of p53 protein. The aim of this study was to analyze one TP53 mutation in patients with cervical cancer and to correlate it to prognosis.\n" + 
-				"\n" + 
-				"MATERIALS AND METHODS:\n" + 
-				"A total of 248 paraffin-embedded tumor samples were stained for mutated p53 protein. The distribution and intensity of staining both in the nucleus and cytoplasm were evaluated with a semi-quantitative immunohistochemical score.\n" + 
-				"\n" + 
-				"RESULTS:\n" + 
-				"A total of 66% of studied cervical carcinomas expressed the mutated p53 protein. The overall survival was better for patients expressing the mutated p53 protein in the nucleus.\n" + 
-				"\n" + 
-				"CONCLUSION:\n" + 
-				"Interestingly, we found a very high mutation rate of TP53 in a cancer type where p53 is initially inactivated via E6 during the development of cervical cancer. An unexpected finding is the correlation of this mutation with better survival, possibly due to better response to therapy.";
-		
-		
 		String request_url = "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=" + pmid + "&resultType=core&pageSize=1&format=json";
 		String[] bioconcept = {"Gene","Disease","Mutation"}; 
 		String format = "JSON";
@@ -98,8 +83,6 @@ public class HomeController {
 		String temp_title = paperSummary.get("title");
 		String temp_abs = paperSummary.get("abstract");
 		String temp_pub = paperSummary.get("publication");
-		
-		String baseTxt = temp_title + " " +temp_abs;
 		
 		String geneColor = "rgb(200,64,240)";
 		String diseaseColor = "rgb(255,153,0)";
