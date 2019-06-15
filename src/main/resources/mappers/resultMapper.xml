@@ -32,25 +32,25 @@
     </select>        
 
     <select id="getResultByDiseaseForDR" resultType="DrugRepoVO" parameterType="string">
-        SELECT distinct pair.gene, pair.disease, dgi.interaction_types, dgi.drug_name
+        SELECT distinct pair.gene, pair.disease, dgi.interaction_types, dgi.drug_name,dgi.interaction_claim_source
 		FROM test.`disease-gene_pairs` as pair
 		join test.`dgi_interactions` as dgi
 	    on(pair.gene = dgi.gene_name)
-		where pair.disease LIKE CONCAT('%',#{disease},'%') and dgi.interaction_types != '' and dgi.drug_name != '';
+		where pair.disease LIKE CONCAT('%',#{disease},'%') and dgi.interaction_claim_source like 'FDA';
     </select>
 	<select id="getResultByGeneForDR" resultType="DrugRepoVO" parameterType="string">
-        SELECT distinct pair.gene, pair.disease, dgi.interaction_types, dgi.drug_name
+        SELECT distinct pair.gene, pair.disease, dgi.interaction_types, dgi.drug_name,dgi.interaction_claim_source
 		FROM test.`disease-gene_pairs` as pair
 		join test.`dgi_interactions` as dgi
     	on(pair.gene = dgi.gene_name)
-		where pair.gene LIKE CONCAT('',#{gene},'') and dgi.interaction_types != '' and dgi.drug_name != '';
+		where pair.gene LIKE CONCAT('',#{gene},'') and dgi.interaction_claim_source like 'FDA';
     </select>
 	<select id="getResultByDrugForDR" resultType="DrugRepoVO" parameterType="string">
-        SELECT distinct pair.gene, pair.disease, dgi.interaction_types, dgi.drug_name
+        SELECT distinct pair.gene, pair.disease, dgi.interaction_types, dgi.drug_name,dgi.interaction_claim_source
 		FROM test.`disease-gene_pairs` as pair		
 		join test.`dgi_interactions` as dgi
     	on(pair.gene = dgi.gene_name)
-		where dgi.drug_name LIKE CONCAT('',#{drug},'') and dgi.interaction_types != '' and dgi.drug_name != '';
+		where dgi.drug_name LIKE CONCAT('',#{drug},'') and dgi.interaction_claim_source like 'FDA';
     </select>    
     
 </mapper>

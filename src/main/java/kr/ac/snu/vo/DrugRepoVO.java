@@ -5,7 +5,15 @@ public class DrugRepoVO {
 	String disease;
 	String interaction_types;
 	String drug_name;
+	String interaction_claim_source;
 	
+	
+	public String getInteraction_claim_source() {
+		return interaction_claim_source;
+	}
+	public void setInteraction_claim_source(String interaction_claim_source) {
+		this.interaction_claim_source = interaction_claim_source;
+	}
 	public String getGene() {
 		return gene;
 	}
@@ -35,7 +43,7 @@ public class DrugRepoVO {
 	@Override
 	public String toString() {
 		return "DrugRepoVO [gene=" + gene + ", disease=" + disease + ", interaction_types=" + interaction_types
-				+ ", drug_name=" + drug_name + "]";
+				+ ", drug_name=" + drug_name + ", interaction_claim_source=" + interaction_claim_source + "]";
 	}
 	
 	

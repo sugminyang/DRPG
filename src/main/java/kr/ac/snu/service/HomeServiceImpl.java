@@ -320,4 +320,12 @@ public class HomeServiceImpl implements HomeService{
 		
 		return temp;
 	}
+	
+	public boolean checkUnnecessaryDisease(String disease)	{
+		
+		
+		
+		return false;
+		
+	}
 }
