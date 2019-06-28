@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.ac.snu.service.HomeService;
 import kr.ac.snu.vo.DrugRepoVO;
+import kr.ac.snu.vo.RepositioningDrugVO;
 import kr.ac.snu.vo.ResultVO;
 import net.sf.json.JSONArray;
 
@@ -145,17 +146,26 @@ public class HomeController {
 		String[] items = query.split("_@");
 
 		List<DrugRepoVO> resultList = null;
+		List<RepositioningDrugVO> resultList2 = null;
 		JSONArray jsonArray = null;
 		
 		if(items[0].contentEquals("disease"))	{
-			resultList = service.getResultByDiseaseForDR(items[1]);
-			jsonArray = JSONArray.fromObject(resultList);
-			logger.info("[disease]mybeanList - " + jsonArray);
+//			resultList = service.getResultByDiseaseForDR(items[1]);
+//			jsonArray = JSONArray.fromObject(resultList);
+//			logger.info("[disease]mybeanList - " + jsonArray);
+			
+			resultList2 = service.getDrugsWithDiseaseName(items[1]);
+			jsonArray = JSONArray.fromObject(resultList2);
+			logger.info("[disease]mybeanList - \" + jsonArray");
 		}
 		else if(items[0].contentEquals("gene"))	{
-			resultList = service.getResultByGeneForDR(items[1]);
-			jsonArray = JSONArray.fromObject(resultList);
-			logger.info("[gene]mybeanList - " + jsonArray);
+//			resultList = service.getResultByGeneForDR(items[1]);
+//			jsonArray = JSONArray.fromObject(resultList);
+//			logger.info("[gene]mybeanList - " + jsonArray);
+			
+			resultList2 = service.getDrugsWithGeneName(items[1]);
+			jsonArray = JSONArray.fromObject(resultList2);
+			logger.info("[gene]mybeanList - \" + jsonArray");
 		}
 		else if(items[0].contentEquals("drug"))	{
 			resultList = service.getResultByDrugForDR(items[1]);

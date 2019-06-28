@@ -10,6 +10,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import kr.ac.snu.vo.DrugRepoVO;
+import kr.ac.snu.vo.RepositioningDrugVO;
 import kr.ac.snu.vo.ResultVO;
 
 @Repository
@@ -73,6 +74,32 @@ public class ResultDAOImpl implements ResultDAO{
 		
 		return sqlSession.selectList(Namespace+".getResultByDrugForDR",map);
 	}
+
+	@Override
+	public List<RepositioningDrugVO> getDrugsWithDiseaseName(String disease) {
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("disease",disease);
+		
+		return sqlSession.selectList(Namespace+".getDrugsWithDiseaseName",map);
+	}
+
+	@Override
+	public List<RepositioningDrugVO> getDrugsWithGeneName(String gene) {
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("gene",gene);
+		
+		return sqlSession.selectList(Namespace+".getDrugsWithGeneName",map);
+	}
+
+	@Override
+	public List<String> getDiseaseName(String gene) {
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("gene",gene);
+		
+		return sqlSession.selectList(Namespace+".getDiseaseName",map);
+	}
+	
+	
 }
 
 

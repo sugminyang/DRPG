@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import kr.ac.snu.dao.ResultDAO;
 import kr.ac.snu.vo.DrugRepoVO;
+import kr.ac.snu.vo.RepositioningDrugVO;
 import kr.ac.snu.vo.ResultVO;
 
 @Service
@@ -193,6 +194,7 @@ public class HomeServiceImpl implements HomeService{
 		JSONParser parser = new JSONParser();
 		Object obj = parser.parse( paperJson );
 		JSONArray jsonArray = (JSONArray) obj;
+	
 		
 		for (int i = 0; i < jsonArray.size();i++) {
 		    JSONObject data = (JSONObject)jsonArray.get(i);
@@ -320,12 +322,114 @@ public class HomeServiceImpl implements HomeService{
 		
 		return temp;
 	}
+
+	@Override
+	public List<RepositioningDrugVO> getDrugsWithDiseaseName(String disease) {
+		Map<String, RepositioningDrugVO> temp = new HashMap<String, RepositioningDrugVO>();
+		
+		for(RepositioningDrugVO vo : dao.getDrugsWithDiseaseName(disease)) {
+			vo.setDiseaseName(disease);
+			String key = vo.getTargetGene() + "@" +vo.getPhaseNum() + "@" + vo.getChmbleID();
+			
+			removeDuplicateSourcesNinteractionType(temp,vo,key);
+		}
+		
+		List<RepositioningDrugVO> voList = getDrugVOList(temp);
+		
+		return voList;	
+	}
+
+
+	@Override
+	public List<RepositioningDrugVO> getDrugsWithGeneName(String gene) {
+		Map<String, RepositioningDrugVO> temp = new HashMap<String, RepositioningDrugVO>();
+		List<String> diseaseList = new ArrayList<String>();
+		
+		//get diseaseName
+		for(String disease: dao.getDiseaseName(gene)) {
+			if(disease.equalsIgnoreCase("tumor") || disease.equalsIgnoreCase("tumors") 
+					|| disease.equalsIgnoreCase("carcinoma") || disease.equalsIgnoreCase("carcinomas")
+					|| disease.equalsIgnoreCase("tumour") || disease.equalsIgnoreCase("cancer")
+					|| disease.equalsIgnoreCase("cancers") || disease.equalsIgnoreCase("metastasis")
+					|| disease.equalsIgnoreCase("adenocarcinoma") || disease.equalsIgnoreCase("tumours")
+					|| disease.equalsIgnoreCase("adenocarcinomas") || disease.equalsIgnoreCase("metastases")
+					|| disease.equalsIgnoreCase("overall survival") || disease.equalsIgnoreCase("os")
+					|| disease.equalsIgnoreCase("death") || disease.equalsIgnoreCase("malignancies")
+					|| disease.contains("[OBSOLETE]") || disease.equalsIgnoreCase("Sarcoma")
+					|| disease.contains("Neoplasms"))	{
+			}
+			else	{
+				System.out.println(disease);
+				diseaseList.add(disease);
+			}
+			
+		}
+		
+		//mapping disease-gene-drugs. and remove duplicate sources and interactionType
+		for(RepositioningDrugVO vo : dao.getDrugsWithGeneName(gene)) {
+			for(String disease : diseaseList)	{
+				vo.setDiseaseName(disease);
+				String key =  disease + "@" + vo.getTargetGene() + "@" +vo.getPhaseNum() + "@" + vo.getChmbleID();
+				
+				removeDuplicateSourcesNinteractionType(temp,vo,key);				
+			}
+		}
+		List<RepositioningDrugVO> voList = getDrugVOList(temp);
+		
+		return voList;
+	}
 	
-	public boolean checkUnnecessaryDisease(String disease)	{
+	
+	
+	/**
+	 * get DrugVO list.
+	 * */
+
+	private List<RepositioningDrugVO> getDrugVOList(Map<String, RepositioningDrugVO> temp) {
+		List<RepositioningDrugVO> voList = new ArrayList<RepositioningDrugVO>();
 		
+		for(RepositioningDrugVO vo : temp.values()) {
+			voList.add(vo);
+		}
 		
+		return voList;
+	}
+
+	private void removeDuplicateSourcesNinteractionType(Map<String, RepositioningDrugVO> temp, RepositioningDrugVO vo, String key) {
 		
-		return false;
-		
+			if(temp.containsKey(key))	{
+				RepositioningDrugVO ori = temp.get(key);
+				
+				//merge. sources.
+				if(vo.getSources().length() != 0)	{
+					if(ori.getSources().length() == 0)	{
+						ori.setSources(vo.getSources());
+					}
+					else	{
+						if(!ori.getSources().contains(vo.getSources()))	{
+							String newSources = ori.getSources() + ", " + vo.getSources();
+							ori.setSources(newSources);							
+						}
+					}
+				}
+
+				
+				//merge. interactionType.
+				if(vo.getInteractionType().length() != 0)	{
+					if(ori.getInteractionType().length() == 0)	{
+						ori.setInteractionType(vo.getInteractionType());
+					}
+					else	{
+						if(!ori.getInteractionType().contains(vo.getInteractionType()))	{		//no containing interaction type.
+							String mergedInteractionType = ori.getInteractionType() + ", " + vo.getInteractionType();
+							ori.setInteractionType(mergedInteractionType);
+						}
+					}
+				}
+				temp.put(key,ori);
+			}
+			else	{
+				temp.put(key,vo);
+			}
 	}
 }

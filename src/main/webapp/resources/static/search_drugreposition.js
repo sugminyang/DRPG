@@ -63,7 +63,8 @@ $(function() {
         $('#result').empty()
 		var table = $('<table class="table table-bordered table-hover"></table>')
 		var tr = $("<tr></tr>")
-		var vars = ['disease','gene','interaction_types','drug_name','drug_summary','interaction_claim_source']
+		//var vars = ['disease','gene','interaction_types','drug_name','drug_summary','interaction_claim_source']	//old
+		var vars = ['diseaseName','targetGene','drugName','phaseNum','interactionType','chmbleID','sources']
 		$(vars).each(function(k, v) {
 			tr.append('<th>' + v + '</th>')
 		})

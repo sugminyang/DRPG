@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import kr.ac.snu.vo.DrugRepoVO;
+import kr.ac.snu.vo.RepositioningDrugVO;
 import kr.ac.snu.vo.ResultVO;
 
 public interface HomeService {
@@ -16,5 +17,8 @@ public interface HomeService {
 	public List<DrugRepoVO> getResultByDiseaseForDR(String disease);
 	public List<DrugRepoVO> getResultByGeneForDR(String gene);
 	public List<DrugRepoVO> getResultByDrugForDR(String drug);
+	public List<RepositioningDrugVO> getDrugsWithDiseaseName(String disease);
+	public List<RepositioningDrugVO> getDrugsWithGeneName(String gene);
+	
 
 }
