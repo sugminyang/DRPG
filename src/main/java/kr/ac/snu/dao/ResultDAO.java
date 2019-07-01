@@ -16,6 +16,8 @@ public interface ResultDAO {
 	public List<DrugRepoVO> getResultByDrugForDR(String drug);
 	public List<RepositioningDrugVO> getDrugsWithDiseaseName(String disease);
 	public List<RepositioningDrugVO> getDrugsWithGeneName(String gene);
-	public List<String> getDiseaseName(String gene);
+	public List<String> getDiseaseNameByGene(String gene);
+	public List<RepositioningDrugVO> getDrugUsage(String drug);
+	public List<String> getDiseaseNameByDrug(String drug);
 }
 

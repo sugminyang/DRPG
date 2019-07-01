@@ -156,7 +156,7 @@ public class HomeController {
 			
 			resultList2 = service.getDrugsWithDiseaseName(items[1]);
 			jsonArray = JSONArray.fromObject(resultList2);
-			logger.info("[disease]mybeanList - \" + jsonArray");
+			logger.info("[disease]mybeanList - " + jsonArray);
 		}
 		else if(items[0].contentEquals("gene"))	{
 //			resultList = service.getResultByGeneForDR(items[1]);
@@ -165,12 +165,16 @@ public class HomeController {
 			
 			resultList2 = service.getDrugsWithGeneName(items[1]);
 			jsonArray = JSONArray.fromObject(resultList2);
-			logger.info("[gene]mybeanList - \" + jsonArray");
+			logger.info("[gene]mybeanList - " + jsonArray);
 		}
 		else if(items[0].contentEquals("drug"))	{
-			resultList = service.getResultByDrugForDR(items[1]);
-			jsonArray = JSONArray.fromObject(resultList);
-			logger.info("[drug]mybeanList - " + jsonArray);
+//			resultList = service.getResultByDrugForDR(items[1]);
+//			jsonArray = JSONArray.fromObject(resultList);
+//			logger.info("[drug]mybeanList - " + jsonArray);
+			
+			resultList2 = service.getDrugUsage(items[1]);
+			jsonArray = JSONArray.fromObject(resultList2);
+			logger.info("[gene]mybeanList - " + jsonArray);
 		}
 		else	{
 			logger.error("[Error]invalid format query  !!!");

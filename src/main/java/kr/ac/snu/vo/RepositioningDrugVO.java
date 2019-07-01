@@ -1,6 +1,6 @@
 package kr.ac.snu.vo;
 
-public class RepositioningDrugVO {
+public class RepositioningDrugVO implements Cloneable{
 	String diseaseName;
 	String targetGene;
 	String drugName;
@@ -8,7 +8,6 @@ public class RepositioningDrugVO {
 	String interactionType;
 	String chmbleID;
 	String sources;
-	
 	
 	public String getDiseaseName() {
 		return diseaseName;
@@ -61,5 +60,8 @@ public class RepositioningDrugVO {
 	}
 	
 
-	
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		return super.clone();
+	}
 }

@@ -92,13 +92,28 @@ public class ResultDAOImpl implements ResultDAO{
 	}
 
 	@Override
-	public List<String> getDiseaseName(String gene) {
+	public List<String> getDiseaseNameByGene(String gene) {
 		Map<String,String> map = new HashMap<String,String>();
 		map.put("gene",gene);
 		
-		return sqlSession.selectList(Namespace+".getDiseaseName",map);
+		return sqlSession.selectList(Namespace+".getDiseaseNameByGene",map);
 	}
-	
+
+	@Override
+	public List<RepositioningDrugVO> getDrugUsage(String drug) {
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("drug",drug);
+		
+		return sqlSession.selectList(Namespace+".getDrugUsage",map);
+	}
+
+	@Override
+	public List<String> getDiseaseNameByDrug(String drug) {
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("drug",drug);
+		
+		return sqlSession.selectList(Namespace+".getDiseaseNameByDrug",map);
+	}
 	
 }
 

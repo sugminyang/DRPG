@@ -68,7 +68,7 @@
     </select>
     
     
-    <select id="getDiseaseName" resultType="string" parameterType="string">
+    <select id="getDiseaseNameByGene" resultType="string" parameterType="string">
     	SELECT distinct pair.disease 
 			FROM test.`disease-gene_pairs` as pair
 			join test.`dgi_interactions` as dgi
@@ -84,4 +84,22 @@
 			where chem.pref_name is not null and dgi.gene_claim_name LIKE CONCAT('',#{gene},'')
 			limit 10000;
     </select>    
+    
+    <select id="getDiseaseNameByDrug" resultType="string" parameterType="string">
+    	SELECT distinct pair.disease 
+			FROM test.`disease-gene_pairs` as pair
+			join test.`dgi_interactions` as dgi
+			on(pair.gene = dgi.gene_name)
+			where dgi.drug_claim_primary_name LIKE CONCAT('',#{drug},'') and dgi.drug_chembl_id != '';
+    </select>    
+
+    <select id="getDrugUsage" resultType="RepositioningDrugVO" parameterType="string">
+	   SELECT distinct dgi.gene_name as targetGene, chem.pref_name as drugName, chem.max_phase as phaseNum, dgi.interaction_types as interactionType, dgi.drug_chembl_id as chmbleID, dgi.interaction_claim_source as sources
+			FROM test.dgi_interactions as dgi 
+			join chembl_25.molecule_dictionary as chem
+			on(dgi.drug_chembl_id = chem.chembl_id)
+			where chem.pref_name is not null and dgi.drug_claim_primary_name like CONCAT('',#{drug},'')
+			limit 10000;
+    </select>    
+
 </mapper>

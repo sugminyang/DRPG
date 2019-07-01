@@ -19,6 +19,7 @@ public interface HomeService {
 	public List<DrugRepoVO> getResultByDrugForDR(String drug);
 	public List<RepositioningDrugVO> getDrugsWithDiseaseName(String disease);
 	public List<RepositioningDrugVO> getDrugsWithGeneName(String gene);
+	public List<RepositioningDrugVO> getDrugUsage(String drug);
 	
 
 }
