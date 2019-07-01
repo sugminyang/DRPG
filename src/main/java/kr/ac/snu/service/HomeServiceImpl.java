@@ -327,6 +327,22 @@ public class HomeServiceImpl implements HomeService{
 	@Override
 	public List<RepositioningDrugVO> getDrugsWithDiseaseName(String disease) {
 		Map<String, RepositioningDrugVO> temp = new HashMap<String, RepositioningDrugVO>();
+		List<RepositioningDrugVO> voList = new ArrayList<RepositioningDrugVO>();
+		
+		if(disease.equalsIgnoreCase("tumor") || disease.equalsIgnoreCase("tumors") 
+				|| disease.equalsIgnoreCase("carcinoma") || disease.equalsIgnoreCase("carcinomas")
+				|| disease.equalsIgnoreCase("tumour") || disease.equalsIgnoreCase("cancer")
+				|| disease.equalsIgnoreCase("cancers") || disease.equalsIgnoreCase("metastasis")
+				|| disease.equalsIgnoreCase("adenocarcinoma") || disease.equalsIgnoreCase("tumours")
+				|| disease.equalsIgnoreCase("Adenoma") || disease.equalsIgnoreCase("Adenomas")
+				|| disease.equalsIgnoreCase("adenocarcinomas") || disease.equalsIgnoreCase("metastases")
+				|| disease.equalsIgnoreCase("overall survival") || disease.equalsIgnoreCase("os")
+				|| disease.equalsIgnoreCase("death") || disease.equalsIgnoreCase("malignancies")
+				|| disease.contains("[OBSOLETE]") || disease.equalsIgnoreCase("Sarcoma")
+				|| disease.equalsIgnoreCase("Neoplasms") || disease.equalsIgnoreCase("Neoplasm")
+				|| disease.equalsIgnoreCase("Neoplasm Metastasis"))	{
+			return voList;
+		}
 		
 		//mapping disease-gene-drugs. and remove duplicate sources and interactionType
 		List<RepositioningDrugVO> vos = new ArrayList<RepositioningDrugVO>();
@@ -344,7 +360,7 @@ public class HomeServiceImpl implements HomeService{
 		//				System.out.println("#size(temp.size()): " + temp.size());
 		//				System.out.println("#size(diseaseList.size()): " + diseaseList.size());
 
-		List<RepositioningDrugVO> voList = new ArrayList<RepositioningDrugVO>();
+		
 		for(String key : temp.keySet())	{
 //			System.out.println(disease);
 			RepositioningDrugVO vo = temp.get(key);
