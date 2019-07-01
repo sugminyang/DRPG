@@ -1,3 +1,36 @@
+
+$.fn.dataTable.ext.search.push(
+	    function( settings, data, dataIndex ) {
+	    	var drugType = $("#drug_type_dr option:selected").text();
+	    	console.log('drugtype: ', drugType);
+	        var min = 0;
+	        var max = 4;
+	        var phase = parseFloat( data[3] ) || 0; // use data for the age column
+	 
+	        if(drugType == 'Candidate'){
+	        	min = 0;
+	        	max = 3;
+	        }
+	        else if(drugType == 'Approved'){	//approved
+	        	min = 4;
+	        	max = 4;
+	        }
+	        else	{
+	        	min = 0;
+	        	max = 4;
+	        }
+	        
+	        if ( ( isNaN( min ) && isNaN( max ) ) ||
+	             ( isNaN( min ) && phase <= max ) ||
+	             ( min <= phase   && isNaN( max ) ) ||
+	             ( min <= phase   && phase <= max ) )
+	        {
+	            return true;
+	        }
+	        return false;
+	    });
+
+
 $(function() {
     $('#search_repositioning').click(function() {
         search_drugrepositioning()
@@ -12,6 +45,14 @@ $(function() {
 
     $('#vizBtn').click(function() {
         alert($('#vizBtn').val())
+    })
+    
+    
+    $("#drug_type_dr").change(function() {
+    	var dataTable = $('#MydataTable').DataTable();
+//    	console.log(dataTable);
+    	dataTable.draw();
+    	
     })
     
     function search_drugrepositioning()	{
@@ -61,7 +102,7 @@ $(function() {
 
     function search_success(data) {
         $('#result').empty()
-		var table = $('<table class="table table-bordered table-hover"></table>')
+		var table = $('<table id="MydataTable" class="table table-bordered table-hover"></table>')
 		var tr = $("<tr></tr>")
 		//var vars = ['disease','gene','interaction_types','drug_name','drug_summary','interaction_claim_source']	//old
 		var vars = ['diseaseName','targetGene','drugName','phaseNum','interactionType','chmbleID','sources']
@@ -92,10 +133,17 @@ $(function() {
 		table.DataTable({
         'paging': true,
         'lengthChange': false,
-        'searching': false,
+        'searching': true,
         'ordering': true,
         'info': true,
-        'autoWidth': true
+        "applyFilter":true,
+        "bJQueryUI": true,
+        "bFilter": true,
+        "bSort": true,
+        "order": [[ 3, "desc" ]],
+        "retrieve": true
 		})
+		
+		$("#MydataTable_filter").remove();
     }
 })
