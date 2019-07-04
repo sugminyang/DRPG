@@ -21,9 +21,3 @@
 .metadata-table td {
 	padding: 3px;
 }
-
-.dataTables_wrapper .dataTables_filter {
-	float: right;
-	text-align: right;
-	visibility: hidden;
-}
