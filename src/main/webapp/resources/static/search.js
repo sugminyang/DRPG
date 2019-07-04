@@ -1,7 +1,7 @@
 $(function() {
-    $('#search_button').click(function() {
-        search()
-    })
+	$('#search_button').click(function() {
+		search()
+	})
     
     $(document).keypress(function(e) {
         if (e.which == 13) {
@@ -9,11 +9,6 @@ $(function() {
             search()
         }
     })
-
-    $('#vizBtn').click(function() {
-        alert($('#vizBtn').val())
-    })
-    
     
     function search() {
     	search_type = $('#search_type option:selected').val()

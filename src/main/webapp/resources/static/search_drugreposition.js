@@ -2,8 +2,8 @@
 $.fn.dataTable.ext.search.push(
 	    function( settings, data, dataIndex ) {
 	    	var drugType = $("#drug_type_dr option:selected").text();
-	    	console.log('drugtype: ', drugType);
-	        var min = 0;
+
+	    	var min = 0;
 	        var max = 4;
 	        var phase = parseFloat( data[3] ) || 0; // use data for the age column
 	 

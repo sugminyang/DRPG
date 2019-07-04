@@ -58,12 +58,12 @@
 			FROM test.dgi_interactions as dgi 
 			join chembl_25.molecule_dictionary as chem
 	    	on(dgi.drug_chembl_id = chem.chembl_id)
-			where chem.pref_name is not null and dgi.gene_name in (
+			where chem.pref_name is not null and chem.withdrawn_flag != 1 and dgi.gene_name in (
 				SELECT distinct dgi.gene_name 
 					FROM test.`disease-gene_pairs` as pair
 					join test.`dgi_interactions` as dgi
 					on(pair.gene = dgi.gene_name)
-					where pair.disease LIKE CONCAT('',#{disease},'') and dgi.drug_chembl_id != '')
+					where pair.disease LIKE CONCAT('',#{disease},'') and dgi.drug_chembl_id != '') 
 	    limit 10000;
     </select>
     
@@ -81,7 +81,7 @@
 			FROM test.dgi_interactions as dgi 
 			join chembl_25.molecule_dictionary as chem
 			on(dgi.drug_chembl_id = chem.chembl_id)
-			where chem.pref_name is not null and dgi.gene_claim_name LIKE CONCAT('',#{gene},'')
+			where chem.pref_name is not null and dgi.gene_claim_name LIKE CONCAT('',#{gene},'') and chem.withdrawn_flag != 1
 			limit 10000;
     </select>    
     
@@ -98,7 +98,7 @@
 			FROM test.dgi_interactions as dgi 
 			join chembl_25.molecule_dictionary as chem
 			on(dgi.drug_chembl_id = chem.chembl_id)
-			where chem.pref_name is not null and dgi.drug_claim_primary_name like CONCAT('',#{drug},'')
+			where chem.pref_name is not null and dgi.drug_claim_primary_name like CONCAT('',#{drug},'') and chem.withdrawn_flag != 1
 			limit 10000;
     </select>    
 
