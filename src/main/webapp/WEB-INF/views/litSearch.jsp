@@ -21,6 +21,7 @@
     <!-- DataTables -->
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css" />
 
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/img.css" />
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -76,7 +77,7 @@
       literature search with prognostic results
       </h1>
     </section>
-
+	
     <!-- Main content -->
     <section class="content">
       <div class="row">

@@ -1,6 +1,7 @@
 package kr.ac.snu;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -8,30 +9,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
-import javax.sql.DataSource;
-
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/spring/**/root-context.xml" })
-public class MySQLConnectionTest {
-    
-    @Inject
-    private DataSource ds;
- 
+public class CalcTargetGeneWithDisease {
+
     @Test
     public void testConnection() throws Exception {
  
         try  {
-        	Connection con = ds.getConnection();
+        	// create our mysql database connection
+            String myDriver = "com.mysql.cj.jdbc.Driver";
+            String myUrl = "jdbc:mysql://127.0.0.1:3306/test?useSSL=false&amp;serverTimezone=UTC";
+            Class.forName(myDriver);
+            Connection con = DriverManager.getConnection(myUrl, "root", "1q2w1q2w");
+            
         			
-            System.out.println("\n >>>>>>>>>> Connection 출력 : " + con + "\n");
+//            System.out.println("\n >>>>>>>>>> Connection 출력 : " + con + "\n");
          // our SQL SELECT query. 
             // if you only need a few columns, specify them by name instead of using "*"
             String query = "select distinct * from test.`disease-gene_pairs`;";
@@ -84,5 +79,5 @@ public class MySQLConnectionTest {
             e.printStackTrace();
         }
     }
-    
+
 }
