@@ -6,7 +6,7 @@ public class RepositioningDrugVO implements Cloneable{
 	String drugName;
 	String phaseNum;
 	String interactionType;
-	String chmbleID;
+	String chemblID;
 	String sources;
 	
 	public String getDiseaseName() {
@@ -39,11 +39,11 @@ public class RepositioningDrugVO implements Cloneable{
 	public void setInteractionType(String interactionType) {
 		this.interactionType = interactionType;
 	}
-	public String getChmbleID() {
-		return chmbleID;
+	public String getChemblID() {
+		return chemblID;
 	}
-	public void setChmbleID(String chmbleID) {
-		this.chmbleID = chmbleID;
+	public void setChemblID(String chemblID) {
+		this.chemblID = chemblID;
 	}
 	public String getSources() {
 		return sources;
@@ -55,8 +55,8 @@ public class RepositioningDrugVO implements Cloneable{
 	@Override
 	public String toString() {
 		return "RepositioningDrugVO [diseaseName=" + diseaseName + ", targetGene=" + targetGene + ", drugName="
-				+ drugName + ", phaseNum=" + phaseNum + ", interactionType=" + interactionType + ", chmbleID="
-				+ chmbleID + ", sources=" + sources + "]";
+				+ drugName + ", phaseNum=" + phaseNum + ", interactionType=" + interactionType + ", chemblID="
+				+ chemblID + ", sources=" + sources + "]";
 	}
 	
 

@@ -14,7 +14,7 @@ import org.junit.Test;
 public class CalcDrugRelatedtoTargetGene {
 
     public void testDrugsByTargetGene() throws Exception {
- 
+    	
         try  {
         	// create our mysql database connection
             String myDriver = "com.mysql.cj.jdbc.Driver";
@@ -26,7 +26,13 @@ public class CalcDrugRelatedtoTargetGene {
 //            System.out.println("\n >>>>>>>>>> Connection 출력 : " + con + "\n");
          // our SQL SELECT query. 
             // if you only need a few columns, specify them by name instead of using "*"
-            String query = "select distinct gene_name,drug_name,drug_claim_primary_name,drug_chembl_id from test.`dgi_interactions` WHERE drug_chembl_id != '';";
+//            String query = "select distinct gene_name,drug_name,drug_claim_primary_name,drug_chembl_id from test.`dgi_interactions` WHERE drug_chembl_id != '';";
+            String query = "select distinct gene_name,drug_name,drug_claim_primary_name,drug_chembl_id " + 
+            		"	from test.`dgi_interactions` " + 
+            		"	WHERE drug_chembl_id in (select chem.chembl_id" + 
+            		"	 from `chembl_25`.`molecule_dictionary` as chem" + 
+            		"	 where chem.`max_phase` = 4 and chem.therapeutic_flag = 1" + 
+            		"	);";
 
             // create the java statement
             Statement st = con.createStatement();
@@ -82,7 +88,7 @@ public class CalcDrugRelatedtoTargetGene {
     }
 
 	
-	@Test
+    @Test
     public void testTargetGenesByDrug() throws Exception {
  
 		try  {
@@ -96,7 +102,13 @@ public class CalcDrugRelatedtoTargetGene {
 //            System.out.println("\n >>>>>>>>>> Connection 출력 : " + con + "\n");
          // our SQL SELECT query. 
             // if you only need a few columns, specify them by name instead of using "*"
-            String query = "select distinct gene_name,drug_name,drug_claim_primary_name,drug_chembl_id from test.`dgi_interactions` WHERE drug_chembl_id != '';";
+//            String query = "select distinct gene_name,drug_name,drug_claim_primary_name,drug_chembl_id from test.`dgi_interactions` WHERE drug_chembl_id != '';";
+            String query = "select distinct gene_name,drug_name,drug_claim_primary_name,drug_chembl_id " + 
+            		"	from test.`dgi_interactions` " + 
+            		"	WHERE drug_chembl_id in (select chem.chembl_id" + 
+            		"	 from `chembl_25`.`molecule_dictionary` as chem" + 
+            		"	 where chem.`max_phase` = 4 and chem.therapeutic_flag = 1" + 
+            		"	);";
 
             // create the java statement
             Statement st = con.createStatement();

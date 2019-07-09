@@ -43,10 +43,6 @@ $(function() {
         }
     })
 
-    $('#vizBtn').click(function() {
-        alert($('#vizBtn').val())
-    })
-    
     
     $("#drug_type_dr").change(function() {
     	var dataTable = $('#MydataTable').DataTable();
@@ -105,7 +101,7 @@ $(function() {
 		var table = $('<table id="MydataTable" class="table table-bordered table-hover"></table>')
 		var tr = $("<tr></tr>")
 		//var vars = ['disease','gene','interaction_types','drug_name','drug_summary','interaction_claim_source']	//old
-		var vars = ['diseaseName','targetGene','drugName','phaseNum','interactionType','chmbleID','sources']
+		var vars = ['diseaseName','targetGene','drugName','phaseNum','interactionType','chemblID','sources']
 		$(vars).each(function(k, v) {
 			tr.append('<th>' + v + '</th>')
 		})
@@ -118,8 +114,14 @@ $(function() {
 		$(bindings).each(function(k, b) {
 			tr = $("<tr></tr>")
 			$(vars).each(function(k2, v) {
-				if(v == 'drug_summary')	{
-					tr.append('<td>'+'<button> <a href="http://www.dgidb.org/drugs/' + b['drug_name'] + '#_summary">' + b['drug_name'] + '</a></button>' + '</td>')
+				if(v == 'drugName')	{
+					tr.append('<td>'+'<button> <a href="http://www.dgidb.org/drugs/' + b['drugName'] + '#_summary">' + b['drugName'] + '</a></button>' + '</td>')
+				}
+				else if(v == 'chemblID'){
+					tr.append('<td>'+'<button> <a href="https://www.ebi.ac.uk/chembl/compound_report_card/' + b['chemblID']+ '">' + b['chemblID'] + '</a></button>' + '</td>')
+				}
+				else if(v == 'targetGene')	{
+					tr.append('<td>'+'<button> <a href="https://www.genecards.org/cgi-bin/carddisp.pl?gene=' + b['targetGene'] + '">' + b['targetGene'] + '</a></button>' + '</td>')
 				}
 				else	{
 					tr.append('<td>' + b[v] + '</td>')

@@ -27,7 +27,15 @@ public class CalcDiseasesRelatedtoDrug {
 //            System.out.println("\n >>>>>>>>>> Connection 출력 : " + con + "\n");
          // our SQL SELECT query. 
             // if you only need a few columns, specify them by name instead of using "*"
-            String query = "select distinct dgi.gene_name as gene, triplet.disease as disease, dgi.drug_name as drug from test.`disease-gene_pairs` as triplet join test.`dgi_interactions` as dgi on(triplet.gene = dgi.gene_name) WHERE drug_chembl_id != '';";
+//            String query = "select distinct dgi.gene_name as gene, triplet.disease as disease, dgi.drug_name as drug from test.`disease-gene_pairs` as triplet join test.`dgi_interactions` as dgi on(triplet.gene = dgi.gene_name) WHERE drug_chembl_id != '';";
+            String query = "select distinct triplet.disease as disease, dgi.drug_name as drug " + 
+            		"	from test.`disease-gene_pairs` as triplet " + 
+            		"	join test.`dgi_interactions` as dgi " + 
+            		"	on(triplet.gene = dgi.gene_name) " + 
+            		"	WHERE drug_chembl_id in (select chem.chembl_id" + 
+            		"	 from `chembl_25`.`molecule_dictionary` as chem" + 
+            		"	 where chem.`max_phase` = 4 and chem.therapeutic_flag = 1" + 
+            		"	);";
 
             // create the java statement
             Statement st = con.createStatement();

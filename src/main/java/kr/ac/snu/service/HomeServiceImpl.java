@@ -21,6 +21,7 @@ import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
 
 import kr.ac.snu.dao.ResultDAO;
+import kr.ac.snu.vo.DiseaseGeneVO;
 import kr.ac.snu.vo.DrugRepoVO;
 import kr.ac.snu.vo.RepositioningDrugVO;
 import kr.ac.snu.vo.ResultVO;
@@ -352,7 +353,7 @@ public class HomeServiceImpl implements HomeService{
 		}
 
 		for(RepositioningDrugVO vo : vos)	{
-			String key =  vo.getTargetGene() + "@" +vo.getPhaseNum() + "@" + vo.getChmbleID();
+			String key =  vo.getTargetGene() + "@" +vo.getPhaseNum() + "@" + vo.getChemblID();
 
 			removeDuplicateSourcesNinteractionType(temp,vo,key);
 		}
@@ -406,6 +407,13 @@ public class HomeServiceImpl implements HomeService{
 			}
 		}
 		
+		//IF doesnot exist revealed disease related to target gene. write undiscovered.
+		if(diseaseList.size() == 0) {
+			diseaseList.add("Undiscovered");
+		}
+			
+		
+		
 		//mapping disease-gene-drugs. and remove duplicate sources and interactionType
 		List<RepositioningDrugVO> vos = new ArrayList<RepositioningDrugVO>();
 		
@@ -414,7 +422,7 @@ public class HomeServiceImpl implements HomeService{
 		}
 		
 		for(RepositioningDrugVO vo : vos)	{
-			String key =  vo.getTargetGene() + "@" +vo.getPhaseNum() + "@" + vo.getChmbleID();
+			String key =  vo.getTargetGene() + "@" +vo.getPhaseNum() + "@" + vo.getChemblID();
 
 			removeDuplicateSourcesNinteractionType(temp,vo,key);
 		}
@@ -446,26 +454,27 @@ public class HomeServiceImpl implements HomeService{
 	@Override
 	public List<RepositioningDrugVO> getDrugUsage(String drug) {
 		Map<String, RepositioningDrugVO> temp = new HashMap<String, RepositioningDrugVO>();
-		List<String> diseaseList = new ArrayList<String>();
+		List<DiseaseGeneVO> diseaseGeneList = new ArrayList<DiseaseGeneVO>();
 		
 		//get diseaseName
-		for(String disease: dao.getDiseaseNameByDrug(drug)) {
-			if(disease.equalsIgnoreCase("tumor") || disease.equalsIgnoreCase("tumors") 
-					|| disease.equalsIgnoreCase("carcinoma") || disease.equalsIgnoreCase("carcinomas")
-					|| disease.equalsIgnoreCase("tumour") || disease.equalsIgnoreCase("cancer")
-					|| disease.equalsIgnoreCase("cancers") || disease.equalsIgnoreCase("metastasis")
-					|| disease.equalsIgnoreCase("adenocarcinoma") || disease.equalsIgnoreCase("tumours")
-					|| disease.equalsIgnoreCase("Adenoma") || disease.equalsIgnoreCase("Adenomas")
-					|| disease.equalsIgnoreCase("adenocarcinomas") || disease.equalsIgnoreCase("metastases")
-					|| disease.equalsIgnoreCase("overall survival") || disease.equalsIgnoreCase("os")
-					|| disease.equalsIgnoreCase("death") || disease.equalsIgnoreCase("malignancies")
-					|| disease.contains("[OBSOLETE]") || disease.equalsIgnoreCase("Sarcoma")
-					|| disease.equalsIgnoreCase("Neoplasms") || disease.equalsIgnoreCase("Neoplasm")
-					|| disease.equalsIgnoreCase("Neoplasm Metastasis"))	{
+		for(DiseaseGeneVO vo: dao.getDiseaseNameByDrug(drug)) {
+			if(vo.getDisease().equalsIgnoreCase("tumor") || vo.getDisease().equalsIgnoreCase("tumors") 
+					|| vo.getDisease().equalsIgnoreCase("carcinoma") || vo.getDisease().equalsIgnoreCase("carcinomas")
+					|| vo.getDisease().equalsIgnoreCase("tumour") || vo.getDisease().equalsIgnoreCase("cancer")
+					|| vo.getDisease().equalsIgnoreCase("cancers") || vo.getDisease().equalsIgnoreCase("metastasis")
+					|| vo.getDisease().equalsIgnoreCase("adenocarcinoma") || vo.getDisease().equalsIgnoreCase("tumours")
+					|| vo.getDisease().equalsIgnoreCase("Adenoma") || vo.getDisease().equalsIgnoreCase("Adenomas")
+					|| vo.getDisease().equalsIgnoreCase("adenocarcinomas") || vo.getDisease().equalsIgnoreCase("metastases")
+					|| vo.getDisease().equalsIgnoreCase("overall survival") || vo.getDisease().equalsIgnoreCase("os")
+					|| vo.getDisease().equalsIgnoreCase("death") || vo.getDisease().equalsIgnoreCase("malignancies")
+					|| vo.getDisease().contains("[OBSOLETE]") || vo.getDisease().equalsIgnoreCase("Sarcoma")
+					|| vo.getDisease().equalsIgnoreCase("Neoplasms") || vo.getDisease().equalsIgnoreCase("Neoplasm")
+					|| vo.getDisease().equalsIgnoreCase("Neoplasm Metastasis"))	{
+
 			}
 			else	{
 //				System.out.println(disease);
-				diseaseList.add(disease);
+				diseaseGeneList.add(vo);
 			}
 			
 		}
@@ -483,14 +492,19 @@ public class HomeServiceImpl implements HomeService{
 			removeDuplicateSourcesNinteractionType(temp,vo,key);
 		}
 		
-//		System.out.println("#size(temp.size()): " + temp.size());
-//		System.out.println("#size(diseaseList.size()): " + diseaseList.size());
+ 
 		
 		List<RepositioningDrugVO> voList = new ArrayList<RepositioningDrugVO>();
 		for(String key : temp.keySet())	{
-			for(String disease : diseaseList)	{
+			for(DiseaseGeneVO geneForBetterPrognisis : diseaseGeneList)	{
 //				System.out.println(disease);
 				RepositioningDrugVO vo = temp.get(key);
+
+				//using triplet existed gene only because it will be good for prognosis.				
+				if(!geneForBetterPrognisis.getGene().equalsIgnoreCase(vo.getTargetGene()))	{
+					continue;
+				}
+				
 				
 				RepositioningDrugVO deepCopy = null;
 				try {
@@ -498,7 +512,7 @@ public class HomeServiceImpl implements HomeService{
 				} catch (CloneNotSupportedException e) {
 					e.printStackTrace();
 				}
-				deepCopy.setDiseaseName(disease);
+				deepCopy.setDiseaseName(geneForBetterPrognisis.getDisease());
 
 				voList.add(deepCopy);
 			}

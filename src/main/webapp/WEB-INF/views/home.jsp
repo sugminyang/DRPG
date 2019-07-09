@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>
-      Drug Repositioning
+      DrugProg
     </title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport" />
@@ -40,7 +40,7 @@
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>DR</b></span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>Drug</b>repositioning</span>
+      <span class="logo-lg"><b>Drug</b>Prog</span>
     </a>
 
     <!-- Header Navbar: style can be found in header.less -->

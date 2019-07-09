@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import kr.ac.snu.vo.DiseaseGeneVO;
 import kr.ac.snu.vo.DrugRepoVO;
 import kr.ac.snu.vo.RepositioningDrugVO;
 import kr.ac.snu.vo.ResultVO;
@@ -108,7 +109,7 @@ public class ResultDAOImpl implements ResultDAO{
 	}
 
 	@Override
-	public List<String> getDiseaseNameByDrug(String drug) {
+	public List<DiseaseGeneVO> getDiseaseNameByDrug(String drug) {
 		Map<String,String> map = new HashMap<String,String>();
 		map.put("drug",drug);
 		

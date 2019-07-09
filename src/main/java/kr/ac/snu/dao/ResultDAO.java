@@ -2,6 +2,7 @@ package kr.ac.snu.dao;
 
 import java.util.List;
 
+import kr.ac.snu.vo.DiseaseGeneVO;
 import kr.ac.snu.vo.DrugRepoVO;
 import kr.ac.snu.vo.RepositioningDrugVO;
 import kr.ac.snu.vo.ResultVO;
@@ -18,6 +19,6 @@ public interface ResultDAO {
 	public List<RepositioningDrugVO> getDrugsWithGeneName(String gene);
 	public List<String> getDiseaseNameByGene(String gene);
 	public List<RepositioningDrugVO> getDrugUsage(String drug);
-	public List<String> getDiseaseNameByDrug(String drug);
+	public List<DiseaseGeneVO> getDiseaseNameByDrug(String drug);
 }
 
