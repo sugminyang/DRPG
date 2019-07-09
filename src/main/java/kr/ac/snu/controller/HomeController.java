@@ -158,7 +158,7 @@ public class HomeController {
 			jsonArray = JSONArray.fromObject(resultList2);
 			logger.info("[disease]mybeanList - " + jsonArray);
 		}
-		else if(items[0].contentEquals("gene"))	{
+		else if(items[0].contentEquals("gene"))	{ 
 //			resultList = service.getResultByGeneForDR(items[1]);
 //			jsonArray = JSONArray.fromObject(resultList);
 //			logger.info("[gene]mybeanList - " + jsonArray);
