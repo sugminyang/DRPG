@@ -62,7 +62,8 @@
 		<!-- <li><a href="${pageContext.request.contextPath}/wordcloud"><i class="fa fa-book"></i> <span>Prognostic word statistics</span></a></li> -->
 		<li><a href="${pageContext.request.contextPath}/litsearch"><i class="fa fa-book"></i> <span>literature search</span></a></li>
         <li><a href="${pageContext.request.contextPath}/drugrepositor"><i class="fa fa-book"></i> <span>drug repositioning</span></a></li>
-        <li><a href="${pageContext.request.contextPath}/dataset"><i class="fa fa-book"></i> <span>Dataset</span></a></li>
+        <li><a href="${pageContext.request.contextPath}/instruction"><i class="fa fa-book"></i> <span>instruction</span></a></li>
+        <!-- <li><a href="${pageContext.request.contextPath}/dataset"><i class="fa fa-book"></i> <span>Dataset</span></a></li> -->
 		<li><a href="${pageContext.request.contextPath}/contact"><i class="fa fa-book"></i> <span>Contact</span></a></li>
       </ul>
     </section>
@@ -86,19 +87,41 @@
             <div class="box-body">
               <h2 class="" style="font-family: 'Helvetica Neue';">Title of our research</h2>
               <hr />
+              
               <h4>
                 <b>Authors</b>
               </h4>
-              <blockquote><p>
-              Hong-Gee Kim <br />
-              BIKE Biomedical Knowledge Engineering Laboratory, Seoul National University
-              </p></blockquote>
+              <blockquote>
+              	<p>
+              		Sungmin Yang, kyungsik ha, Hong-Gee Kim <br />
+              		BIKE Biomedical Knowledge Engineering Laboratory, Seoul National University
+              	</p>
+              </blockquote>
+              
+              <h4>
+              	<b>Abstract</b>
+              </h4>
+              	<blockquote>
+              		<p>
+	              		DrugProg was developed to aid repurposing pre-existing drugs to several diseases by providing open-resource which connect prognostic status and molecular status, 
+	              		and developing tools to identify targets for possible achievement of positive prognosis. 
+	              		These could be useful to researchers who want to find more relevant drug targets and serve as a potential leverage to develop new computational methodologies for drug repurposing. 
+	              		DrugProg currently has 3,230 drugs associated with 1,140 mutations, thus covering 3,616 targets from 823 disease types.
+              		</p>
+              	</blockquote>
+
+              <h4>
+                <b> Main process of our research</b>
+              </h4>   
+			  	<img src="${pageContext.request.contextPath}/resources/img/processOfourProject.png" class="center" width="100%">
               <h4>
                 <b>Useful Links</b>
               </h4>         
-        <blockquote><p>
-        <a href='https://www.ncbi.nlm.nih.gov/CBBresearch/Lu/Demo/PubTator/index.cgi'>PubTator</a><br />
-        </p></blockquote>
+        		<blockquote>
+        			<p>
+        				<a href='https://www.ncbi.nlm.nih.gov/CBBresearch/Lu/Demo/PubTator/index.cgi'>PubTator</a><br />
+        			</p>
+        		</blockquote>
             </div>
             <!-- /.box-body -->
           </div>

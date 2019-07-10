@@ -238,4 +238,12 @@ public class HomeController {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	@RequestMapping(value = "/instruction", method = RequestMethod.GET)
+	public String instruction(Locale locale, Model model) {
+		logger.info("instruction page");
+
+		return "instruction";
+	}
 }
