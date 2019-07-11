@@ -486,12 +486,24 @@ public class HomeServiceImpl implements HomeService{
 			}
 	}
 
+	
+	
+	
+	
+	
+	
+	/*							new idea of drugprognosis.						*/
+	
+								/*  dr with disease */
+	
+	/**
+	 * ApprovedReferenceWithDisease
+	 * 
+	 */
 	@Override
 	public List<RepositioningDrugVO> getApprovedReferenceWithDisease(String disease) {
-		Map<String, RepositioningDrugVO> temp = new HashMap<String, RepositioningDrugVO>();
 		List<RepositioningDrugVO> voList = new ArrayList<RepositioningDrugVO>();
 		
-		//get diseaseName
 		for(RepositioningDrugVO vo: dao.getApprovedReferenceWithDisease(disease)) {
 			voList.add(vo);
 		}
@@ -499,19 +511,27 @@ public class HomeServiceImpl implements HomeService{
 		return voList;
 	}
 
+	
+	/**
+	 * ApprovedCandidateWithDisease
+	 * 
+	 * */
 	@Override
 	public List<RepositioningDrugVO> getApprovedCandidateWithDisease(String disease) {
-		Map<String, RepositioningDrugVO> temp = new HashMap<String, RepositioningDrugVO>();
 		List<RepositioningDrugVO> voList = new ArrayList<RepositioningDrugVO>();
 		
-		//get diseaseName
 		for(RepositioningDrugVO vo: dao.getApprovedCandidateWithDisease(disease)) {
 			voList.add(vo);
 		}
 		
 		return voList;
 	}
-
+	
+	
+	/**
+	 * InterruptedCandidateWithDisease
+	 * 
+	 * */
 	@Override
 	public List<RepositioningDrugVO> getInterruptedCandidateWithDisease(String disease) {
 		Map<String, RepositioningDrugVO> temp = new HashMap<String, RepositioningDrugVO>();
@@ -546,6 +566,52 @@ public class HomeServiceImpl implements HomeService{
 		}
 		
 		return voList;	
+	}
+
+	
+							/*  dr with disease */
+	
+	/**
+	 * getApprovedReferenceWithDrug
+	 * */
+	@Override
+	public List<RepositioningDrugVO> getApprovedReferenceWithDrug(String drug) {
+		List<RepositioningDrugVO> voList = new ArrayList<RepositioningDrugVO>();
+		
+		for(RepositioningDrugVO vo: dao.getApprovedReferenceWithDrug(drug)) {
+			voList.add(vo);
+		}
+		
+		return voList;
+	}
+
+	/**
+	 * getApprovedCandidateWithDrug
+	 * */
+	@Override
+	public List<RepositioningDrugVO> getApprovedCandidateWithDrug(String drug) {
+		List<RepositioningDrugVO> voList = new ArrayList<RepositioningDrugVO>();
+		
+		for(RepositioningDrugVO vo: dao.getApprovedCandidateWithDrug(drug)) {
+			voList.add(vo);
+		}
+		
+		return voList;
+	}
+
+	
+	/**
+	 * getInterruptedCandidateWithDrug
+	 * */
+	@Override
+	public List<RepositioningDrugVO> getInterruptedCandidateWithDrug(String drug) {
+		List<RepositioningDrugVO> voList = new ArrayList<RepositioningDrugVO>();
+		
+		for(RepositioningDrugVO vo: dao.getInterruptedCandidateWithDrug(drug)) {
+			voList.add(vo);
+		}
+		
+		return voList;
 	}
 
 

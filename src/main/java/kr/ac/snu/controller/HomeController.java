@@ -1,7 +1,6 @@
 package kr.ac.snu.controller;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -268,7 +267,7 @@ public class HomeController {
 			logger.info("data: " + jsonArray);
 		}
 		else if(drug_type.contentEquals("Approved Candidate"))	{ 
-//			logger.info("[Aprroved Candidate] - " + items[1] + ", " + drug_type);
+			logger.info("[Aprroved Candidate] - " + items[1] + ", " + drug_type);
 			
 			resultList = service.getApprovedCandidateWithDisease(items[1]);
 			jsonArray = JSONArray.fromObject(resultList);
@@ -304,6 +303,44 @@ public class HomeController {
 	@RequestMapping(value = "/drugprogchemical", method = RequestMethod.GET)
 	public void drugprogchemical(@RequestParam("drug_type") String drug_type, @RequestParam("query") String query, HttpServletResponse response) {
 		logger.info("drugprogchemical >> " + query + ", " + drug_type);
+		
+		String[] items = query.split("_@");
+
+		List<RepositioningDrugVO> resultList = null;
+		JSONArray jsonArray = null;
+		
+		if(drug_type.contentEquals("Aprroved Reference"))	{
+			logger.info("[Aprroved Reference] - " + items[1] + ", " + drug_type);
+			
+			resultList = service.getApprovedReferenceWithDrug(items[1]);
+			jsonArray = JSONArray.fromObject(resultList);
+			logger.info("data: " + jsonArray);
+		}
+		else if(drug_type.contentEquals("Approved Candidate"))	{ 
+			logger.info("[Aprroved Candidate] - " + items[1] + ", " + drug_type);
+			
+			resultList = service.getApprovedCandidateWithDrug(items[1]);
+			jsonArray = JSONArray.fromObject(resultList);
+			logger.info("data: " + jsonArray);
+		}
+		else if(drug_type.contentEquals("Interrupted Candidate"))	{
+			logger.info("[Interrupted Candidate] - " + items[1] + ", " + drug_type);
+
+			resultList = service.getInterruptedCandidateWithDrug(items[1]);
+			jsonArray = JSONArray.fromObject(resultList);
+			logger.info("data: " + jsonArray);
+		}
+		else	{
+			logger.error("[Error]invalid format query  !!!");
+		}
+
+		try {
+			if(jsonArray == null)	return ;
+			
+			response.getWriter().print(jsonArray);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	

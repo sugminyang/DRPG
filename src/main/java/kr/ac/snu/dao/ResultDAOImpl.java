@@ -91,6 +91,9 @@ public class ResultDAOImpl implements ResultDAO{
 		return sqlSession.selectList(Namespace+".getDiseaseNameByDrug",map);
 	}
 
+	
+	/* dr search with disease.  */
+	
 	@Override
 	public List<RepositioningDrugVO> getApprovedReferenceWithDisease(String disease) {
 		Map<String,String> map = new HashMap<String,String>();
@@ -114,6 +117,35 @@ public class ResultDAOImpl implements ResultDAO{
 		
 		return sqlSession.selectList(Namespace+".getInterruptedCandidateWithDisease",map);
 	}
+
+	
+	/* dr search with drug.  */
+	
+	@Override
+	public List<RepositioningDrugVO> getApprovedReferenceWithDrug(String drug) {
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("drug",drug);
+		
+		return sqlSession.selectList(Namespace+".getApprovedReferenceWithDrug",map);
+	}
+
+	@Override
+	public List<RepositioningDrugVO> getApprovedCandidateWithDrug(String drug) {
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("drug",drug);
+		
+		return sqlSession.selectList(Namespace+".getApprovedCandidateWithDrug",map);
+	}
+
+	@Override
+	public List<RepositioningDrugVO> getInterruptedCandidateWithDrug(String drug) {
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("drug",drug);
+		
+		return sqlSession.selectList(Namespace+".getInterruptedCandidateWithDrug",map);
+	}
+	
+	
 	
 }
 

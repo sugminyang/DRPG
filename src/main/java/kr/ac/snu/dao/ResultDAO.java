@@ -19,5 +19,8 @@ public interface ResultDAO {
 	public List<RepositioningDrugVO> getApprovedReferenceWithDisease(String disease);
 	public List<RepositioningDrugVO> getApprovedCandidateWithDisease(String disease);
 	public List<RepositioningDrugVO> getInterruptedCandidateWithDisease(String disease);
+	public List<RepositioningDrugVO> getApprovedReferenceWithDrug(String drug);
+	public List<RepositioningDrugVO> getApprovedCandidateWithDrug(String drug);
+	public List<RepositioningDrugVO> getInterruptedCandidateWithDrug(String drug);
 }
 
