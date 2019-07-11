@@ -27,7 +27,7 @@ $(function() {
         url = "dbsearch"
         url += "?query=" + query
         url += "&output=json"
-
+        console.log('literatur: ' + url)
     	$.ajax({
             'type': "GET",
             'url': url,

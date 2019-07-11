@@ -10,7 +10,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import kr.ac.snu.vo.DiseaseGeneVO;
-import kr.ac.snu.vo.DrugRepoVO;
 import kr.ac.snu.vo.RepositioningDrugVO;
 import kr.ac.snu.vo.ResultVO;
 
@@ -53,30 +52,6 @@ public class ResultDAOImpl implements ResultDAO{
 	}
 
 	@Override
-	public List<DrugRepoVO> getResultByDiseaseForDR(String disease) {
-		Map<String,String> map = new HashMap<String,String>();
-		map.put("disease",disease);
-		
-		return sqlSession.selectList(Namespace+".getResultByDiseaseForDR",map);
-	}
-
-	@Override
-	public List<DrugRepoVO> getResultByGeneForDR(String gene) {
-		Map<String,String> map = new HashMap<String,String>();
-		map.put("gene",gene);
-		
-		return sqlSession.selectList(Namespace+".getResultByGeneForDR",map);
-	}
-
-	@Override
-	public List<DrugRepoVO> getResultByDrugForDR(String drug) {
-		Map<String,String> map = new HashMap<String,String>();
-		map.put("drug",drug);
-		
-		return sqlSession.selectList(Namespace+".getResultByDrugForDR",map);
-	}
-
-	@Override
 	public List<RepositioningDrugVO> getDrugsWithDiseaseName(String disease) {
 		Map<String,String> map = new HashMap<String,String>();
 		map.put("disease",disease);
@@ -114,6 +89,30 @@ public class ResultDAOImpl implements ResultDAO{
 		map.put("drug",drug);
 		
 		return sqlSession.selectList(Namespace+".getDiseaseNameByDrug",map);
+	}
+
+	@Override
+	public List<RepositioningDrugVO> getApprovedReferenceWithDisease(String disease) {
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("disease",disease);
+		
+		return sqlSession.selectList(Namespace+".getApprovedReferenceWithDisease",map);
+	}
+
+	@Override
+	public List<RepositioningDrugVO> getApprovedCandidateWithDisease(String disease) {
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("disease",disease);
+		
+		return sqlSession.selectList(Namespace+".getApprovedCandidateWithDisease",map);
+	}
+
+	@Override
+	public List<RepositioningDrugVO> getInterruptedCandidateWithDisease(String disease) {
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("disease",disease);
+		
+		return sqlSession.selectList(Namespace+".getInterruptedCandidateWithDisease",map);
 	}
 	
 }

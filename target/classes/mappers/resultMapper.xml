@@ -5,16 +5,6 @@
  
 <mapper namespace="kr.ac.mapper.resultMapper">
      
-	<!-- 
-        mybatis-config.xml의 typeAlias에 등록해두지 않았다면 
-        
-        <select id="selectMember" resultType="com.example.dto.MemberVO" >
-            SELECT ID, PW ,NAME FROM TEST
-        </select>
-        
-        이렇게 해야 한다.
-    -->
-    
     <select id="selectResult" resultType="resultVO" >
         SELECT pmid, disease, gene, snp FROM test.`disease-gene_pairs` 
     </select>
@@ -30,29 +20,10 @@
 	<select id="getResultByPmid" resultType="resultVO" parameterType="string">
         SELECT pmid, disease, gene, snp FROM test.`disease-gene_pairs` where pmid LIKE '#{pmid}';
     </select>        
-
-    <select id="getResultByDiseaseForDR" resultType="DrugRepoVO" parameterType="string">
-        SELECT distinct pair.gene, pair.disease, dgi.interaction_types, dgi.drug_name,dgi.interaction_claim_source
-		FROM test.`disease-gene_pairs` as pair
-		join test.`dgi_interactions` as dgi
-	    on(pair.gene = dgi.gene_name)
-		where pair.disease LIKE CONCAT('%',#{disease},'%') and dgi.interaction_claim_source like 'FDA';
-    </select>
-	<select id="getResultByGeneForDR" resultType="DrugRepoVO" parameterType="string">
-        SELECT distinct pair.gene, pair.disease, dgi.interaction_types, dgi.drug_name,dgi.interaction_claim_source
-		FROM test.`disease-gene_pairs` as pair
-		join test.`dgi_interactions` as dgi
-    	on(pair.gene = dgi.gene_name)
-		where pair.gene LIKE CONCAT('',#{gene},'') and dgi.interaction_claim_source like 'FDA';
-    </select>
-	<select id="getResultByDrugForDR" resultType="DrugRepoVO" parameterType="string">
-        SELECT distinct pair.gene, pair.disease, dgi.interaction_types, dgi.drug_name,dgi.interaction_claim_source
-		FROM test.`disease-gene_pairs` as pair		
-		join test.`dgi_interactions` as dgi
-    	on(pair.gene = dgi.gene_name)
-		where dgi.drug_name LIKE CONCAT('',#{drug},'') and dgi.interaction_claim_source like 'FDA';
-    </select>    
     
+    <!-- drug repositioning queries -->
+    
+    <!-- search with disease name -->
     <select id="getDrugsWithDiseaseName" resultType="RepositioningDrugVO" parameterType="string">
 	    SELECT distinct dgi.gene_name as targetGene, chem.pref_name as drugName, chem.max_phase as phaseNum, dgi.interaction_types as interactionType, dgi.drug_chembl_id as chemblID, dgi.interaction_claim_source as sources
 			FROM test.dgi_interactions as dgi 
@@ -68,6 +39,8 @@
     </select>
     
     
+    
+    <!--  search with gene name -->
     <select id="getDiseaseNameByGene" resultType="string" parameterType="string">
     	SELECT distinct pair.disease 
 			FROM test.`disease-gene_pairs` as pair
@@ -75,7 +48,6 @@
 			on(pair.gene = dgi.gene_name)
 			where pair.gene LIKE CONCAT('',#{gene},'') and dgi.drug_chembl_id != '';
     </select>
-    
     <select id="getDrugsWithGeneName" resultType="RepositioningDrugVO" parameterType="string">
 	    SELECT distinct dgi.gene_name as targetGene, chem.pref_name as drugName, chem.max_phase as phaseNum, dgi.interaction_types as interactionType, dgi.drug_chembl_id as chemblID, dgi.interaction_claim_source as sources
 			FROM test.dgi_interactions as dgi 
@@ -85,6 +57,9 @@
 			limit 10000;
     </select>    
     
+    
+    
+    <!--  search with drug name -->
     <select id="getDiseaseNameByDrug" resultType="DiseaseGeneVO" parameterType="string">
     	SELECT distinct pair.disease, pair.gene
 			FROM test.`disease-gene_pairs` as pair
@@ -94,7 +69,6 @@
 			from test.`dgi_interactions` as dgi			
 			where dgi.drug_claim_primary_name LIKE CONCAT('',#{drug},'') and dgi.drug_chembl_id != '');	
     </select>    
-
     <select id="getDrugUsage" resultType="RepositioningDrugVO" parameterType="string">
 	   SELECT distinct dgi.gene_name as targetGene, chem.pref_name as drugName, chem.max_phase as phaseNum, dgi.interaction_types as interactionType, dgi.drug_chembl_id as chemblID, dgi.interaction_claim_source as sources
 			FROM test.dgi_interactions as dgi 
@@ -104,4 +78,59 @@
 			limit 10000;
     </select>    
 
+
+
+
+<!--  new query -->
+
+	<!-- Aprroved reference with disease name -->
+	
+	<select id="getApprovedReferenceWithDisease" resultType="RepositioningDrugVO" parameterType="string">
+		select distinct indication.mesh_heading as diseaseName, dgi.gene_name as targetGene, dict.pref_name as drugName, indication.max_phase_for_ind as phaseNum, dgi.interaction_types  as interactionType, dgi.drug_chembl_id as chemblID, dgi.interaction_claim_source as sources
+			from chembl_25.drug_indication as indication 
+			join chembl_25.molecule_dictionary as dict
+			join test.dgi_interactions as dgi
+			on(dict.molregno = indication.molregno and dict.chembl_id = dgi.drug_chembl_id)
+			where indication.max_phase_for_ind = 4 and dict.max_phase = 4 
+				and dict.withdrawn_flag = 0 and dict.therapeutic_flag = 1 and dgi.interaction_claim_source like 'FDA'
+				and indication.mesh_heading like CONCAT('',#{disease},'');
+    </select>    
+
+
+	<!-- Aprroved candidate with disease name -->
+	<select id="getApprovedCandidateWithDisease" resultType="RepositioningDrugVO" parameterType="string">
+		select distinct indication.mesh_heading as diseaseName, dgi.gene_name as targetGene, dict.pref_name as drugName, indication.max_phase_for_ind as phaseNum, dgi.interaction_types  as interactionType, dgi.drug_chembl_id as chemblID, dgi.interaction_claim_source as sources
+			from chembl_25.drug_indication as indication 
+			join chembl_25.molecule_dictionary as dict
+			join test.dgi_interactions as dgi
+			on(dict.molregno = indication.molregno and dict.chembl_id = dgi.drug_chembl_id)
+			where (indication.max_phase_for_ind = 2 or indication.max_phase_for_ind = 3) and dict.max_phase = 4 
+				and dict.withdrawn_flag = 0 and dict.therapeutic_flag = 1 and dgi.interaction_claim_source like 'FDA'
+				and indication.mesh_heading like CONCAT('',#{disease},'') and dgi.gene_name in (
+					select triplet.gene
+						from test.`disease-gene_pairs` as triplet
+						where triplet.disease like CONCAT('',#{disease},'')
+					);
+	</select>
+	    	
+	    	
+	<!--  interrupted candidate with disease name -->
+	<select id="getInterruptedCandidateWithDisease" resultType="RepositioningDrugVO" parameterType="string">
+		select distinct indication.mesh_heading as diseaseName, dgi.gene_name as targetGene, dict.pref_name as drugName, indication.max_phase_for_ind as phaseNum, dgi.interaction_types  as interactionType, dgi.drug_chembl_id as chemblID, dgi.interaction_claim_source as sources
+			from chembl_25.drug_indication as indication 
+			join chembl_25.molecule_dictionary as dict
+			join test.dgi_interactions as dgi
+			on(dict.molregno = indication.molregno and dict.chembl_id = dgi.drug_chembl_id)
+			where (indication.max_phase_for_ind = 2 or indication.max_phase_for_ind = 3)  and (dict.max_phase = 2 or dict.max_phase = 3)
+				and dict.withdrawn_flag = 0 and dict.therapeutic_flag = 1
+				and indication.mesh_heading like CONCAT('',#{disease},'') and dgi.gene_name in (
+					select triplet.gene
+						from test.`disease-gene_pairs` as triplet
+						where triplet.disease like CONCAT('',#{disease},'')
+				);	
+	</select>
+		
+		
+		
+			    	
 </mapper>

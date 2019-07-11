@@ -2,22 +2,22 @@
 $.fn.dataTable.ext.search.push(
 	    function( settings, data, dataIndex ) {
 	    	var drugType = $("#drug_type_dr option:selected").text();
-
-	    	var min = 0;
-	        var max = 4;
+	    	var min;
+	        var max;
 	        var phase = parseFloat( data[3] ) || 0; // use data for the age column
-	 
-	        if(drugType == 'Candidate'){
-	        	min = 0;
-	        	max = 3;
-	        }
-	        else if(drugType == 'Approved'){	//approved
+	        
+
+	        if(drugType == 'Aprroved Reference'){
 	        	min = 4;
 	        	max = 4;
 	        }
-	        else	{
-	        	min = 0;
+	        else if(drugType == 'Approved Candidate'){	//approved
+	        	min = 1;
 	        	max = 4;
+	        }
+	        else if(drugType == 'Interrupted Candidate'){
+	        	min = 1;
+	        	max = 3;
 	        }
 	        
 	        if ( ( isNaN( min ) && isNaN( max ) ) ||
@@ -43,10 +43,13 @@ $(function() {
         }
     })
 
+
+    $('#drug_type_dr').on('change', function (e) {
+    	search_drugrepositioning()
+    })
     
     $("#drug_type_dr").change(function() {
     	var dataTable = $('#MydataTable').DataTable();
-//    	console.log(dataTable);
     	dataTable.draw();
     	
     })
@@ -54,22 +57,30 @@ $(function() {
     function search_drugrepositioning()	{
     	search_type = $('#search_type_dr option:selected').val()
     	search_query = $('#search_query_dr').val()
+    	var drugType = $("#drug_type_dr option:selected").text();
     	query = ""
     		
     	if(search_type == 'disease_name') {
+    		url = "drugprogdisease"
     		query = "disease_@" + search_query
     	} else if(search_type == 'geneSymbol') {
+    		url = "drugproggene"
     		query = "gene_@" + search_query
     	} else if(search_type == 'chemical_name') {
+    		url = "drugprogchemical"
     		query = "drug_@" + search_query
     	} else {
+    		url = "drugprogdisease"
     		query = ""
     	}
-    
-        url = "searchdrugrepositor"
-        url += "?query=" + query
+    	var query_dec = decodeURIComponent(query);
+    	var drugType_dec = decodeURIComponent(drugType);
+    	
+        url += "?query=" + query_dec + "&drug_type=" + drugType_dec
         url += "&output=json"
 
+        console.log(url)
+        
     	$.ajax({
             'type': "GET",
             'url': url,

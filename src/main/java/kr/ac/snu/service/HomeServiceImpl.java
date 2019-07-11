@@ -22,7 +22,6 @@ import org.springframework.stereotype.Service;
 
 import kr.ac.snu.dao.ResultDAO;
 import kr.ac.snu.vo.DiseaseGeneVO;
-import kr.ac.snu.vo.DrugRepoVO;
 import kr.ac.snu.vo.RepositioningDrugVO;
 import kr.ac.snu.vo.ResultVO;
 
@@ -251,78 +250,6 @@ public class HomeServiceImpl implements HomeService{
 		}
 		
 		return paper;
-	}
-
-	@Override
-	public List<DrugRepoVO> getResultByDiseaseForDR(String disease) {
-		List<DrugRepoVO> temp = new ArrayList<DrugRepoVO>();
-		for(DrugRepoVO vo : dao.getResultByDiseaseForDR(disease)) {
-			if(vo.getGene().length() > 1)	{
-				if(vo.getDisease().equalsIgnoreCase("tumor") || vo.getDisease().equalsIgnoreCase("tumors") 
-						|| vo.getDisease().equalsIgnoreCase("carcinoma") || vo.getDisease().equalsIgnoreCase("carcinomas")
-						|| vo.getDisease().equalsIgnoreCase("tumour") || vo.getDisease().equalsIgnoreCase("cancer")
-						|| vo.getDisease().equalsIgnoreCase("cancers") || vo.getDisease().equalsIgnoreCase("metastasis")
-						|| vo.getDisease().equalsIgnoreCase("adenocarcinoma") || vo.getDisease().equalsIgnoreCase("tumours")
-						|| vo.getDisease().equalsIgnoreCase("adenocarcinomas") || vo.getDisease().equalsIgnoreCase("metastases")
-						|| vo.getDisease().equalsIgnoreCase("overall survival") || vo.getDisease().equalsIgnoreCase("os")
-						|| vo.getDisease().equalsIgnoreCase("death") || vo.getDisease().equalsIgnoreCase("malignancies"))	{
-				}
-				else	{
-					temp.add(vo);
-				}
-				
-			}
-		}
-		
-		return temp;		
-	}
-
-	@Override
-	public List<DrugRepoVO> getResultByGeneForDR(String gene) {
-		List<DrugRepoVO> temp = new ArrayList<DrugRepoVO>();
-		for(DrugRepoVO vo : dao.getResultByGeneForDR(gene)) {
-			if(vo.getGene().length() > 1)	{
-				if(vo.getDisease().equalsIgnoreCase("tumor") || vo.getDisease().equalsIgnoreCase("tumors") 
-						|| vo.getDisease().equalsIgnoreCase("carcinoma") || vo.getDisease().equalsIgnoreCase("carcinomas")
-						|| vo.getDisease().equalsIgnoreCase("tumour") || vo.getDisease().equalsIgnoreCase("cancer")
-						|| vo.getDisease().equalsIgnoreCase("cancers") || vo.getDisease().equalsIgnoreCase("metastasis")
-						|| vo.getDisease().equalsIgnoreCase("adenocarcinoma") || vo.getDisease().equalsIgnoreCase("tumours")
-						|| vo.getDisease().equalsIgnoreCase("adenocarcinomas") || vo.getDisease().equalsIgnoreCase("metastases")
-						|| vo.getDisease().equalsIgnoreCase("overall survival") || vo.getDisease().equalsIgnoreCase("os")
-						|| vo.getDisease().equalsIgnoreCase("death") || vo.getDisease().equalsIgnoreCase("malignancies"))	{
-				}
-				else	{
-					temp.add(vo);
-				}
-				
-			}
-		}
-		
-		return temp;
-	}
-
-	@Override
-	public List<DrugRepoVO> getResultByDrugForDR(String drug) {
-		List<DrugRepoVO> temp = new ArrayList<DrugRepoVO>();
-		for(DrugRepoVO vo : dao.getResultByDrugForDR(drug)) {
-			if(vo.getGene().length() > 1)	{
-				if(vo.getDisease().equalsIgnoreCase("tumor") || vo.getDisease().equalsIgnoreCase("tumors") 
-						|| vo.getDisease().equalsIgnoreCase("carcinoma") || vo.getDisease().equalsIgnoreCase("carcinomas")
-						|| vo.getDisease().equalsIgnoreCase("tumour") || vo.getDisease().equalsIgnoreCase("cancer")
-						|| vo.getDisease().equalsIgnoreCase("cancers") || vo.getDisease().equalsIgnoreCase("metastasis")
-						|| vo.getDisease().equalsIgnoreCase("adenocarcinoma") || vo.getDisease().equalsIgnoreCase("tumours")
-						|| vo.getDisease().equalsIgnoreCase("adenocarcinomas") || vo.getDisease().equalsIgnoreCase("metastases")
-						|| vo.getDisease().equalsIgnoreCase("overall survival") || vo.getDisease().equalsIgnoreCase("os")
-						|| vo.getDisease().equalsIgnoreCase("death") || vo.getDisease().equalsIgnoreCase("malignancies"))	{
-				}
-				else	{
-					temp.add(vo);
-				}
-				
-			}
-		}
-		
-		return temp;
 	}
 
 	@Override
@@ -559,5 +486,67 @@ public class HomeServiceImpl implements HomeService{
 			}
 	}
 
-	
+	@Override
+	public List<RepositioningDrugVO> getApprovedReferenceWithDisease(String disease) {
+		Map<String, RepositioningDrugVO> temp = new HashMap<String, RepositioningDrugVO>();
+		List<RepositioningDrugVO> voList = new ArrayList<RepositioningDrugVO>();
+		
+		//get diseaseName
+		for(RepositioningDrugVO vo: dao.getApprovedReferenceWithDisease(disease)) {
+			voList.add(vo);
+		}
+		
+		return voList;
+	}
+
+	@Override
+	public List<RepositioningDrugVO> getApprovedCandidateWithDisease(String disease) {
+		Map<String, RepositioningDrugVO> temp = new HashMap<String, RepositioningDrugVO>();
+		List<RepositioningDrugVO> voList = new ArrayList<RepositioningDrugVO>();
+		
+		//get diseaseName
+		for(RepositioningDrugVO vo: dao.getApprovedCandidateWithDisease(disease)) {
+			voList.add(vo);
+		}
+		
+		return voList;
+	}
+
+	@Override
+	public List<RepositioningDrugVO> getInterruptedCandidateWithDisease(String disease) {
+		Map<String, RepositioningDrugVO> temp = new HashMap<String, RepositioningDrugVO>();
+		List<RepositioningDrugVO> voList = new ArrayList<RepositioningDrugVO>();
+		
+		//mapping disease-gene-drugs. and remove duplicate sources and interactionType
+		List<RepositioningDrugVO> vos = new ArrayList<RepositioningDrugVO>();
+
+		for(RepositioningDrugVO vo: dao.getInterruptedCandidateWithDisease(disease)) {
+			vos.add(vo);
+		}
+
+		for(RepositioningDrugVO vo : vos)	{
+			String key =  vo.getTargetGene() + "@" +vo.getPhaseNum() + "@" + vo.getChemblID();
+
+			removeDuplicateSourcesNinteractionType(temp,vo,key);
+		}
+
+		for(String key : temp.keySet())	{
+			RepositioningDrugVO vo = temp.get(key);
+
+			RepositioningDrugVO deepCopy = null;
+			
+			try {
+				deepCopy = (RepositioningDrugVO)CloneUtils.clone(vo);
+			} catch (CloneNotSupportedException e) {
+				e.printStackTrace();
+			}
+			deepCopy.setDiseaseName(disease);
+
+			voList.add(deepCopy);
+		}
+		
+		return voList;	
+	}
+
+
 }

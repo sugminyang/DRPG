@@ -1,6 +1,7 @@
 package kr.ac.snu.controller;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.ac.snu.service.HomeService;
-import kr.ac.snu.vo.DrugRepoVO;
 import kr.ac.snu.vo.RepositioningDrugVO;
 import kr.ac.snu.vo.ResultVO;
 import net.sf.json.JSONArray;
@@ -145,35 +145,22 @@ public class HomeController {
 		logger.info("drugrepositor " + query);
 		String[] items = query.split("_@");
 
-		List<DrugRepoVO> resultList = null;
-		List<RepositioningDrugVO> resultList2 = null;
+		List<RepositioningDrugVO> resultList = null;
 		JSONArray jsonArray = null;
 		
 		if(items[0].contentEquals("disease"))	{
-//			resultList = service.getResultByDiseaseForDR(items[1]);
-//			jsonArray = JSONArray.fromObject(resultList);
-//			logger.info("[disease]mybeanList - " + jsonArray);
-			
-			resultList2 = service.getDrugsWithDiseaseName(items[1]);
-			jsonArray = JSONArray.fromObject(resultList2);
+			resultList = service.getDrugsWithDiseaseName(items[1]);
+			jsonArray = JSONArray.fromObject(resultList);
 			logger.info("[disease]mybeanList - " + jsonArray);
 		}
 		else if(items[0].contentEquals("gene"))	{ 
-//			resultList = service.getResultByGeneForDR(items[1]);
-//			jsonArray = JSONArray.fromObject(resultList);
-//			logger.info("[gene]mybeanList - " + jsonArray);
-			
-			resultList2 = service.getDrugsWithGeneName(items[1]);
-			jsonArray = JSONArray.fromObject(resultList2);
+			resultList = service.getDrugsWithGeneName(items[1]);
+			jsonArray = JSONArray.fromObject(resultList);
 			logger.info("[gene]mybeanList - " + jsonArray);
 		}
 		else if(items[0].contentEquals("drug"))	{
-//			resultList = service.getResultByDrugForDR(items[1]);
-//			jsonArray = JSONArray.fromObject(resultList);
-//			logger.info("[drug]mybeanList - " + jsonArray);
-			
-			resultList2 = service.getDrugUsage(items[1]);
-			jsonArray = JSONArray.fromObject(resultList2);
+			resultList = service.getDrugUsage(items[1]);
+			jsonArray = JSONArray.fromObject(resultList);
 			logger.info("[gene]mybeanList - " + jsonArray);
 		}
 		else	{
@@ -246,4 +233,79 @@ public class HomeController {
 
 		return "instruction";
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 * search with disease name.
+	 * */
+	@RequestMapping(value = "/drugprogdisease", method = RequestMethod.GET)
+	public void drugprogdisease(@RequestParam("drug_type") String drug_type, @RequestParam("query") String query, HttpServletResponse response) {
+		logger.info("drugprogdisease >> " + query + ", " + drug_type);
+		String[] items = query.split("_@");
+
+		List<RepositioningDrugVO> resultList = null;
+		JSONArray jsonArray = null;
+		
+		if(drug_type.contentEquals("Aprroved Reference"))	{
+			logger.info("[Aprroved Reference] - " + items[1] + ", " + drug_type);
+
+			resultList = service.getApprovedReferenceWithDisease(items[1]);
+			jsonArray = JSONArray.fromObject(resultList);
+			logger.info("data: " + jsonArray);
+		}
+		else if(drug_type.contentEquals("Approved Candidate"))	{ 
+//			logger.info("[Aprroved Candidate] - " + items[1] + ", " + drug_type);
+			
+			resultList = service.getApprovedCandidateWithDisease(items[1]);
+			jsonArray = JSONArray.fromObject(resultList);
+			logger.info("data: " + jsonArray);
+		}
+		else if(drug_type.contentEquals("Interrupted Candidate"))	{
+			logger.info("[Interrupted Candidate] - " + items[1] + ", " + drug_type);
+			
+			resultList = service.getInterruptedCandidateWithDisease(items[1]);
+			jsonArray = JSONArray.fromObject(resultList);
+			logger.info("data: " + jsonArray);
+		}
+		else	{
+			logger.error("[Error]invalid format query  !!!");
+		}
+
+		try {
+			if(jsonArray == null)	return ;
+			
+			response.getWriter().print(jsonArray);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping(value = "/drugproggene", method = RequestMethod.GET)
+	public void drugproggene(@RequestParam("drug_type") String drug_type, @RequestParam("query") String query, HttpServletResponse response) {
+		logger.info("drugproggene >> " + query + ", " + drug_type);
+		
+	}
+	
+	
+	@RequestMapping(value = "/drugprogchemical", method = RequestMethod.GET)
+	public void drugprogchemical(@RequestParam("drug_type") String drug_type, @RequestParam("query") String query, HttpServletResponse response) {
+		logger.info("drugprogchemical >> " + query + ", " + drug_type);
+	}
+	
+	
+	
 }

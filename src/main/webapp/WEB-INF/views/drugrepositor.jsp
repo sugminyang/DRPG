@@ -95,7 +95,7 @@
     	          </div>
                 <div class="col-xs-9">
         		  <div class="input-group input-group">
-            		<input id="search_query_dr" type="text" class="form-control" value="glioma"/>
+            		<input id="search_query_dr" type="text" class="form-control" value="breast neoplasms"/>
             		  <span class="input-group-btn">
 	                    <button id="search_repositioning" type="button" class="btn btn-gray btn-flat">Search</button>
 	                  </span>
@@ -108,9 +108,9 @@
 	          <div class="row">
 	          	<div class="col-xs-2" style="float:right;">
 	            	<select id="drug_type_dr" class="form-contorl" name="drug_type" style="width: auto; height: 34px; border-color: #FF9999; float:right;">
-		            	<option value="drug_all">All</option>
-		            	<option value="drug_approved">Approved</option>
-		            	<option value="drug_candidate">Candidate</option>
+		            	<option value="drug_approved_reference">Aprroved Reference</option>
+		            	<option value="drug_approved_candidate">Approved Candidate</option>
+		            	<option value="drug_interrupted_candidate">Interrupted Candidate</option>
 		            </select>
 	            </div>
 				<div class="col-xs-12" id="result"></div>
