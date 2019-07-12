@@ -297,6 +297,43 @@ public class HomeController {
 	public void drugproggene(@RequestParam("drug_type") String drug_type, @RequestParam("query") String query, HttpServletResponse response) {
 		logger.info("drugproggene >> " + query + ", " + drug_type);
 		
+		String[] items = query.split("_@");
+
+		List<RepositioningDrugVO> resultList = null;
+		JSONArray jsonArray = null;
+		
+		if(drug_type.contentEquals("Aprroved Reference"))	{
+			logger.info("[Aprroved Reference] - " + items[1] + ", " + drug_type);
+			
+			resultList = service.getApprovedReferenceWithGene(items[1]);
+			jsonArray = JSONArray.fromObject(resultList);
+			logger.info("data: " + jsonArray);
+		}
+		else if(drug_type.contentEquals("Approved Candidate"))	{ 
+			logger.info("[Aprroved Candidate] - " + items[1] + ", " + drug_type);
+			
+			resultList = service.getApprovedCandidateWithGene(items[1]);
+			jsonArray = JSONArray.fromObject(resultList);
+			logger.info("data: " + jsonArray);
+		}
+		else if(drug_type.contentEquals("Interrupted Candidate"))	{
+			logger.info("[Interrupted Candidate] - " + items[1] + ", " + drug_type);
+
+			resultList = service.getInterruptedCandidateWithGene(items[1]);
+			jsonArray = JSONArray.fromObject(resultList);
+			logger.info("data: " + jsonArray);
+		}
+		else	{
+			logger.error("[Error]invalid format query  !!!");
+		}
+
+		try {
+			if(jsonArray == null)	return ;
+			
+			response.getWriter().print(jsonArray);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	

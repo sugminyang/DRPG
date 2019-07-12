@@ -60,34 +60,39 @@ $(function() {
     	var drugType = $("#drug_type_dr option:selected").text();
     	query = ""
     		
-    	if(search_type == 'disease_name') {
-    		url = "drugprogdisease"
-    		query = "disease_@" + search_query
-    	} else if(search_type == 'geneSymbol') {
-    		url = "drugproggene"
-    		query = "gene_@" + search_query
-    	} else if(search_type == 'chemical_name') {
-    		url = "drugprogchemical"
-    		query = "drug_@" + search_query
-    	} else {
-    		url = "drugprogdisease"
-    		query = ""
+    	if(search_query.trim().length == 0 )	{
+//    		console.log('length of search_query : ' + search_query.length)
     	}
-    	var query_dec = decodeURIComponent(query);
-    	var drugType_dec = decodeURIComponent(drugType);
-    	
-        url += "?query=" + query_dec + "&drug_type=" + drugType_dec
-        url += "&output=json"
-
-        console.log(url)
-        
-    	$.ajax({
-            'type': "GET",
-            'url': url,
-            'dataType': "json",
-            'error': search_fail,
-            'success': search_success
-        })
+    	else	{
+	    	if(search_type == 'disease_name') {
+	    		url = "drugprogdisease"
+	    		query = "disease_@" + search_query
+	    	} else if(search_type == 'geneSymbol') {
+	    		url = "drugproggene"
+	    		query = "gene_@" + search_query
+	    	} else if(search_type == 'chemical_name') {
+	    		url = "drugprogchemical"
+	    		query = "drug_@" + search_query
+	    	} else {
+	    		url = "drugprogdisease"
+	    		query = ""
+	    	}
+	    	var query_dec = decodeURIComponent(query);
+	    	var drugType_dec = decodeURIComponent(drugType);
+	    	
+	        url += "?query=" + query_dec + "&drug_type=" + drugType_dec
+	        url += "&output=json"
+	
+//	        console.log(url)
+	        
+	    	$.ajax({
+	            'type': "GET",
+	            'url': url,
+	            'dataType': "json",
+	            'error': search_fail,
+	            'success': search_success
+	        })
+    	}
     }
     
 

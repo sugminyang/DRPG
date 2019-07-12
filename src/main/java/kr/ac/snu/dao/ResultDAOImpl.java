@@ -144,6 +144,30 @@ public class ResultDAOImpl implements ResultDAO{
 		
 		return sqlSession.selectList(Namespace+".getInterruptedCandidateWithDrug",map);
 	}
+
+	@Override
+	public List<RepositioningDrugVO> getApprovedReferenceWithGene(String gene) {
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("gene",gene);
+		
+		return sqlSession.selectList(Namespace+".getApprovedReferenceWithGene",map);
+	}
+
+	@Override
+	public List<RepositioningDrugVO> getApprovedCandidateWithGene(String gene) {
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("gene",gene);
+		
+		return sqlSession.selectList(Namespace+".getApprovedCandidateWithGene",map);
+	}
+
+	@Override
+	public List<RepositioningDrugVO> getInterruptedCandidateWithGene(String gene) {
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("gene",gene);
+		
+		return sqlSession.selectList(Namespace+".getInterruptedCandidateWithGene",map);
+	}
 	
 	
 	

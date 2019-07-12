@@ -92,8 +92,8 @@
 			join chembl_25.molecule_dictionary as dict
 			join test.dgi_interactions as dgi
 			on(dict.molregno = indication.molregno and dict.chembl_id = dgi.drug_chembl_id)
-			where indication.max_phase_for_ind = 4 and dict.max_phase = 4 
-				and dict.withdrawn_flag = 0 and dict.therapeutic_flag = 1 and dgi.interaction_claim_source like 'FDA'
+			where indication.max_phase_for_ind = 4 and dict.max_phase = 4 and dgi.interaction_claim_source like 'FDA'
+				and dict.withdrawn_flag = 0 and dict.therapeutic_flag = 1
 				and indication.mesh_heading like CONCAT('',#{disease},'');
     </select>    
 
@@ -106,7 +106,7 @@
 			join test.dgi_interactions as dgi
 			on(dict.molregno = indication.molregno and dict.chembl_id = dgi.drug_chembl_id)
 			where (indication.max_phase_for_ind = 2 or indication.max_phase_for_ind = 3) and dict.max_phase = 4 
-				and dict.withdrawn_flag = 0 and dict.therapeutic_flag = 1 and dgi.interaction_claim_source like 'FDA'
+				and dict.withdrawn_flag = 0 and dict.therapeutic_flag = 1
 				and indication.mesh_heading like CONCAT('',#{disease},'') and dgi.gene_name in (
 					select triplet.gene
 						from test.`disease-gene_pairs` as triplet
@@ -134,7 +134,7 @@
 		
 		
 		
-<!--  dr search with disease -->
+<!--  dr search with drug -->
 	
 	<!-- approved reference  -->
 	<select id="getApprovedReferenceWithDrug" resultType="RepositioningDrugVO" parameterType="string">
@@ -143,8 +143,8 @@
 			join chembl_25.molecule_dictionary as dict
 			join test.dgi_interactions as dgi
 			on(dict.molregno = indication.molregno and dict.chembl_id = dgi.drug_chembl_id)
-			where indication.max_phase_for_ind = 4 and dict.max_phase = 4 
-				and dict.withdrawn_flag = 0 and dict.therapeutic_flag = 1 and dgi.interaction_claim_source like 'FDA'
+			where indication.max_phase_for_ind = 4 and dict.max_phase = 4 and dgi.interaction_claim_source like 'FDA'
+				and dict.withdrawn_flag = 0 and dict.therapeutic_flag = 1
 				and dict.pref_name like CONCAT('',#{drug},'');
 	</select>	
 			    
@@ -158,7 +158,7 @@
 			on(dict.molregno = indication.molregno and dict.chembl_id = dgi.drug_chembl_id)
 			where (indication.max_phase_for_ind = 2 or indication.max_phase_for_ind = 3) and dict.max_phase = 4 
 				and dict.withdrawn_flag = 0 and dict.therapeutic_flag = 1 and dict.pref_name like CONCAT('',#{drug},'')
-				and dgi.interaction_claim_source like 'FDA' and indication.mesh_heading in (select distinct triplet.disease
+				and indication.mesh_heading in (select distinct triplet.disease
 					from test.`disease-gene_pairs` as triplet
 					join chembl_25.drug_indication as indication 
 					on(triplet.disease = indication.mesh_heading)
@@ -191,4 +191,62 @@
 				));	
 	</select>		
 	
+	
+	
+<!--  dr search with gene -->
+	
+	<!-- approved reference  -->
+	<select id="getApprovedReferenceWithGene" resultType="RepositioningDrugVO" parameterType="string">
+		select distinct indication.mesh_heading as diseaseName, dgi.gene_name as targetGene, dict.pref_name as drugName, indication.max_phase_for_ind as phaseNum, dgi.interaction_types  as interactionType, dgi.drug_chembl_id as chemblID, dgi.interaction_claim_source as sources
+			from chembl_25.drug_indication as indication 
+			join chembl_25.molecule_dictionary as dict
+			join test.dgi_interactions as dgi
+			on(dict.molregno = indication.molregno and dict.chembl_id = dgi.drug_chembl_id)
+			where indication.max_phase_for_ind = 4 and dict.max_phase = 4 and dgi.interaction_claim_source like 'FDA'
+				and dict.withdrawn_flag = 0 and dict.therapeutic_flag = 1 and dgi.gene_name like CONCAT('',#{gene},'')
+				and indication.mesh_heading in (select distinct triplet.disease
+					from test.`disease-gene_pairs` as triplet
+					join chembl_25.drug_indication as indication 
+					on(triplet.disease = indication.mesh_heading)
+					where triplet.gene like CONCAT('',#{gene},'')
+				);	
+	</select>
+		
+
+	<!-- approved candidate  -->
+	<select id="getApprovedCandidateWithGene" resultType="RepositioningDrugVO" parameterType="string">
+		select distinct indication.mesh_heading as diseaseName, dgi.gene_name as targetGene, dict.pref_name as drugName, indication.max_phase_for_ind as phaseNum, dgi.interaction_types  as interactionType, dgi.drug_chembl_id as chemblID, dgi.interaction_claim_source as sources
+			from chembl_25.drug_indication as indication 
+			join chembl_25.molecule_dictionary as dict
+			join test.dgi_interactions as dgi
+			on(dict.molregno = indication.molregno and dict.chembl_id = dgi.drug_chembl_id)
+			where (indication.max_phase_for_ind = 2 or indication.max_phase_for_ind = 3) and dict.max_phase = 4
+				and dict.withdrawn_flag = 0 and dict.therapeutic_flag = 1 and dgi.gene_name like CONCAT('',#{gene},'')
+				and indication.mesh_heading in (select distinct triplet.disease
+					from test.`disease-gene_pairs` as triplet
+					join chembl_25.drug_indication as indication 
+					on(triplet.disease = indication.mesh_heading)
+					where triplet.gene like CONCAT('',#{gene},'')
+				);
+	</select>
+	
+	
+
+	<!-- Interrupted candidate  -->
+	<select id="getInterruptedCandidateWithGene" resultType="RepositioningDrugVO" parameterType="string">
+		select distinct indication.mesh_heading as diseaseName, dgi.gene_name as targetGene, dict.pref_name as drugName, indication.max_phase_for_ind as phaseNum, dgi.interaction_types  as interactionType, dgi.drug_chembl_id as chemblID, dgi.interaction_claim_source as sources
+			from chembl_25.drug_indication as indication 
+			join chembl_25.molecule_dictionary as dict
+			join test.dgi_interactions as dgi
+			on(dict.molregno = indication.molregno and dict.chembl_id = dgi.drug_chembl_id)
+			where (indication.max_phase_for_ind = 2 or indication.max_phase_for_ind = 3) and dict.max_phase != 4
+				and dict.withdrawn_flag = 0 and dict.therapeutic_flag = 1 and dgi.gene_name like CONCAT('',#{gene},'')
+				and indication.mesh_heading in (select distinct triplet.disease
+					from test.`disease-gene_pairs` as triplet
+					join chembl_25.drug_indication as indication 
+					on(triplet.disease = indication.mesh_heading)
+					where triplet.gene like CONCAT('',#{gene},'')
+				);	
+	
+	</select>		
 </mapper>
