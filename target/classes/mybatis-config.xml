@@ -6,7 +6,5 @@
          <typeAliases>
             <typeAlias type="kr.ac.snu.vo.ResultVO" alias="resultVO"/>
             <typeAlias type="kr.ac.snu.vo.RepositioningDrugVO" alias="RepositioningDrugVO"/>
-            <typeAlias type="kr.ac.snu.vo.DiseaseGeneVO" alias="DiseaseGeneVO"/>
-            
         </typeAliases>
     </configuration>

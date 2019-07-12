@@ -5,82 +5,20 @@
  
 <mapper namespace="kr.ac.mapper.resultMapper">
      
-    <select id="selectResult" resultType="resultVO" >
-        SELECT pmid, disease, gene, snp FROM test.`disease-gene_pairs` 
-    </select>
-    
+<!-- literature queries -->
+     
     <select id="getResultByDisease" resultType="resultVO" parameterType="string">
         SELECT pmid, disease, gene, snp FROM test.`disease-gene_pairs` where disease LIKE CONCAT('%',#{disease},'%') order by snp desc;
     </select>
     
 	<select id="getResultByGene" resultType="resultVO" parameterType="string">
-        SELECT pmid, disease, gene, snp FROM test.`disease-gene_pairs` where gene LIKE CONCAT('%',#{gene},'%') order by snp desc;
+        SELECT pmid, disease, gene, snp FROM test.`disease-gene_pairs` where gene LIKE CONCAT('',#{gene},'') order by snp desc;
     </select>
     
 	<select id="getResultByPmid" resultType="resultVO" parameterType="string">
-        SELECT pmid, disease, gene, snp FROM test.`disease-gene_pairs` where pmid LIKE '#{pmid}';
+        SELECT pmid, disease, gene, snp FROM test.`disease-gene_pairs` where pmid = #{pmid};
     </select>        
     
-    <!-- drug repositioning queries -->
-    
-    <!-- search with disease name -->
-    <select id="getDrugsWithDiseaseName" resultType="RepositioningDrugVO" parameterType="string">
-	    SELECT distinct dgi.gene_name as targetGene, chem.pref_name as drugName, chem.max_phase as phaseNum, dgi.interaction_types as interactionType, dgi.drug_chembl_id as chemblID, dgi.interaction_claim_source as sources
-			FROM test.dgi_interactions as dgi 
-			join chembl_25.molecule_dictionary as chem
-	    	on(dgi.drug_chembl_id = chem.chembl_id)
-			where chem.pref_name is not null and chem.max_phase > 0 and chem.withdrawn_flag != 1 and dgi.gene_name in (
-				SELECT distinct dgi.gene_name 
-					FROM test.`disease-gene_pairs` as pair
-					join test.`dgi_interactions` as dgi
-					on(pair.gene = dgi.gene_name)
-					where pair.disease LIKE CONCAT('',#{disease},'') and dgi.drug_chembl_id != '') 
-	    limit 10000;
-    </select>
-    
-    
-    
-    <!--  search with gene name -->
-    <select id="getDiseaseNameByGene" resultType="string" parameterType="string">
-    	SELECT distinct pair.disease 
-			FROM test.`disease-gene_pairs` as pair
-			join test.`dgi_interactions` as dgi
-			on(pair.gene = dgi.gene_name)
-			where pair.gene LIKE CONCAT('',#{gene},'') and dgi.drug_chembl_id != '';
-    </select>
-    <select id="getDrugsWithGeneName" resultType="RepositioningDrugVO" parameterType="string">
-	    SELECT distinct dgi.gene_name as targetGene, chem.pref_name as drugName, chem.max_phase as phaseNum, dgi.interaction_types as interactionType, dgi.drug_chembl_id as chemblID, dgi.interaction_claim_source as sources
-			FROM test.dgi_interactions as dgi 
-			join chembl_25.molecule_dictionary as chem
-			on(dgi.drug_chembl_id = chem.chembl_id)
-			where chem.pref_name is not null and dgi.gene_claim_name LIKE CONCAT('',#{gene},'') and chem.withdrawn_flag != 1 and chem.max_phase > 0
-			limit 10000;
-    </select>    
-    
-    
-    
-    <!--  search with drug name -->
-    <select id="getDiseaseNameByDrug" resultType="DiseaseGeneVO" parameterType="string">
-    	SELECT distinct pair.disease, pair.gene
-			FROM test.`disease-gene_pairs` as pair
-			join test.`dgi_interactions` as dgi
-			on(pair.gene = dgi.gene_name)
-			where pair.gene in (select dgi.gene_name
-			from test.`dgi_interactions` as dgi			
-			where dgi.drug_claim_primary_name LIKE CONCAT('',#{drug},'') and dgi.drug_chembl_id != '');	
-    </select>    
-    <select id="getDrugUsage" resultType="RepositioningDrugVO" parameterType="string">
-	   SELECT distinct dgi.gene_name as targetGene, chem.pref_name as drugName, chem.max_phase as phaseNum, dgi.interaction_types as interactionType, dgi.drug_chembl_id as chemblID, dgi.interaction_claim_source as sources
-			FROM test.dgi_interactions as dgi 
-			join chembl_25.molecule_dictionary as chem
-			on(dgi.drug_chembl_id = chem.chembl_id)
-			where chem.pref_name is not null and dgi.drug_claim_primary_name like CONCAT('',#{drug},'') and chem.withdrawn_flag != 1 and chem.max_phase > 0
-			limit 10000;
-    </select>    
-
-
-
-
 <!--  new query -->
 
 <!--  dr search with disease -->

@@ -121,6 +121,19 @@
         			<p>
         				<a href='https://www.ncbi.nlm.nih.gov/CBBresearch/Lu/Demo/PubTator/index.cgi'>PubTator</a><br />
         			</p>
+        			<p>
+        				<a href='https://www.ebi.ac.uk/chembl/'>ChEMBL(EBI)</a>
+        			</p>
+					<p>
+        				<a href='https://www.pharmgkb.org/'>PharmGKB</a>
+        			</p>
+        			<p>
+        				<a href='https://www.drugbank.ca'>DRUGBANK</a>
+        			</p>
+        			<p>
+        				<a href='https://www.fda.gov/drugs/'>FDA(drugs)</a>
+        			</p>
+        			
         		</blockquote>
             </div>
             <!-- /.box-body -->

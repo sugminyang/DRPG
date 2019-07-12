@@ -7,24 +7,29 @@ import kr.ac.snu.vo.RepositioningDrugVO;
 import kr.ac.snu.vo.ResultVO;
 
 public interface HomeService {
-	public List<ResultVO> selectResult() throws Exception;
+
+					/* literature search with keyword and it's categories */
 	public List<ResultVO> getResultByDisease(String disease);
 	public List<ResultVO> getResultByGene(String gene);
 	public List<ResultVO> getResultByPmid(String pmid);
+	
+					/* paper vizualization method */
 	public Map<String,String> getPubmedData(String request_url);
 	public List<String> getPubTator(String request_url);
-	public List<RepositioningDrugVO> getDrugsWithDiseaseName(String disease);
-	public List<RepositioningDrugVO> getDrugsWithGeneName(String gene);
-	public List<RepositioningDrugVO> getDrugUsage(String drug);
+
+					/* drug repositioning search with Disease */
 	public List<RepositioningDrugVO> getApprovedReferenceWithDisease(String disease);
 	public List<RepositioningDrugVO> getApprovedCandidateWithDisease(String disease);
 	public List<RepositioningDrugVO> getInterruptedCandidateWithDisease(String disease);
+	
+					/* drug repositioning search with Drug */
 	public List<RepositioningDrugVO> getApprovedReferenceWithDrug(String drug);
 	public List<RepositioningDrugVO> getApprovedCandidateWithDrug(String drug);
 	public List<RepositioningDrugVO> getInterruptedCandidateWithDrug(String drug);
+				
+					/* drug repositioning search with Gene */
 	public List<RepositioningDrugVO> getApprovedReferenceWithGene(String gene);
 	public List<RepositioningDrugVO> getApprovedCandidateWithGene(String gene);
 	public List<RepositioningDrugVO> getInterruptedCandidateWithGene(String gene);
 	
-
 }

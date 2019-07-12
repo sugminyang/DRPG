@@ -21,7 +21,6 @@ import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
 
 import kr.ac.snu.dao.ResultDAO;
-import kr.ac.snu.vo.DiseaseGeneVO;
 import kr.ac.snu.vo.RepositioningDrugVO;
 import kr.ac.snu.vo.ResultVO;
 
@@ -31,10 +30,6 @@ public class HomeServiceImpl implements HomeService{
 	@Inject
     private ResultDAO dao;
     
-    @Override
-    public List<ResultVO> selectResult() throws Exception {
-        return dao.selectResult();
-    }
 
 	@Override
 	//SELECT * FROM test.`disease-gene_pairs` where disease like '%glioma%';
@@ -251,242 +246,6 @@ public class HomeServiceImpl implements HomeService{
 		
 		return paper;
 	}
-
-	@Override
-	public List<RepositioningDrugVO> getDrugsWithDiseaseName(String disease) {
-		Map<String, RepositioningDrugVO> temp = new HashMap<String, RepositioningDrugVO>();
-		List<RepositioningDrugVO> voList = new ArrayList<RepositioningDrugVO>();
-		
-		if(disease.equalsIgnoreCase("tumor") || disease.equalsIgnoreCase("tumors") 
-				|| disease.equalsIgnoreCase("carcinoma") || disease.equalsIgnoreCase("carcinomas")
-				|| disease.equalsIgnoreCase("tumour") || disease.equalsIgnoreCase("cancer")
-				|| disease.equalsIgnoreCase("cancers") || disease.equalsIgnoreCase("metastasis")
-				|| disease.equalsIgnoreCase("adenocarcinoma") || disease.equalsIgnoreCase("tumours")
-				|| disease.equalsIgnoreCase("Adenoma") || disease.equalsIgnoreCase("Adenomas")
-				|| disease.equalsIgnoreCase("adenocarcinomas") || disease.equalsIgnoreCase("metastases")
-				|| disease.equalsIgnoreCase("overall survival") || disease.equalsIgnoreCase("os")
-				|| disease.equalsIgnoreCase("death") || disease.equalsIgnoreCase("malignancies")
-				|| disease.contains("[OBSOLETE]") || disease.equalsIgnoreCase("Sarcoma")
-				|| disease.equalsIgnoreCase("Neoplasms") || disease.equalsIgnoreCase("Neoplasm")
-				|| disease.equalsIgnoreCase("Neoplasm Metastasis"))	{
-			return voList;
-		}
-		
-		//mapping disease-gene-drugs. and remove duplicate sources and interactionType
-		List<RepositioningDrugVO> vos = new ArrayList<RepositioningDrugVO>();
-
-		for(RepositioningDrugVO vo : dao.getDrugsWithDiseaseName(disease)) {
-			vos.add(vo);
-		}
-
-		for(RepositioningDrugVO vo : vos)	{
-			String key =  vo.getTargetGene() + "@" +vo.getPhaseNum() + "@" + vo.getChemblID();
-
-			removeDuplicateSourcesNinteractionType(temp,vo,key);
-		}
-
-		//				System.out.println("#size(temp.size()): " + temp.size());
-		//				System.out.println("#size(diseaseList.size()): " + diseaseList.size());
-
-		
-		for(String key : temp.keySet())	{
-//			System.out.println(disease);
-			RepositioningDrugVO vo = temp.get(key);
-
-			RepositioningDrugVO deepCopy = null;
-			try {
-				deepCopy = (RepositioningDrugVO)CloneUtils.clone(vo);
-			} catch (CloneNotSupportedException e) {
-				e.printStackTrace();
-			}
-			deepCopy.setDiseaseName(disease);
-
-			voList.add(deepCopy);
-		}
-		
-		return voList;	
-	}
-
-
-	@Override
-	public List<RepositioningDrugVO> getDrugsWithGeneName(String gene) {
-		Map<String, RepositioningDrugVO> temp = new HashMap<String, RepositioningDrugVO>();
-		List<String> diseaseList = new ArrayList<String>();
-		
-		//get diseaseName
-		for(String disease: dao.getDiseaseNameByGene(gene)) {
-			if(disease.equalsIgnoreCase("tumor") || disease.equalsIgnoreCase("tumors") 
-					|| disease.equalsIgnoreCase("carcinoma") || disease.equalsIgnoreCase("carcinomas")
-					|| disease.equalsIgnoreCase("tumour") || disease.equalsIgnoreCase("cancer")
-					|| disease.equalsIgnoreCase("cancers") || disease.equalsIgnoreCase("metastasis")
-					|| disease.equalsIgnoreCase("adenocarcinoma") || disease.equalsIgnoreCase("tumours")
-					|| disease.equalsIgnoreCase("Adenoma") || disease.equalsIgnoreCase("Adenomas")
-					|| disease.equalsIgnoreCase("adenocarcinomas") || disease.equalsIgnoreCase("metastases")
-					|| disease.equalsIgnoreCase("overall survival") || disease.equalsIgnoreCase("os")
-					|| disease.equalsIgnoreCase("death") || disease.equalsIgnoreCase("malignancies")
-					|| disease.contains("[OBSOLETE]") || disease.equalsIgnoreCase("Sarcoma")
-					|| disease.equalsIgnoreCase("Neoplasms") || disease.equalsIgnoreCase("Neoplasm")
-					|| disease.equalsIgnoreCase("Neoplasm Metastasis"))	{
-			}
-			else	{
-//				System.out.println(disease);
-				diseaseList.add(disease);
-			}
-		}
-		
-		//IF doesnot exist revealed disease related to target gene. write undiscovered.
-		if(diseaseList.size() == 0) {
-			diseaseList.add("Undiscovered");
-		}
-			
-		
-		
-		//mapping disease-gene-drugs. and remove duplicate sources and interactionType
-		List<RepositioningDrugVO> vos = new ArrayList<RepositioningDrugVO>();
-		
-		for(RepositioningDrugVO vo : dao.getDrugsWithGeneName(gene)) {
-			vos.add(vo);
-		}
-		
-		for(RepositioningDrugVO vo : vos)	{
-			String key =  vo.getTargetGene() + "@" +vo.getPhaseNum() + "@" + vo.getChemblID();
-
-			removeDuplicateSourcesNinteractionType(temp,vo,key);
-		}
-		
-//		System.out.println("#size(temp.size()): " + temp.size());
-//		System.out.println("#size(diseaseList.size()): " + diseaseList.size());
-		
-		List<RepositioningDrugVO> voList = new ArrayList<RepositioningDrugVO>();
-		for(String key : temp.keySet())	{
-			for(String disease : diseaseList)	{
-//				System.out.println(disease);
-				RepositioningDrugVO vo = temp.get(key);
-				
-				RepositioningDrugVO deepCopy = null;
-				try {
-					deepCopy = (RepositioningDrugVO)CloneUtils.clone(vo);
-				} catch (CloneNotSupportedException e) {
-					e.printStackTrace();
-				}
-				deepCopy.setDiseaseName(disease);
-
-				voList.add(deepCopy);
-			}
-		}
-		
-		return voList;
-	}
-	
-	@Override
-	public List<RepositioningDrugVO> getDrugUsage(String drug) {
-		Map<String, RepositioningDrugVO> temp = new HashMap<String, RepositioningDrugVO>();
-		List<DiseaseGeneVO> diseaseGeneList = new ArrayList<DiseaseGeneVO>();
-		
-		//get diseaseName
-		for(DiseaseGeneVO vo: dao.getDiseaseNameByDrug(drug)) {
-			if(vo.getDisease().equalsIgnoreCase("tumor") || vo.getDisease().equalsIgnoreCase("tumors") 
-					|| vo.getDisease().equalsIgnoreCase("carcinoma") || vo.getDisease().equalsIgnoreCase("carcinomas")
-					|| vo.getDisease().equalsIgnoreCase("tumour") || vo.getDisease().equalsIgnoreCase("cancer")
-					|| vo.getDisease().equalsIgnoreCase("cancers") || vo.getDisease().equalsIgnoreCase("metastasis")
-					|| vo.getDisease().equalsIgnoreCase("adenocarcinoma") || vo.getDisease().equalsIgnoreCase("tumours")
-					|| vo.getDisease().equalsIgnoreCase("Adenoma") || vo.getDisease().equalsIgnoreCase("Adenomas")
-					|| vo.getDisease().equalsIgnoreCase("adenocarcinomas") || vo.getDisease().equalsIgnoreCase("metastases")
-					|| vo.getDisease().equalsIgnoreCase("overall survival") || vo.getDisease().equalsIgnoreCase("os")
-					|| vo.getDisease().equalsIgnoreCase("death") || vo.getDisease().equalsIgnoreCase("malignancies")
-					|| vo.getDisease().contains("[OBSOLETE]") || vo.getDisease().equalsIgnoreCase("Sarcoma")
-					|| vo.getDisease().equalsIgnoreCase("Neoplasms") || vo.getDisease().equalsIgnoreCase("Neoplasm")
-					|| vo.getDisease().equalsIgnoreCase("Neoplasm Metastasis"))	{
-
-			}
-			else	{
-//				System.out.println(disease);
-				diseaseGeneList.add(vo);
-			}
-			
-		}
-
-		//mapping disease-gene-drugs. and remove duplicate sources and interactionType
-		List<RepositioningDrugVO> vos = new ArrayList<RepositioningDrugVO>();
-		
-		for(RepositioningDrugVO vo : dao.getDrugUsage(drug)) {
-			vos.add(vo);
-		}
-		
-		for(RepositioningDrugVO vo : vos)	{
-			String key = vo.getTargetGene() ;
-
-			removeDuplicateSourcesNinteractionType(temp,vo,key);
-		}
-		
- 
-		
-		List<RepositioningDrugVO> voList = new ArrayList<RepositioningDrugVO>();
-		for(String key : temp.keySet())	{
-			for(DiseaseGeneVO geneForBetterPrognisis : diseaseGeneList)	{
-//				System.out.println(disease);
-				RepositioningDrugVO vo = temp.get(key);
-
-				//using triplet existed gene only because it will be good for prognosis.				
-				if(!geneForBetterPrognisis.getGene().equalsIgnoreCase(vo.getTargetGene()))	{
-					continue;
-				}
-				
-				
-				RepositioningDrugVO deepCopy = null;
-				try {
-					deepCopy = (RepositioningDrugVO)CloneUtils.clone(vo);
-				} catch (CloneNotSupportedException e) {
-					e.printStackTrace();
-				}
-				deepCopy.setDiseaseName(geneForBetterPrognisis.getDisease());
-
-				voList.add(deepCopy);
-			}
-		}
-
-		return voList;
-	}	
-	
-	private void removeDuplicateSourcesNinteractionType(Map<String, RepositioningDrugVO> temp, RepositioningDrugVO vo, String key) {
-		
-			if(temp.containsKey(key))	{
-				RepositioningDrugVO ori = temp.get(key);
-				
-				//merge. sources.
-				if(vo.getSources().length() != 0)	{
-					if(ori.getSources().length() == 0)	{
-						ori.setSources(vo.getSources());
-					}
-					else	{
-						if(!ori.getSources().contains(vo.getSources()))	{
-							String newSources = ori.getSources() + ", " + vo.getSources();
-							ori.setSources(newSources);							
-						}
-					}
-				}
-				
-				//merge. interactionType.
-				if(vo.getInteractionType().length() != 0)	{
-					if(ori.getInteractionType().length() == 0)	{
-						ori.setInteractionType(vo.getInteractionType());
-					}
-					else	{
-						if(!ori.getInteractionType().contains(vo.getInteractionType()))	{		//no containing interaction type.
-							String mergedInteractionType = ori.getInteractionType() + ", " + vo.getInteractionType();
-							ori.setInteractionType(mergedInteractionType);
-						}
-					}
-				}
-				
-				temp.put(key,ori);
-			} 
-			else	{
-				temp.put(key,vo);
-			}
-	}
-
-	
 	
 	
 	
@@ -779,6 +538,55 @@ public class HomeServiceImpl implements HomeService{
 		}
 		
 		return voList;
+	}
+
+	
+	
+	
+							
+	
+							/* useful methods */
+	
+	/**
+	 * merge different sources in a same disease, gene or chemical.
+	 * 
+	 * */
+	private void removeDuplicateSourcesNinteractionType(Map<String, RepositioningDrugVO> temp, RepositioningDrugVO vo, String key) {
+		
+			if(temp.containsKey(key))	{
+				RepositioningDrugVO ori = temp.get(key);
+				
+				//merge. sources.
+				if(vo.getSources().length() != 0)	{
+					if(ori.getSources().length() == 0)	{
+						ori.setSources(vo.getSources());
+					}
+					else	{
+						if(!ori.getSources().contains(vo.getSources()))	{
+							String newSources = ori.getSources() + ", " + vo.getSources();
+							ori.setSources(newSources);							
+						}
+					}
+				}
+				
+				//merge. interactionType.
+				if(vo.getInteractionType().length() != 0)	{
+					if(ori.getInteractionType().length() == 0)	{
+						ori.setInteractionType(vo.getInteractionType());
+					}
+					else	{
+						if(!ori.getInteractionType().contains(vo.getInteractionType()))	{		//no containing interaction type.
+							String mergedInteractionType = ori.getInteractionType() + ", " + vo.getInteractionType();
+							ori.setInteractionType(mergedInteractionType);
+						}
+					}
+				}
+				
+				temp.put(key,ori);
+			} 
+			else	{
+				temp.put(key,vo);
+			}
 	}
 
 
