@@ -192,22 +192,29 @@ public class HomeController {
 		List<RepositioningDrugVO> resultList = null;
 		JSONArray jsonArray = null;
 		
-		if(drug_type.contentEquals("Aprroved Reference"))	{
-			logger.info("[Aprroved Reference] - " + items[1] + ", " + drug_type);
+		if(drug_type.contentEquals("All"))	{
+			logger.info("[All] - " + items[1] + ", " + drug_type);
+
+			resultList = service.getAllItemsWithDisease(items[1]);
+			jsonArray = JSONArray.fromObject(resultList);
+			logger.info("data: " + jsonArray);
+		}
+		if(drug_type.contentEquals("FDA-approved control"))	{
+			logger.info("[FDA-approved control] - " + items[1] + ", " + drug_type);
 
 			resultList = service.getApprovedReferenceWithDisease(items[1]);
 			jsonArray = JSONArray.fromObject(resultList);
 			logger.info("data: " + jsonArray);
 		}
-		else if(drug_type.contentEquals("Approved Candidate"))	{ 
-			logger.info("[Aprroved Candidate] - " + items[1] + ", " + drug_type);
+		else if(drug_type.contentEquals("FDA-approved candidate"))	{ 
+			logger.info("[FDA-approved candidate] - " + items[1] + ", " + drug_type);
 			
 			resultList = service.getApprovedCandidateWithDisease(items[1]);
 			jsonArray = JSONArray.fromObject(resultList);
 			logger.info("data: " + jsonArray);
 		}
-		else if(drug_type.contentEquals("Interrupted Candidate"))	{
-			logger.info("[Interrupted Candidate] - " + items[1] + ", " + drug_type);
+		else if(drug_type.contentEquals("Unapproved candidate"))	{
+			logger.info("[Unapproved candidate] - " + items[1] + ", " + drug_type);
 			
 			resultList = service.getInterruptedCandidateWithDisease(items[1]);
 			jsonArray = JSONArray.fromObject(resultList);
@@ -238,22 +245,29 @@ public class HomeController {
 		List<RepositioningDrugVO> resultList = null;
 		JSONArray jsonArray = null;
 		
-		if(drug_type.contentEquals("Aprroved Reference"))	{
-			logger.info("[Aprroved Reference] - " + items[1] + ", " + drug_type);
+		if(drug_type.contentEquals("All"))	{
+			logger.info("[All] - " + items[1] + ", " + drug_type);
+
+			resultList = service.getAllItemsWithGene(items[1]);
+			jsonArray = JSONArray.fromObject(resultList);
+			logger.info("data: " + jsonArray);
+		}
+		else if(drug_type.contentEquals("FDA-approved control"))	{
+			logger.info("[FDA-approved control] - " + items[1] + ", " + drug_type);
 			
 			resultList = service.getApprovedReferenceWithGene(items[1]);
 			jsonArray = JSONArray.fromObject(resultList);
 			logger.info("data: " + jsonArray);
 		}
-		else if(drug_type.contentEquals("Approved Candidate"))	{ 
-			logger.info("[Aprroved Candidate] - " + items[1] + ", " + drug_type);
+		else if(drug_type.contentEquals("FDA-approved candidate"))	{ 
+			logger.info("[FDA-approved candidate] - " + items[1] + ", " + drug_type);
 			
 			resultList = service.getApprovedCandidateWithGene(items[1]);
 			jsonArray = JSONArray.fromObject(resultList);
 			logger.info("data: " + jsonArray);
 		}
-		else if(drug_type.contentEquals("Interrupted Candidate"))	{
-			logger.info("[Interrupted Candidate] - " + items[1] + ", " + drug_type);
+		else if(drug_type.contentEquals("Unapproved candidate"))	{
+			logger.info("[Unapproved candidate] - " + items[1] + ", " + drug_type);
 
 			resultList = service.getInterruptedCandidateWithGene(items[1]);
 			jsonArray = JSONArray.fromObject(resultList);
@@ -284,22 +298,29 @@ public class HomeController {
 		List<RepositioningDrugVO> resultList = null;
 		JSONArray jsonArray = null;
 		
-		if(drug_type.contentEquals("Aprroved Reference"))	{
-			logger.info("[Aprroved Reference] - " + items[1] + ", " + drug_type);
+		if(drug_type.contentEquals("All"))	{
+			logger.info("[All] - " + items[1] + ", " + drug_type);
+
+			resultList = service.getAllItemsWithDrug(items[1]);
+			jsonArray = JSONArray.fromObject(resultList);
+			logger.info("data: " + jsonArray);
+		}
+		else if(drug_type.contentEquals("FDA-approved control"))	{
+			logger.info("[FDA-approved control] - " + items[1] + ", " + drug_type);
 			
 			resultList = service.getApprovedReferenceWithDrug(items[1]);
 			jsonArray = JSONArray.fromObject(resultList);
 			logger.info("data: " + jsonArray);
 		}
-		else if(drug_type.contentEquals("Approved Candidate"))	{ 
-			logger.info("[Aprroved Candidate] - " + items[1] + ", " + drug_type);
+		else if(drug_type.contentEquals("FDA-approved candidate"))	{ 
+			logger.info("[FDA-approved candidate] - " + items[1] + ", " + drug_type);
 			
 			resultList = service.getApprovedCandidateWithDrug(items[1]);
 			jsonArray = JSONArray.fromObject(resultList);
 			logger.info("data: " + jsonArray);
 		}
-		else if(drug_type.contentEquals("Interrupted Candidate"))	{
-			logger.info("[Interrupted Candidate] - " + items[1] + ", " + drug_type);
+		else if(drug_type.contentEquals("Unapproved candidate"))	{
+			logger.info("[Unapproved candidate] - " + items[1] + ", " + drug_type);
 
 			resultList = service.getInterruptedCandidateWithDrug(items[1]);
 			jsonArray = JSONArray.fromObject(resultList);

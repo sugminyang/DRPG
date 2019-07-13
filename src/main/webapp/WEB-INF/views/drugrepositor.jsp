@@ -108,9 +108,10 @@
 	          <div class="row">
 	          	<div class="col-xs-2" style="float:right;">
 	            	<select id="drug_type_dr" class="form-contorl" name="drug_type" style="width: auto; height: 34px; border-color: #FF9999; float:right;">
-		            	<option value="drug_approved_reference">Aprroved Reference</option>
-		            	<option value="drug_approved_candidate">Approved Candidate</option>
-		            	<option value="drug_interrupted_candidate">Interrupted Candidate</option>
+		            	<option value="drug_all">All</option>
+		            	<option value="drug_approved_reference">FDA-approved control</option>
+		            	<option value="drug_approved_candidate">FDA-approved candidate</option>
+		            	<option value="drug_interrupted_candidate">Unapproved candidate</option>
 		            </select>
 	            </div>
 				<div class="col-xs-12" id="result"></div>

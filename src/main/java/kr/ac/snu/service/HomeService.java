@@ -18,18 +18,24 @@ public interface HomeService {
 	public List<String> getPubTator(String request_url);
 
 					/* drug repositioning search with Disease */
+	public List<RepositioningDrugVO> getAllItemsWithDisease(String disease);
 	public List<RepositioningDrugVO> getApprovedReferenceWithDisease(String disease);
 	public List<RepositioningDrugVO> getApprovedCandidateWithDisease(String disease);
 	public List<RepositioningDrugVO> getInterruptedCandidateWithDisease(String disease);
 	
 					/* drug repositioning search with Drug */
+	public List<RepositioningDrugVO> getAllItemsWithDrug(String drug);
 	public List<RepositioningDrugVO> getApprovedReferenceWithDrug(String drug);
 	public List<RepositioningDrugVO> getApprovedCandidateWithDrug(String drug);
 	public List<RepositioningDrugVO> getInterruptedCandidateWithDrug(String drug);
 				
 					/* drug repositioning search with Gene */
+	public List<RepositioningDrugVO> getAllItemsWithGene(String gene);
 	public List<RepositioningDrugVO> getApprovedReferenceWithGene(String gene);
 	public List<RepositioningDrugVO> getApprovedCandidateWithGene(String gene);
 	public List<RepositioningDrugVO> getInterruptedCandidateWithGene(String gene);
+	
+	
+	
 	
 }

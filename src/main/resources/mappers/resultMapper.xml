@@ -23,7 +23,7 @@
 
 <!--  dr search with disease -->
 	
-	<!-- Aprroved reference with disease name -->
+	<!-- FDA-approved control with disease name -->
 	<select id="getApprovedReferenceWithDisease" resultType="RepositioningDrugVO" parameterType="string">
 		select distinct indication.mesh_heading as diseaseName, dgi.gene_name as targetGene, dict.pref_name as drugName, indication.max_phase_for_ind as phaseNum, dgi.interaction_types  as interactionType, dgi.drug_chembl_id as chemblID, dgi.interaction_claim_source as sources
 			from chembl_25.drug_indication as indication 
@@ -36,7 +36,7 @@
     </select>    
 
 
-	<!-- Aprroved candidate with disease name -->
+	<!-- FDA-approved candidate with disease name -->
 	<select id="getApprovedCandidateWithDisease" resultType="RepositioningDrugVO" parameterType="string">
 		select distinct indication.mesh_heading as diseaseName, dgi.gene_name as targetGene, dict.pref_name as drugName, indication.max_phase_for_ind as phaseNum, dgi.interaction_types  as interactionType, dgi.drug_chembl_id as chemblID, dgi.interaction_claim_source as sources
 			from chembl_25.drug_indication as indication 
@@ -53,7 +53,7 @@
 	</select>
 	    	
 	    	
-	<!--  interrupted candidate with disease name -->
+	<!--  Unapproved candidate with disease name -->
 	<select id="getInterruptedCandidateWithDisease" resultType="RepositioningDrugVO" parameterType="string">
 		select distinct indication.mesh_heading as diseaseName, dgi.gene_name as targetGene, dict.pref_name as drugName, indication.max_phase_for_ind as phaseNum, dgi.interaction_types  as interactionType, dgi.drug_chembl_id as chemblID, dgi.interaction_claim_source as sources
 			from chembl_25.drug_indication as indication 
@@ -74,7 +74,7 @@
 		
 <!--  dr search with drug -->
 	
-	<!-- approved reference  -->
+	<!-- FDA-approved control  -->
 	<select id="getApprovedReferenceWithDrug" resultType="RepositioningDrugVO" parameterType="string">
 		select distinct indication.mesh_heading as diseaseName, dgi.gene_name as targetGene, dict.pref_name as drugName, indication.max_phase_for_ind as phaseNum, dgi.interaction_types  as interactionType, dgi.drug_chembl_id as chemblID, dgi.interaction_claim_source as sources
 			from chembl_25.drug_indication as indication 
@@ -87,7 +87,7 @@
 	</select>	
 			    
 			    
-	<!-- approved candidate  -->
+	<!-- FDA-approved candidate -->
 	<select id="getApprovedCandidateWithDrug" resultType="RepositioningDrugVO" parameterType="string">	
 		select distinct indication.mesh_heading as diseaseName, dgi.gene_name as targetGene, dict.pref_name as drugName, indication.max_phase_for_ind as phaseNum, dgi.interaction_types  as interactionType, dgi.drug_chembl_id as chemblID, dgi.interaction_claim_source as sources
 			from chembl_25.drug_indication as indication 
@@ -133,7 +133,7 @@
 	
 <!--  dr search with gene -->
 	
-	<!-- approved reference  -->
+	<!-- FDA-approved control  -->
 	<select id="getApprovedReferenceWithGene" resultType="RepositioningDrugVO" parameterType="string">
 		select distinct indication.mesh_heading as diseaseName, dgi.gene_name as targetGene, dict.pref_name as drugName, indication.max_phase_for_ind as phaseNum, dgi.interaction_types  as interactionType, dgi.drug_chembl_id as chemblID, dgi.interaction_claim_source as sources
 			from chembl_25.drug_indication as indication 
@@ -151,7 +151,7 @@
 	</select>
 		
 
-	<!-- approved candidate  -->
+	<!-- FDA-approved candidate -->
 	<select id="getApprovedCandidateWithGene" resultType="RepositioningDrugVO" parameterType="string">
 		select distinct indication.mesh_heading as diseaseName, dgi.gene_name as targetGene, dict.pref_name as drugName, indication.max_phase_for_ind as phaseNum, dgi.interaction_types  as interactionType, dgi.drug_chembl_id as chemblID, dgi.interaction_claim_source as sources
 			from chembl_25.drug_indication as indication 
@@ -170,7 +170,7 @@
 	
 	
 
-	<!-- Interrupted candidate  -->
+	<!-- Unapproved candidate  -->
 	<select id="getInterruptedCandidateWithGene" resultType="RepositioningDrugVO" parameterType="string">
 		select distinct indication.mesh_heading as diseaseName, dgi.gene_name as targetGene, dict.pref_name as drugName, indication.max_phase_for_ind as phaseNum, dgi.interaction_types  as interactionType, dgi.drug_chembl_id as chemblID, dgi.interaction_claim_source as sources
 			from chembl_25.drug_indication as indication 

@@ -6,17 +6,20 @@ $.fn.dataTable.ext.search.push(
 	        var max;
 	        var phase = parseFloat( data[3] ) || 0; // use data for the age column
 	        
-
-	        if(drugType == 'Aprroved Reference'){
+	        if(drugType == 'All')	{
+	        	min = 2;
+	        	max = 4;
+	        }
+	        else if(drugType == 'FDA-approved control'){
 	        	min = 4;
 	        	max = 4;
 	        }
-	        else if(drugType == 'Approved Candidate'){	//approved
-	        	min = 1;
+	        else if(drugType == 'FDA-approved candidate'){	//approved
+	        	min = 2;
 	        	max = 4;
 	        }
-	        else if(drugType == 'Interrupted Candidate'){
-	        	min = 1;
+	        else if(drugType == 'Unapproved candidate'){
+	        	min = 2;
 	        	max = 3;
 	        }
 	        

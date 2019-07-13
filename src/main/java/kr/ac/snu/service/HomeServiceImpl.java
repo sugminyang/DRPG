@@ -256,6 +256,57 @@ public class HomeServiceImpl implements HomeService{
 	
 								/*  dr with disease */
 	
+	
+	
+	/**
+	 * select all types of drug repositioning with disease.
+	 * */
+	@Override
+	public List<RepositioningDrugVO> getAllItemsWithDisease(String disease) {
+		Map<String, RepositioningDrugVO> temp = new HashMap<String, RepositioningDrugVO>();
+		List<RepositioningDrugVO> voList = new ArrayList<RepositioningDrugVO>();
+		List<RepositioningDrugVO> vos = new ArrayList<RepositioningDrugVO>();
+		
+		//first add 'FDA-approved control'
+		for(RepositioningDrugVO vo: dao.getApprovedReferenceWithDisease(disease)) {
+			vos.add(vo);
+		}
+	
+		//second add 'FDA-approved candidate'
+		//mapping disease-gene-drugs. and remove duplicate sources and interactionType
+		for(RepositioningDrugVO vo: dao.getApprovedCandidateWithDisease(disease)) {
+			vos.add(vo);
+		}
+
+		//third add 'Unapproved candidate'
+		for(RepositioningDrugVO vo: dao.getInterruptedCandidateWithDisease(disease)) {
+			vos.add(vo);
+		}
+		
+		for(RepositioningDrugVO vo : vos)	{
+			String key =  vo.getTargetGene() + "@" +vo.getPhaseNum() + "@" + vo.getChemblID();
+
+			removeDuplicateSourcesNinteractionType(temp,vo,key);
+		}
+
+		for(String key : temp.keySet())	{
+			RepositioningDrugVO vo = temp.get(key);
+
+			RepositioningDrugVO deepCopy = null;
+			
+			try {
+				deepCopy = (RepositioningDrugVO)CloneUtils.clone(vo);
+			} catch (CloneNotSupportedException e) {
+				e.printStackTrace();
+			}
+
+			voList.add(deepCopy);
+		}
+		
+		return voList;
+	}
+	
+	
 	/**
 	 * ApprovedReferenceWithDisease - only use FDA database.
 	 * 
@@ -352,7 +403,205 @@ public class HomeServiceImpl implements HomeService{
 	}
 
 	
+	
+	
+
+								/*  dr with target gene */
+
+	/**
+	 * select all types of drug repositioning with gene.
+	 * */
+	@Override
+	public List<RepositioningDrugVO> getAllItemsWithGene(String gene) {
+		Map<String, RepositioningDrugVO> temp = new HashMap<String, RepositioningDrugVO>();
+		List<RepositioningDrugVO> voList = new ArrayList<RepositioningDrugVO>();
+		List<RepositioningDrugVO> vos = new ArrayList<RepositioningDrugVO>();
+
+		//first add 'FDA-approved control'
+		for(RepositioningDrugVO vo: dao.getApprovedReferenceWithGene(gene)) {
+			vos.add(vo);
+		}
+
+		//second add 'FDA-approved candidate'
+		//mapping disease-gene-drugs. and remove duplicate sources and interactionType
+		for(RepositioningDrugVO vo: dao.getApprovedCandidateWithGene(gene)) {
+			vos.add(vo);
+		}
+
+		//third add 'Unapproved candidate'
+		for(RepositioningDrugVO vo: dao.getInterruptedCandidateWithGene(gene)) {
+			vos.add(vo);
+		}
+
+		for(RepositioningDrugVO vo : vos)	{
+			String key =  vo.getDiseaseName() + "@" + vo.getTargetGene() + "@" +vo.getPhaseNum() + "@" + vo.getChemblID();
+
+			removeDuplicateSourcesNinteractionType(temp,vo,key);
+		}
+
+		for(String key : temp.keySet())	{
+			RepositioningDrugVO vo = temp.get(key);
+
+			RepositioningDrugVO deepCopy = null;
+
+			try {
+				deepCopy = (RepositioningDrugVO)CloneUtils.clone(vo);
+			} catch (CloneNotSupportedException e) {
+				e.printStackTrace();
+			}
+
+			voList.add(deepCopy);
+		}
+
+		return voList;
+	}
+
+	/**
+	 * getApprovedReferenceWithGene - only use FDA database.
+	 * */
+	@Override
+	public List<RepositioningDrugVO> getApprovedReferenceWithGene(String gene) {
+		List<RepositioningDrugVO> voList = new ArrayList<RepositioningDrugVO>();
+
+		for(RepositioningDrugVO vo: dao.getApprovedReferenceWithGene(gene)) {
+			voList.add(vo);
+		}
+
+		return voList;
+	}
+
+
+	/**
+	 * getApprovedCandidateWithGene
+	 * */
+	@Override
+	public List<RepositioningDrugVO> getApprovedCandidateWithGene(String gene) {
+		Map<String, RepositioningDrugVO> temp = new HashMap<String, RepositioningDrugVO>();
+		List<RepositioningDrugVO> voList = new ArrayList<RepositioningDrugVO>();
+
+		//mapping disease-gene-drugs. and remove duplicate sources and interactionType
+		List<RepositioningDrugVO> vos = new ArrayList<RepositioningDrugVO>();
+
+		for(RepositioningDrugVO vo: dao.getApprovedCandidateWithGene(gene)) {
+			vos.add(vo);
+		}
+
+		for(RepositioningDrugVO vo : vos)	{
+			String key =  vo.getDiseaseName() + "@" + vo.getTargetGene() + "@" +vo.getPhaseNum() + "@" + vo.getChemblID();
+
+			removeDuplicateSourcesNinteractionType(temp,vo,key);
+		}
+
+		for(String key : temp.keySet())	{
+			RepositioningDrugVO vo = temp.get(key);
+
+			RepositioningDrugVO deepCopy = null;
+
+			try {
+				deepCopy = (RepositioningDrugVO)CloneUtils.clone(vo);
+			} catch (CloneNotSupportedException e) {
+				e.printStackTrace();
+			}
+
+			voList.add(deepCopy);
+		}
+
+		return voList;
+	}
+
+
+	/**
+	 * getInterruptedCandidateWithGene
+	 * */
+	@Override
+	public List<RepositioningDrugVO> getInterruptedCandidateWithGene(String gene) {
+		Map<String, RepositioningDrugVO> temp = new HashMap<String, RepositioningDrugVO>();
+		List<RepositioningDrugVO> voList = new ArrayList<RepositioningDrugVO>();
+
+		//mapping disease-gene-drugs. and remove duplicate sources and interactionType
+		List<RepositioningDrugVO> vos = new ArrayList<RepositioningDrugVO>();
+
+		for(RepositioningDrugVO vo: dao.getInterruptedCandidateWithGene(gene)) {
+			vos.add(vo);
+		}
+
+		for(RepositioningDrugVO vo : vos)	{
+			String key =  vo.getDiseaseName() + "@" + vo.getTargetGene() + "@" +vo.getPhaseNum() + "@" + vo.getChemblID();
+
+			removeDuplicateSourcesNinteractionType(temp,vo,key);
+		}
+
+		for(String key : temp.keySet())	{
+			RepositioningDrugVO vo = temp.get(key);
+
+			RepositioningDrugVO deepCopy = null;
+
+			try {
+				deepCopy = (RepositioningDrugVO)CloneUtils.clone(vo);
+			} catch (CloneNotSupportedException e) {
+				e.printStackTrace();
+			}
+
+			voList.add(deepCopy);
+		}
+
+		return voList;
+	}
+
+
+	
+	
+	
+	
 							/*  dr with drug */
+	
+	/**
+	 * select all types of drug repositioning with chemical.
+	 * */
+	@Override
+	public List<RepositioningDrugVO> getAllItemsWithDrug(String drug) {
+		Map<String, RepositioningDrugVO> temp = new HashMap<String, RepositioningDrugVO>();
+		List<RepositioningDrugVO> voList = new ArrayList<RepositioningDrugVO>();
+		List<RepositioningDrugVO> vos = new ArrayList<RepositioningDrugVO>();
+		
+		//first add 'FDA-approved control'
+		for(RepositioningDrugVO vo: dao.getApprovedReferenceWithDrug(drug)) {
+			vos.add(vo);
+		}
+	
+		//second add 'FDA-approved candidate'
+		//mapping disease-gene-drugs. and remove duplicate sources and interactionType
+		for(RepositioningDrugVO vo: dao.getApprovedCandidateWithDrug(drug)) {
+			vos.add(vo);
+		}
+
+		//third add 'Unapproved candidate'
+		for(RepositioningDrugVO vo: dao.getInterruptedCandidateWithDrug(drug)) {
+			vos.add(vo);
+		}
+		
+		for(RepositioningDrugVO vo : vos)	{
+			String key =  vo.getDiseaseName() + "@" + vo.getTargetGene() + "@" +vo.getPhaseNum() + "@" + vo.getChemblID();
+
+			removeDuplicateSourcesNinteractionType(temp,vo,key);
+		}
+
+		for(String key : temp.keySet())	{
+			RepositioningDrugVO vo = temp.get(key);
+
+			RepositioningDrugVO deepCopy = null;
+			
+			try {
+				deepCopy = (RepositioningDrugVO)CloneUtils.clone(vo);
+			} catch (CloneNotSupportedException e) {
+				e.printStackTrace();
+			}
+
+			voList.add(deepCopy);
+		}
+		
+		return voList;
+	}
 	
 	/**
 	 * getApprovedReferenceWithDrug - only use FDA database.
@@ -445,101 +694,14 @@ public class HomeServiceImpl implements HomeService{
 		return voList;
 	}
 
-			
-							/*  dr with target gene */
 	
-	/**
-	 * getApprovedReferenceWithGene - only use FDA database.
-	 * */
-	@Override
-	public List<RepositioningDrugVO> getApprovedReferenceWithGene(String gene) {
-		List<RepositioningDrugVO> voList = new ArrayList<RepositioningDrugVO>();
-		
-		for(RepositioningDrugVO vo: dao.getApprovedReferenceWithGene(gene)) {
-			voList.add(vo);
-		}
-		
-		return voList;
-	}
-
 	
-	/**
-	 * getApprovedCandidateWithGene
-	 * */
-	@Override
-	public List<RepositioningDrugVO> getApprovedCandidateWithGene(String gene) {
-		Map<String, RepositioningDrugVO> temp = new HashMap<String, RepositioningDrugVO>();
-		List<RepositioningDrugVO> voList = new ArrayList<RepositioningDrugVO>();
-		
-		//mapping disease-gene-drugs. and remove duplicate sources and interactionType
-		List<RepositioningDrugVO> vos = new ArrayList<RepositioningDrugVO>();
-
-		for(RepositioningDrugVO vo: dao.getApprovedCandidateWithGene(gene)) {
-			vos.add(vo);
-		}
-
-		for(RepositioningDrugVO vo : vos)	{
-			String key =  vo.getDiseaseName() + "@" + vo.getTargetGene() + "@" +vo.getPhaseNum() + "@" + vo.getChemblID();
-
-			removeDuplicateSourcesNinteractionType(temp,vo,key);
-		}
-
-		for(String key : temp.keySet())	{
-			RepositioningDrugVO vo = temp.get(key);
-
-			RepositioningDrugVO deepCopy = null;
-			
-			try {
-				deepCopy = (RepositioningDrugVO)CloneUtils.clone(vo);
-			} catch (CloneNotSupportedException e) {
-				e.printStackTrace();
-			}
-
-			voList.add(deepCopy);
-		}
-		
-		return voList;
-	}
-
 	
-	/**
-	 * getInterruptedCandidateWithGene
-	 * */
-	@Override
-	public List<RepositioningDrugVO> getInterruptedCandidateWithGene(String gene) {
-		Map<String, RepositioningDrugVO> temp = new HashMap<String, RepositioningDrugVO>();
-		List<RepositioningDrugVO> voList = new ArrayList<RepositioningDrugVO>();
-		
-		//mapping disease-gene-drugs. and remove duplicate sources and interactionType
-		List<RepositioningDrugVO> vos = new ArrayList<RepositioningDrugVO>();
-
-		for(RepositioningDrugVO vo: dao.getInterruptedCandidateWithGene(gene)) {
-			vos.add(vo);
-		}
-
-		for(RepositioningDrugVO vo : vos)	{
-			String key =  vo.getDiseaseName() + "@" + vo.getTargetGene() + "@" +vo.getPhaseNum() + "@" + vo.getChemblID();
-
-			removeDuplicateSourcesNinteractionType(temp,vo,key);
-		}
-
-		for(String key : temp.keySet())	{
-			RepositioningDrugVO vo = temp.get(key);
-
-			RepositioningDrugVO deepCopy = null;
-			
-			try {
-				deepCopy = (RepositioningDrugVO)CloneUtils.clone(vo);
-			} catch (CloneNotSupportedException e) {
-				e.printStackTrace();
-			}
-
-			voList.add(deepCopy);
-		}
-		
-		return voList;
-	}
-
+	
+	
+	
+	
+	
 	
 	
 	
