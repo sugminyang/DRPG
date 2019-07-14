@@ -51,6 +51,18 @@ $(function() {
     	search_drugrepositioning()
     })
     
+    $('#search_type_dr').on('change', function (e) {
+    	search_type = $('#search_type_dr option:selected').val()
+    	
+    	if(search_type == 'disease_name') {
+    		$("#search_query_dr").val("breast neoplasms");
+    	} else if(search_type == 'geneSymbol') {
+    		$("#search_query_dr").val("EGFR");
+    	} else if(search_type == 'chemical_name') {
+    		$("#search_query_dr").val("LETROZOLE");
+    	} 
+    })
+    
     $("#drug_type_dr").change(function() {
     	var dataTable = $('#MydataTable').DataTable();
     	dataTable.draw();

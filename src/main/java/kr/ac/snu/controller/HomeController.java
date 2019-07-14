@@ -199,7 +199,7 @@ public class HomeController {
 			jsonArray = JSONArray.fromObject(resultList);
 			logger.info("data: " + jsonArray);
 		}
-		if(drug_type.contentEquals("FDA-approved control"))	{
+		else if(drug_type.contentEquals("FDA-approved control"))	{
 			logger.info("[FDA-approved control] - " + items[1] + ", " + drug_type);
 
 			resultList = service.getApprovedReferenceWithDisease(items[1]);
