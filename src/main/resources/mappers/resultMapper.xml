@@ -108,7 +108,7 @@
 				));
 	</select>		
 	
-	<!-- Interrupted candidate  -->
+	<!-- Unapproved candidate  -->
 	<select id="getInterruptedCandidateWithDrug" resultType="RepositioningDrugVO" parameterType="string">
 		select distinct indication.mesh_heading as diseaseName, dgi.gene_name as targetGene, dict.pref_name as drugName, indication.max_phase_for_ind as phaseNum, dgi.interaction_types  as interactionType, dgi.drug_chembl_id as chemblID, dgi.interaction_claim_source as sources
 			from chembl_25.drug_indication as indication 
