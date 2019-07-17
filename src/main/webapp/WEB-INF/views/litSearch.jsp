@@ -75,7 +75,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-      literature search with prognostic results
+      literature search
       </h1>
     </section>
 	

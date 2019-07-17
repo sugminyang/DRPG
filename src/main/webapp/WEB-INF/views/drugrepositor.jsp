@@ -74,7 +74,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-      Prognostic gene with disease(Drug Repositor)
+      Drug Repositioning
       </h1>
     </section>
 
