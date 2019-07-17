@@ -85,7 +85,7 @@
         <div class="col-xs-12">
           <div class="box">
             <div class="box-body">
-              <h2 class="" style="font-family: 'Helvetica Neue';">Title of our research</h2>
+              <h2 class="" style="font-family: 'Helvetica Neue';">DrugProg</h2>
               <hr />
               
               <h4>
@@ -93,7 +93,6 @@
               </h4>
               <blockquote>
               	<p>
-              		Sungmin Yang, kyungsik ha, Hong-Gee Kim <br />
               		BIKE Biomedical Knowledge Engineering Laboratory, Seoul National University
               	</p>
               </blockquote>
@@ -113,7 +112,7 @@
               <h4>
                 <b> Main process of our research</b>
               </h4>   
-			  	<img src="${pageContext.request.contextPath}/resources/img/processOfourProject.png" class="center" width="100%">
+			  	<img src="${pageContext.request.contextPath}/resources/img/main_process.png" class="center" width="100%">
               <h4>
                 <b>Useful Links</b>
               </h4>         

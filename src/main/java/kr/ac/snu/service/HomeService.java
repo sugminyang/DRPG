@@ -37,5 +37,13 @@ public interface HomeService {
 	
 	
 	
+	public List<String> getAutoSearchByDisease(String disease);
+	public List<String> getAutoSearchByGene(String gene);
+	public List<String> getDRAutoSearchByDisease(String disease);
+	public List<String> getDRAutoSearchByGene(String gene);
+	public List<String> getDRAutoSearchByDrug(String drug);
+	
+	
+	
 	
 }

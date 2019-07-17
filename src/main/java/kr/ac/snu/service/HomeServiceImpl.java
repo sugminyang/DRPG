@@ -823,5 +823,55 @@ public class HomeServiceImpl implements HomeService{
 			}
 	}
 
+	@Override
+	public List<String> getAutoSearchByDisease(String disease) {
+		List<String> temp = new ArrayList<String>();
+		for(String diseaseName : dao.getAutoSearchByDisease(disease)) {
+			temp.add(diseaseName);
+		}
+		
+		return temp;
+	}
+
+	@Override
+	public List<String> getAutoSearchByGene(String gene) {
+		List<String> temp = new ArrayList<String>();
+		for(String genename : dao.getAutoSearchByGene(gene)) {
+			temp.add(genename);
+		}
+		
+		return temp;
+	}
+
+	@Override
+	public List<String> getDRAutoSearchByDisease(String disease) {
+		List<String> temp = new ArrayList<String>();
+		for(String diseaseName : dao.getDRAutoSearchByDisease(disease)) {
+			temp.add(diseaseName);
+		}
+		
+		return temp;
+	}
+
+	@Override
+	public List<String> getDRAutoSearchByGene(String gene) {
+		List<String> temp = new ArrayList<String>();
+		for(String genename : dao.getDRAutoSearchByGene(gene)) {
+			temp.add(genename);
+		}
+		
+		return temp;
+	}
+
+	@Override
+	public List<String> getDRAutoSearchByDrug(String drug) {
+		List<String> temp = new ArrayList<String>();
+		for(String drugname : dao.getDRAutoSearchByDrug(drug)) {
+			temp.add(drugname);
+		}
+		
+		return temp;
+	}
+
 
 }

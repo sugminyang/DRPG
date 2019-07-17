@@ -1,3 +1,4 @@
+
 $(function() {
 	$('#search_button').click(function() {
 		search()
@@ -8,6 +9,18 @@ $(function() {
             e.preventDefault();
             search()
         }
+    })
+    
+    $('#search_type').on('change', function (e) {
+    	search_type = $('#search_type option:selected').val()
+    	
+    	if(search_type == 'disease_name') {
+    		$("#search_query").val("glioma");
+    	} else if(search_type == 'geneSymbol') {
+    		$("#search_query").val("EGFR");
+    	} else if(search_type == 'pmid') {
+    		$("#search_query").val("7849156");
+    	} 
     })
     
     function search() {
@@ -27,7 +40,7 @@ $(function() {
         url = "dbsearch"
         url += "?query=" + query
         url += "&output=json"
-        console.log('literatur: ' + url)
+        	
     	$.ajax({
             'type': "GET",
             'url': url,
@@ -57,7 +70,7 @@ $(function() {
         $('#result').empty()
 		var table = $('<table class="table table-bordered table-hover"></table>')
 		var tr = $("<tr></tr>")
-		var vars = ['pmid','disease','gene','snp','NER viz']
+		var vars = ['pmid','disease','gene','mutation','NER viz']
 		$(vars).each(function(k, v) {
 			tr.append('<th>' + v + '</th>')
 		})
@@ -91,4 +104,48 @@ $(function() {
         'autoWidth': true
 		})
     }
+    
+    $( "#search_query" ).autocomplete({ 
+    	source : function( request, response ) { 
+    		search_type = $('#search_type option:selected').val()
+    		search_query = $('#search_query').val()
+    		query = ""
+    			if(search_type == 'disease_name') {
+    				query = "disease_@" + search_query
+    			} else if(search_type == 'geneSymbol') {
+    				query = "gene_@" + search_query
+    			} else if(search_type == 'pmid') {
+    				query = "pmid_@" + search_query
+    			} else {
+    				query = ""
+    			}
+
+    			url = "autosearch"
+    			url += "?query=" + query
+    			url += "&output=json"
+    				
+    		$.ajax({ 
+    			//호출할 URL 
+    			'url': url, 
+    			//우선 jsontype json으로 
+    			'dataType': "json", 
+    			// parameter 값이다. 여러개를 줄수도 있다. 
+    			'data': { 
+    				//request.term >> 이거 자체가 text박스내에 입력된 값이다. 
+    				searchValue: request.term 
+    			}, 
+    			success: function( data ) {
+    	            response( data );
+    	          }
+    		}); 
+    	}, 
+    	//최소 몇자 이상되면 통신을 시작하겠다라는 옵션 
+    	minLength: 3, 
+    	//자동완성 목록에서 특정 값 선택시 처리하는 동작 구현 
+    	//구현없으면 단순 text태그내에 값이 들어간다. 
+    	select: function( event, ui ) {}
+    });
+
+    
+    
 })

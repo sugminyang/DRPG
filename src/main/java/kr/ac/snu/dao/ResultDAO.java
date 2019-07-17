@@ -7,7 +7,6 @@ import kr.ac.snu.vo.RepositioningDrugVO;
 import kr.ac.snu.vo.ResultVO;
 
 public interface ResultDAO {
-    public List<ResultVO> selectResult() throws Exception;
     public List<ResultVO> getResultByDisease(String disease);
     public List<ResultVO> getResultByGene(String gene);
     public List<ResultVO> getResultByPmid(String pmid);
@@ -25,5 +24,11 @@ public interface ResultDAO {
 	public List<RepositioningDrugVO> getApprovedReferenceWithGene(String gene);
 	public List<RepositioningDrugVO> getApprovedCandidateWithGene(String gene);
 	public List<RepositioningDrugVO> getInterruptedCandidateWithGene(String gene);
+	
+	public List<String> getAutoSearchByDisease(String disease);
+	public List<String> getAutoSearchByGene(String gene);
+	public List<String> getDRAutoSearchByDisease(String disease);
+	public List<String> getDRAutoSearchByGene(String gene);
+	public List<String> getDRAutoSearchByDrug(String drug);
 }
 

@@ -365,4 +365,66 @@ public class HomeController {
 		return "contact";
 	}
 	
+	
+	@RequestMapping(value = "/autosearch", method = RequestMethod.GET)
+	public void autosearch(@RequestParam("query") String query, HttpServletResponse response) {
+		logger.info("autosearch");
+
+		String[] items = query.split("_@");
+
+		List<String> resultList = null;
+		JSONArray jsonArray = null;
+		if(items[0].contentEquals("disease"))	{
+			resultList = service.getAutoSearchByDisease(items[1]);
+			jsonArray = JSONArray.fromObject(resultList);
+			System.out.println(jsonArray);
+		}
+		else if(items[0].contentEquals("gene"))	{
+			resultList = service.getAutoSearchByGene(items[1]);
+			jsonArray = JSONArray.fromObject(resultList);
+		}
+
+		try {
+			if(jsonArray == null)	return ;
+			
+			response.getWriter().print(jsonArray);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	@RequestMapping(value = "/autosearch_dr", method = RequestMethod.GET)
+	public void autosearch_dr(@RequestParam("query") String query, HttpServletResponse response) {
+		logger.info("autosearch_dr");
+
+		String[] items = query.split("_@");
+
+		List<String> resultList = null;
+		JSONArray jsonArray = null;
+		if(items[0].contentEquals("disease"))	{
+			resultList = service.getDRAutoSearchByDisease(items[1]);
+			jsonArray = JSONArray.fromObject(resultList);
+			System.out.println(jsonArray);
+		}
+		else if(items[0].contentEquals("gene"))	{
+			resultList = service.getDRAutoSearchByGene(items[1]);
+			jsonArray = JSONArray.fromObject(resultList);
+			System.out.println(jsonArray);
+		}
+		else if(items[0].contentEquals("chemical"))	{
+			resultList = service.getDRAutoSearchByDrug(items[1]);
+			jsonArray = JSONArray.fromObject(resultList);
+			System.out.println(jsonArray);
+		}
+
+		try {
+			if(jsonArray == null)	return ;
+			
+			response.getWriter().print(jsonArray);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 }

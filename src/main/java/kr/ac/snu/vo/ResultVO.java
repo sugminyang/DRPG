@@ -4,7 +4,7 @@ public class ResultVO {
 	String pmid;
 	String disease;
 	String gene;
-	String snp;
+	String mutation;
 	
 	public String getPmid() {
 		return pmid;
@@ -24,16 +24,16 @@ public class ResultVO {
 	public void setGene(String gene) {
 		this.gene = gene;
 	}
-	public String getSnp() {
-		return snp;
+	public String getMutation() {
+		return mutation;
 	}
-	public void setSnp(String snp) {
-		this.snp = snp;
+	public void setMutation(String mutation) {
+		this.mutation = mutation;
 	}
 	
 	@Override
 	public String toString() {
-		return "ResultVO [pmid=" + pmid + ", disease=" + disease + ", gene=" + gene + ", snp=" + snp + "]";
+		return "ResultVO [pmid=" + pmid + ", disease=" + disease + ", gene=" + gene + ", mutation=" + mutation + "]";
 	}
 	
 	

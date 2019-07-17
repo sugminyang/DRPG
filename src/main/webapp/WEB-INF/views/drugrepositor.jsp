@@ -154,6 +154,9 @@
 	<script src="${pageContext.request.contextPath}/resources/static/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
 	<!-- SlimScroll -->
 	<script src="${pageContext.request.contextPath}/resources/static/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/static/search_drugreposition.js"></script>  
+	<script src="${pageContext.request.contextPath}/resources/static/search_drugreposition.js"></script>
+	
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"></link>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>  
   </body>
 </html>

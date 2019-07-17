@@ -8,15 +8,15 @@
 <!-- literature queries -->
      
     <select id="getResultByDisease" resultType="resultVO" parameterType="string">
-        SELECT pmid, disease, gene, snp FROM test.`disease-gene_pairs` where disease LIKE CONCAT('%',#{disease},'%') order by snp desc;
+        SELECT pmid, disease, gene, snp as mutation FROM test.`disease-gene_pairs` where disease LIKE CONCAT('%',#{disease},'%') order by snp desc;
     </select>
     
 	<select id="getResultByGene" resultType="resultVO" parameterType="string">
-        SELECT pmid, disease, gene, snp FROM test.`disease-gene_pairs` where gene LIKE CONCAT('',#{gene},'') order by snp desc;
+        SELECT pmid, disease, gene, snp as mutation FROM test.`disease-gene_pairs` where gene LIKE CONCAT('',#{gene},'') order by snp desc;
     </select>
     
 	<select id="getResultByPmid" resultType="resultVO" parameterType="string">
-        SELECT pmid, disease, gene, snp FROM test.`disease-gene_pairs` where pmid = #{pmid};
+        SELECT pmid, disease, gene, snp as mutation FROM test.`disease-gene_pairs` where pmid = #{pmid};
     </select>        
     
 <!--  new query -->
@@ -186,5 +186,28 @@
 					where triplet.gene like CONCAT('',#{gene},'')
 				);	
 	
-	</select>		
+	</select>	
+	
+	
+	<select id="getAutoSearchByDisease" resultType="string" parameterType="string">
+        SELECT distinct disease FROM test.`disease-gene_pairs` where disease LIKE CONCAT('',#{disease},'%');
+    </select>
+    
+	<select id="getAutoSearchByGene" resultType="string" parameterType="string">
+        SELECT distinct gene FROM test.`disease-gene_pairs` where gene LIKE CONCAT('',#{gene},'%');
+    </select>
+    
+    <select id="getDRAutoSearchByDisease" resultType="string" parameterType="string">
+        SELECT distinct disease FROM test.`disease-gene_pairs` where disease LIKE CONCAT('',#{disease},'%');
+    </select>        
+		 		
+	<select id="getDRAutoSearchByGene" resultType="string" parameterType="string">
+        SELECT distinct gene FROM test.`disease-gene_pairs` where gene LIKE CONCAT('',#{gene},'%');
+    </select>
+    
+    <select id="getDRAutoSearchByDrug" resultType="string" parameterType="string">
+        select distinct pref_name from chembl_25.`molecule_dictionary` as dict where dict.withdrawn_flag = 0 and dict.therapeutic_flag = 1 and dict.pref_name like CONCAT('',#{drug},'%');
+    </select>		 		 
+    		
+		 		
 </mapper>

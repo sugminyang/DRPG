@@ -23,11 +23,6 @@ public class ResultDAOImpl implements ResultDAO{
 	private static final String Namespace = "kr.ac.mapper.resultMapper";
 
 	@Override
-	public List<ResultVO> selectResult()throws Exception {
-		return sqlSession.selectList(Namespace+".selectResult");
-	}
-
-	@Override
 	public List<ResultVO> getResultByDisease(String disease) {
 		Map<String,String> map = new HashMap<String,String>();
 		map.put("disease",disease);
@@ -167,6 +162,46 @@ public class ResultDAOImpl implements ResultDAO{
 		map.put("gene",gene);
 		
 		return sqlSession.selectList(Namespace+".getInterruptedCandidateWithGene",map);
+	}
+
+	@Override
+	public List<String> getAutoSearchByDisease(String disease) {
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("disease",disease);
+		
+		return sqlSession.selectList(Namespace+".getAutoSearchByDisease",map);
+	}
+
+	@Override
+	public List<String> getAutoSearchByGene(String gene) {
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("gene",gene);
+		
+		return sqlSession.selectList(Namespace+".getAutoSearchByGene",map);
+	}
+
+	@Override
+	public List<String> getDRAutoSearchByDisease(String disease) {
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("disease",disease);
+		
+		return sqlSession.selectList(Namespace+".getDRAutoSearchByDisease",map);
+	}
+
+	@Override
+	public List<String> getDRAutoSearchByGene(String gene) {
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("gene",gene);
+		
+		return sqlSession.selectList(Namespace+".getDRAutoSearchByGene",map);
+	}
+
+	@Override
+	public List<String> getDRAutoSearchByDrug(String drug) {
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("drug",drug);
+		
+		return sqlSession.selectList(Namespace+".getDRAutoSearchByDrug",map);
 	}
 	
 	

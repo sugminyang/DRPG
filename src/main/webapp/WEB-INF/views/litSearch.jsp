@@ -20,7 +20,6 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/dist/css/skins/skin-black.min.css" />
     <!-- DataTables -->
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css" />
-
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/img.css" />
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -28,6 +27,7 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
   </head>
   
 <body class="hold-transition skin-black sidebar-mini">
@@ -148,6 +148,9 @@
 	<script src="${pageContext.request.contextPath}/resources/static/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
 	<!-- SlimScroll -->
 	<script src="${pageContext.request.contextPath}/resources/static/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/static/search.js"></script>  
+	<script src="${pageContext.request.contextPath}/resources/static/search.js"></script>
+	
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"></link>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>  
   </body>
 </html>
