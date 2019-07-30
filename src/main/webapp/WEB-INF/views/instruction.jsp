@@ -72,7 +72,7 @@
 		<div class="content-wrapper">
 			<!-- Content Header (Page header) -->
 			<section class="content-header">
-			<h1>instruction</h1>
+			<h1>Instruction</h1>
 			</section>
 
 			<!-- Main content -->
@@ -81,10 +81,6 @@
 			<div class="col-xs-12">
 				<div class="box">
 					<div class="box-body">
-						<h3>
-							<p style="color: #FF0000";>- Literature Search section</p>
-						</h3>
-						</hr>
 						<div>
 							<img
 								src="${pageContext.request.contextPath}/resources/img/instruction/instruction1.png"
