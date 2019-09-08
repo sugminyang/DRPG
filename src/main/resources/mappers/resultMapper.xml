@@ -220,6 +220,16 @@
 			on(dict.molregno = indication.molregno and nlp.disease = indication.mesh_heading)
 		where dict.pref_name like CONCAT('',#{drug},'%') and indication.max_phase_for_ind > 1 and dict.therapeutic_flag = 1 and dict.withdrawn_flag = 0;
     </select>		 		 
-    		
+    	
+    	
+    <select id="getDrugSideEffect" resultType="SideEffectVO" parameterType="string">
+    	select distinct se.meddra_term as sideEffect,freq.frequency as frequency, se.MeddraID as `description`
+			from test.sider_meddra_all_se as se
+			join test.sider_meddra_freq as freq
+			on(se.CID = freq.CID)
+			where se.CID in
+			(SELECT CID FROM test.sider_drug_names where drugname like CONCAT('',#{drugname},'%'))
+			limit 1000;
+    </select>	
 		 		
 </mapper>

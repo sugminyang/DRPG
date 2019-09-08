@@ -115,8 +115,21 @@
 		            </select>
 	            </div>
 				<div class="col-xs-12" id="result"></div>
+				
+				
               </div>
-
+              <hr/>
+              
+              <button id="btnSE">CAPECITABINE</button>
+				<div class="col-xs-12" id="sideeffect">
+					<blockquote>
+	              	<p>
+	              		Drug Side Effect
+	              	</p>
+	              	
+	              	<div class="col-xs-12" id="se_result"></div>
+	              </blockquote>	
+              	</div>
             </div>
             <!-- /.box-body -->
           </div>

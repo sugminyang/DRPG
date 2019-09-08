@@ -46,7 +46,6 @@ $(function() {
         }
     })
 
-
     $('#drug_type_dr').on('change', function (e) {
     	search_drugrepositioning()
     })
@@ -68,6 +67,85 @@ $(function() {
     	dataTable.draw();
     	
     })
+    
+    $('#btnSE').click(function() {
+    	drug_sideEffect()
+    })
+    
+    function drug_sideEffect()	{
+    	drugName = $('#btnSE').text()
+    	url = "sideeffect?drugname=" + drugName
+	    url += "&output=json"
+	        	
+    	$.ajax({
+	            'type': "GET",
+	            'url': url,
+	            'dataType': "json",
+	            'error': se_fail,
+	            'success': se_success
+	        })
+    }
+    
+    function se_success(data)	{
+    	$('#se_result').empty()
+		var table = $('<table id="sider_result" class="table table-bordered table-hover"></table>')
+		var tr = $("<tr></tr>")
+		var vars = ['sideEffect','frequency','description']
+		$(vars).each(function(k, v) {
+			tr.append('<th>' + v + '</th>')
+		})
+		var thead = $("<thead></thead>")
+		thead.append(tr)
+		$(table).append(thead)
+		
+		var tbody = $("<tbody></tbody>")
+		var bindings = data
+		$(bindings).each(function(k, b) {
+			tr = $("<tr></tr>")
+			$(vars).each(function(k2, v) {
+				if(v == 'description')	{
+					tr.append('<td>'+'<button> <a href="http://sideeffects.embl.de/se/' + b['description'] + '">' + b['description'] + '</a></button>' + '</td>')
+				}
+				else	{
+					tr.append('<td>' + b[v] + '</td>')
+				}
+			})
+			tbody.append(tr)
+		})
+		$(table).append(tbody)
+
+		$('#se_result').append(table)
+		table.DataTable({
+        'paging': true,
+        'lengthChange': false,
+        'searching': false,
+        'ordering': true,
+        'info': true,
+        "applyFilter":true,
+        "bJQueryUI": true,
+        "bFilter": true,
+        "bSort": true,
+        "order": [[ 1, "desc" ]],
+        "retrieve": true
+		})
+    }
+    
+    function se_fail(error) {
+        $('#se_result').empty()
+		error = JSON.stringify(error)
+		var table = $('<table class="table table-bordered table-hover"><tbody><tr><td>error: ' + error + '</td></tr></tbody></table>')
+		$('#se_result').append(table)
+		table.DataTable({
+        'paging': true,
+        'lengthChange': false,
+        'searching': false,
+        'ordering': true,
+        'info': true,
+        'autoWidth': true
+		})
+		
+    }
+    
     
     function search_drugrepositioning()	{
     	search_type = $('#search_type_dr option:selected').val()

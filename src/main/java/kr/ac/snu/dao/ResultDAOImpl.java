@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import kr.ac.snu.vo.DiseaseGeneVO;
 import kr.ac.snu.vo.RepositioningDrugVO;
 import kr.ac.snu.vo.ResultVO;
+import kr.ac.snu.vo.SideEffectVO;
 
 @Repository
 public class ResultDAOImpl implements ResultDAO{
@@ -202,6 +203,14 @@ public class ResultDAOImpl implements ResultDAO{
 		map.put("drug",drug);
 		
 		return sqlSession.selectList(Namespace+".getDRAutoSearchByDrug",map);
+	}
+
+	@Override
+	public List<SideEffectVO> getDrugSideEffect(String drugname) {
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("drugname",drugname);
+		
+		return sqlSession.selectList(Namespace+".getDrugSideEffect",map);
 	}
 	
 	

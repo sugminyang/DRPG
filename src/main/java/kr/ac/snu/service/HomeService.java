@@ -5,6 +5,7 @@ import java.util.Map;
 
 import kr.ac.snu.vo.RepositioningDrugVO;
 import kr.ac.snu.vo.ResultVO;
+import kr.ac.snu.vo.SideEffectVO;
 
 public interface HomeService {
 
@@ -42,6 +43,7 @@ public interface HomeService {
 	public List<String> getDRAutoSearchByDisease(String disease);
 	public List<String> getDRAutoSearchByGene(String gene);
 	public List<String> getDRAutoSearchByDrug(String drug);
+	public List<SideEffectVO> getDrugSideEffect(String drugname);
 	
 	
 	

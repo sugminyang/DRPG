@@ -5,6 +5,7 @@ import java.util.List;
 import kr.ac.snu.vo.DiseaseGeneVO;
 import kr.ac.snu.vo.RepositioningDrugVO;
 import kr.ac.snu.vo.ResultVO;
+import kr.ac.snu.vo.SideEffectVO;
 
 public interface ResultDAO {
     public List<ResultVO> getResultByDisease(String disease);
@@ -30,5 +31,6 @@ public interface ResultDAO {
 	public List<String> getDRAutoSearchByDisease(String disease);
 	public List<String> getDRAutoSearchByGene(String gene);
 	public List<String> getDRAutoSearchByDrug(String drug);
+	public List<SideEffectVO> getDrugSideEffect(String drugname);
 }
 

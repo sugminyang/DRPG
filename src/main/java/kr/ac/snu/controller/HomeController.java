@@ -1,6 +1,7 @@
 package kr.ac.snu.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -21,7 +22,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import kr.ac.snu.service.HomeService;
 import kr.ac.snu.vo.RepositioningDrugVO;
 import kr.ac.snu.vo.ResultVO;
+import kr.ac.snu.vo.SideEffectVO;
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 /**
  * Handles requests for the application home page.
@@ -196,6 +199,7 @@ public class HomeController {
 			logger.info("[All] - " + items[1] + ", " + drug_type);
 
 			resultList = service.getAllItemsWithDisease(items[1]);
+			System.out.println(resultList);
 			jsonArray = JSONArray.fromObject(resultList);
 			logger.info("data: " + jsonArray);
 		}
@@ -426,5 +430,25 @@ public class HomeController {
 			e.printStackTrace();
 		}
 	}
+	
+	@RequestMapping(value = "/sideeffect", method = RequestMethod.GET)
+	public void sideeffect(@RequestParam("drugname") String drugname, HttpServletResponse response) {
+		logger.info("sideeffect: "+drugname);
+		
+		List<SideEffectVO> resultList = null;
+		JSONArray jsonArray = null;
+		resultList = service.getDrugSideEffect(drugname);
+		jsonArray = JSONArray.fromObject(resultList);
+		System.out.println("sideeffect: " + jsonArray);
+		
+		try {
+			if(jsonArray == null)	return ;
+			
+			response.getWriter().print(jsonArray);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	
 }

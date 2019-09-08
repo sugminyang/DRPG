@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import kr.ac.snu.dao.ResultDAO;
 import kr.ac.snu.vo.RepositioningDrugVO;
 import kr.ac.snu.vo.ResultVO;
+import kr.ac.snu.vo.SideEffectVO;
 
 @Service
 public class HomeServiceImpl implements HomeService{
@@ -868,6 +869,19 @@ public class HomeServiceImpl implements HomeService{
 		List<String> temp = new ArrayList<String>();
 		for(String drugname : dao.getDRAutoSearchByDrug(drug)) {
 			temp.add(drugname);
+		}
+		
+		return temp;
+	}
+
+	@Override
+	public List<SideEffectVO> getDrugSideEffect(String drugname) {
+		
+		//TODO: frequency min-max group by meddra term.(getDrugSideEffect())
+		
+		List<SideEffectVO> temp = new ArrayList<SideEffectVO>();
+		for(SideEffectVO seVO : dao.getDrugSideEffect(drugname)) {
+			temp.add(seVO);
 		}
 		
 		return temp;
