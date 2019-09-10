@@ -877,13 +877,15 @@ public class HomeServiceImpl implements HomeService{
 	@Override
 	public List<SideEffectVO> getDrugSideEffect(String drugname) {
 		
-		//TODO: frequency min-max group by meddra term.(getDrugSideEffect())
 		List<Map<String,String>> seFreq = new ArrayList<Map<String,String>>();
 		Map<String,List<String>> drugWithFreq = new HashMap<String, List<String>>();
+		Map<String,String> meddra_names = new HashMap<String, String>();
+		List<SideEffectVO> listSE = new ArrayList<SideEffectVO>();
 		
-		List<SideEffectVO> temp = new ArrayList<SideEffectVO>();
 		for(SideEffectVO seVO : dao.getDrugSideEffect(drugname)) {
-			temp.add(seVO);
+			if(!meddra_names.containsKey(seVO.getDescription()))	{
+				meddra_names.put(seVO.getDescription(),seVO.getSideEffect());
+			}
 			
 			if(drugWithFreq.containsKey(seVO.getDescription()))	{	//exist
 				List<String> exFreq = drugWithFreq.get(seVO.getDescription());
@@ -915,10 +917,49 @@ public class HomeServiceImpl implements HomeService{
 		
 		System.out.println("size: "+drugWithFreq.size());
 		for(String key : drugWithFreq.keySet()) {
-			System.out.println(key + "\t" + drugWithFreq.get(key));
+			String se = meddra_names.get(key);
+			String freq = calcFrequency(drugWithFreq.get(key));
+			
+			SideEffectVO seVO = new SideEffectVO(se,freq,key);
+			
+			System.out.println(seVO);
+			listSE.add(seVO);
 		}
 		
-		return temp;
+		return listSE;
+	}
+
+	private String calcFrequency(List<String> frequencies) {
+		String specialType = "";
+		if(frequencies.size() == 1)	{
+			return new String(frequencies.get(0) + "%").replace(".0%","%");
+		}
+		
+		double min = Double.parseDouble(frequencies.get(0));
+		double max = Double.parseDouble(frequencies.get(0));
+		
+		for(String freq : frequencies) {
+			if(freq.equalsIgnoreCase("postmarketing")|| freq.equalsIgnoreCase("rare") || freq.equalsIgnoreCase("infrequent")|| 
+					freq.equalsIgnoreCase("frequent") || freq.equalsIgnoreCase("common"))	{
+				specialType = freq;
+			}
+			else	{
+				double temp = Double.parseDouble(freq);
+				if(temp < min)	{
+					min = temp;
+				}
+				else if(temp > max)	{
+					max = temp;
+				}
+			}
+		}
+		
+		if(min == max)	{
+			return new String(specialType + " " + min + "%").replace(".0%","%");
+		}
+		else	{
+			return new String(specialType + " " + min + "% - " + max + "%").replace(".0%","%");
+		}
 	}
 
 

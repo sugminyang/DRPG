@@ -28,5 +28,17 @@ public class SideEffectVO {
 		return "SideEffectVO [sideEffect=" + sideEffect + ", frequency=" + frequency + ", description=" + description
 				+ "]";
 	}
+	public SideEffectVO(String sideEffect, String frequency, String description) {
+		super();
+		this.sideEffect = sideEffect;
+		this.frequency = frequency;
+		this.description = description;
+	}
+	
+	public SideEffectVO() {
+		super();
+	}
+	
+	
 	
 }
