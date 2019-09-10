@@ -199,7 +199,6 @@ public class HomeController {
 			logger.info("[All] - " + items[1] + ", " + drug_type);
 
 			resultList = service.getAllItemsWithDisease(items[1]);
-			System.out.println(resultList);
 			jsonArray = JSONArray.fromObject(resultList);
 			logger.info("data: " + jsonArray);
 		}

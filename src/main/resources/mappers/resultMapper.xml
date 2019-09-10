@@ -226,10 +226,9 @@
     	select distinct se.meddra_term as sideEffect,freq.frequency as frequency, se.MeddraID as `description`
 			from test.sider_meddra_all_se as se
 			join test.sider_meddra_freq as freq
-			on(se.CID = freq.CID)
+			on(se.CID = freq.CID and se.MeddraID = freq.meddra and se.meddra_term = freq.meddra_term)
 			where se.CID in
-			(SELECT CID FROM test.sider_drug_names where drugname like CONCAT('',#{drugname},'%'))
-			limit 1000;
+			(SELECT CID FROM test.sider_drug_names where drugname like CONCAT('',#{drugname},'%'));
     </select>	
 		 		
 </mapper>

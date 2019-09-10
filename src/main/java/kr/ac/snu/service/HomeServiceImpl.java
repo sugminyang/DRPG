@@ -878,10 +878,44 @@ public class HomeServiceImpl implements HomeService{
 	public List<SideEffectVO> getDrugSideEffect(String drugname) {
 		
 		//TODO: frequency min-max group by meddra term.(getDrugSideEffect())
+		List<Map<String,String>> seFreq = new ArrayList<Map<String,String>>();
+		Map<String,List<String>> drugWithFreq = new HashMap<String, List<String>>();
 		
 		List<SideEffectVO> temp = new ArrayList<SideEffectVO>();
 		for(SideEffectVO seVO : dao.getDrugSideEffect(drugname)) {
 			temp.add(seVO);
+			
+			if(drugWithFreq.containsKey(seVO.getDescription()))	{	//exist
+				List<String> exFreq = drugWithFreq.get(seVO.getDescription());
+				
+				if(seVO.getFrequency().contains("%"))	{
+					double freq = Double.parseDouble(seVO.getFrequency().replace("%",""));
+					exFreq.add(freq+"");
+				}
+				else	{
+					exFreq.add(seVO.getFrequency());
+				}
+				
+				drugWithFreq.put(seVO.getDescription(), exFreq);
+			}
+			else	{	//doesn't exist.
+				List<String> tempFreq = new ArrayList<String>();
+				
+				if(seVO.getFrequency().contains("%"))	{
+					double freq = Double.parseDouble(seVO.getFrequency().replace("%",""));
+					tempFreq.add(freq+"");
+					drugWithFreq.put(seVO.getDescription(),tempFreq);
+				}
+				else	{
+					tempFreq.add(seVO.getFrequency());
+					drugWithFreq.put(seVO.getDescription(),tempFreq);
+				}
+			}
+		}
+		
+		System.out.println("size: "+drugWithFreq.size());
+		for(String key : drugWithFreq.keySet()) {
+			System.out.println(key + "\t" + drugWithFreq.get(key));
 		}
 		
 		return temp;
