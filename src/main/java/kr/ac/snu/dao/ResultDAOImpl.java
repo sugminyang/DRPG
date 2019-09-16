@@ -209,7 +209,7 @@ public class ResultDAOImpl implements ResultDAO{
 	public List<SideEffectVO> getDrugSideEffect(String drugname) {
 		Map<String,String> map = new HashMap<String,String>();
 		map.put("drugname",drugname);
-		
+
 		return sqlSession.selectList(Namespace+".getDrugSideEffect",map);
 	}
 	

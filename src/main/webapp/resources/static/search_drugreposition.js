@@ -68,12 +68,17 @@ $(function() {
     	
     })
     
-    $('#btnSE').click(function() {
-    	drug_sideEffect()
+//    $('#btnSE').click(function() {
+//    	drug_sideEffect()
+//    })
+    
+    $(document).on('click','.chemicalBtn',function(){
+//		alert($(this).text());
+		drug_sideEffect($(this).text())
     })
     
-    function drug_sideEffect()	{
-    	drugName = $('#btnSE').text()
+    function drug_sideEffect(drugName)	{
+    	console.log(drugName)
     	url = "sideeffect?drugname=" + drugName
 	    url += "&output=json"
 	        	
@@ -143,7 +148,6 @@ $(function() {
         'info': true,
         'autoWidth': true
 		})
-		
     }
     
     
@@ -224,7 +228,9 @@ $(function() {
 			tr = $("<tr></tr>")
 			$(vars).each(function(k2, v) {
 				if(v == 'drugName')	{
-					tr.append('<td>'+'<button> <a href="http://www.dgidb.org/drugs/' + b['drugName'] + '#_summary">' + b['drugName'] + '</a></button>' + '</td>')
+//					tr.append('<td>'+'<button> <a href="http://www.dgidb.org/drugs/' + b['drugName'] + '#_summary">' + b['drugName'] + '</a></button>' + '</td>')
+					tr.append('<td>'+'<a href="http://www.dgidb.org/drugs/' + b['drugName'] + '#_summary">' + 'http://www.dgidb.org/drugs/' + b['drugName'] + '#_summary' +'</a>' + '<button type="button" class="chemicalBtn"> ' + b['drugName'] + '</button>' + '</td>')
+					
 				}
 				else if(v == 'chemblID'){
 					tr.append('<td>'+'<button> <a href="https://www.ebi.ac.uk/chembl/compound_report_card/' + b['chemblID']+ '">' + b['chemblID'] + '</a></button>' + '</td>')

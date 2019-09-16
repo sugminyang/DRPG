@@ -881,12 +881,13 @@ public class HomeServiceImpl implements HomeService{
 		Map<String,List<String>> drugWithFreq = new HashMap<String, List<String>>();
 		Map<String,String> meddra_names = new HashMap<String, String>();
 		List<SideEffectVO> listSE = new ArrayList<SideEffectVO>();
-		
+
 		for(SideEffectVO seVO : dao.getDrugSideEffect(drugname)) {
 			if(!meddra_names.containsKey(seVO.getDescription()))	{
 				meddra_names.put(seVO.getDescription(),seVO.getSideEffect());
 			}
-			
+
+			try {
 			if(drugWithFreq.containsKey(seVO.getDescription()))	{	//exist
 				List<String> exFreq = drugWithFreq.get(seVO.getDescription());
 				
@@ -899,6 +900,7 @@ public class HomeServiceImpl implements HomeService{
 				}
 				
 				drugWithFreq.put(seVO.getDescription(), exFreq);
+				
 			}
 			else	{	//doesn't exist.
 				List<String> tempFreq = new ArrayList<String>();
@@ -913,16 +915,18 @@ public class HomeServiceImpl implements HomeService{
 					drugWithFreq.put(seVO.getDescription(),tempFreq);
 				}
 			}
+			}catch(NumberFormatException numError)	{
+				numError.printStackTrace();
+				continue;
+			}
 		}
 		
-		System.out.println("size: "+drugWithFreq.size());
 		for(String key : drugWithFreq.keySet()) {
 			String se = meddra_names.get(key);
 			String freq = calcFrequency(drugWithFreq.get(key));
 			
 			SideEffectVO seVO = new SideEffectVO(se,freq,key);
 			
-			System.out.println(seVO);
 			listSE.add(seVO);
 		}
 		
@@ -932,15 +936,28 @@ public class HomeServiceImpl implements HomeService{
 	private String calcFrequency(List<String> frequencies) {
 		String specialType = "";
 		if(frequencies.size() == 1)	{
-			return new String(frequencies.get(0) + "%").replace(".0%","%");
+			int iNum = frequencies.get(0).charAt(frequencies.get(0).length()-1);
+
+			if(48 <= iNum && iNum <=57)	{
+				if(frequencies.get(0).contains(".0"))	{
+					return new String(frequencies.get(0) + "%").replace(".0%","%");
+				}
+				else	{
+					return new String(frequencies.get(0) + "%");
+				}
+			}
+			else	{
+				return new String(frequencies.get(0));
+			}
 		}
 		
-		double min = Double.parseDouble(frequencies.get(0));
-		double max = Double.parseDouble(frequencies.get(0));
+		double min = 100;
+		double max = 0;
 		
 		for(String freq : frequencies) {
 			if(freq.equalsIgnoreCase("postmarketing")|| freq.equalsIgnoreCase("rare") || freq.equalsIgnoreCase("infrequent")|| 
-					freq.equalsIgnoreCase("frequent") || freq.equalsIgnoreCase("common"))	{
+					freq.equalsIgnoreCase("frequent") || freq.equalsIgnoreCase("common") || freq.equalsIgnoreCase("very common") ||
+					freq.equalsIgnoreCase("uncommon") || freq.equalsIgnoreCase("very rare"))	{
 				specialType = freq;
 			}
 			else	{
@@ -948,15 +965,19 @@ public class HomeServiceImpl implements HomeService{
 				if(temp < min)	{
 					min = temp;
 				}
-				else if(temp > max)	{
+				if(temp > max)	{
 					max = temp;
 				}
 			}
 		}
 		
-		if(min == max)	{
+		if(min==100 && max == 0)	{
+			return new String(specialType).replace("%","");
+		}
+		else if(min == max )	{
 			return new String(specialType + " " + min + "%").replace(".0%","%");
 		}
+		
 		else	{
 			return new String(specialType + " " + min + "% - " + max + "%").replace(".0%","%");
 		}

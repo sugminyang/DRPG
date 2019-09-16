@@ -1,7 +1,6 @@
 package kr.ac.snu.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -24,7 +23,6 @@ import kr.ac.snu.vo.RepositioningDrugVO;
 import kr.ac.snu.vo.ResultVO;
 import kr.ac.snu.vo.SideEffectVO;
 import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 
 /**
  * Handles requests for the application home page.
@@ -433,6 +431,7 @@ public class HomeController {
 	@RequestMapping(value = "/sideeffect", method = RequestMethod.GET)
 	public void sideeffect(@RequestParam("drugname") String drugname, HttpServletResponse response) {
 		logger.info("sideeffect: "+drugname);
+		drugname = drugname.toLowerCase().trim();
 		
 		List<SideEffectVO> resultList = null;
 		JSONArray jsonArray = null;
