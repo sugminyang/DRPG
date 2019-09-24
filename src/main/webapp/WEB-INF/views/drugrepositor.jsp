@@ -118,7 +118,8 @@
 		            	<option value="drug_interrupted_candidate">Unapproved candidate</option>
 		            </select>
 	            </div>
- -->	            
+ -->
+ 				<div align="center" id="chemInfo"></div>	            
 				<div class="col-xs-12" id="result"></div>
 				
 				

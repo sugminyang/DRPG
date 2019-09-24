@@ -220,7 +220,7 @@ $(function() {
 		var table = $('<table id="MydataTable" class="table table-bordered table-hover"></table>')
 		var tr = $("<tr></tr>")
 		//var vars = ['disease','gene','interaction_types','drug_name','drug_summary','interaction_claim_source']	//old
-		var vars = ['diseaseName','targetGene','drugName','phaseNum','interactionType','chemblID','sources','status','evidenceScore']
+		var vars = ['diseaseName','targetGene','phaseNum','interactionType','status','evidenceScore','sources']
 		$(vars).each(function(k, v) {
 			tr.append('<th>' + v + '</th>')
 		})
@@ -232,17 +232,21 @@ $(function() {
 		var bindings = data
 		$(bindings).each(function(k, b) {
 			tr = $("<tr></tr>")
+			$("#chemInfo")[0].innerHTML = 'DGI info: ' + '<a target="_blank" rel="noopener noreferrer"  href="http://www.dgidb.org/drugs/' + b['drugName'] + '#_summary">' + 'http://www.dgidb.org/drugs/' + b['drugName'] + '#_summary' +'</a>' 
+					+ "<br>"+ 'Chemical Name: ' +'<button type="button" class="chemicalBtn"> ' + b['drugName'] + '</button>'
+					+"<br>" + 'CHEMBL ID: ' + '<button> <a target="_blank" rel="noopener noreferrer" href="https://www.ebi.ac.uk/chembl/compound_report_card/' + b['chemblID']+ '">' + b['chemblID'] + '</a></button>'
+//			console.log(b['drugName']  + ", " +  b['chemblID'])
+					
 			$(vars).each(function(k2, v) {
 				if(v == 'drugName')	{
 //					tr.append('<td>'+'<button> <a href="http://www.dgidb.org/drugs/' + b['drugName'] + '#_summary">' + b['drugName'] + '</a></button>' + '</td>')
-					tr.append('<td>'+'<a href="http://www.dgidb.org/drugs/' + b['drugName'] + '#_summary">' + 'http://www.dgidb.org/drugs/' + b['drugName'] + '#_summary' +'</a>' + '<button type="button" class="chemicalBtn"> ' + b['drugName'] + '</button>' + '</td>')
-					
+//					tr.append('<td>'+'<a href="http://www.dgidb.org/drugs/' + b['drugName'] + '#_summary">' + 'http://www.dgidb.org/drugs/' + b['drugName'] + '#_summary' +'</a>' + '<button type="button" class="chemicalBtn"> ' + b['drugName'] + '</button>' + '</td>')
 				}
 				else if(v == 'chemblID'){
-					tr.append('<td>'+'<button> <a href="https://www.ebi.ac.uk/chembl/compound_report_card/' + b['chemblID']+ '">' + b['chemblID'] + '</a></button>' + '</td>')
+//					tr.append('<td>'+'<button> <a href="https://www.ebi.ac.uk/chembl/compound_report_card/' + b['chemblID']+ '">' + b['chemblID'] + '</a></button>' + '</td>')
 				}
 				else if(v == 'targetGene')	{
-					tr.append('<td>'+'<button> <a href="https://www.genecards.org/cgi-bin/carddisp.pl?gene=' + b['targetGene'] + '">' + b['targetGene'] + '</a></button>' + '</td>')
+					tr.append('<td>'+'<button> <a target="_blank" rel="noopener noreferrer" href="https://www.genecards.org/cgi-bin/carddisp.pl?gene=' + b['targetGene'] + '">' + b['targetGene'] + '</a></button>' + '</td>')
 				}
 				else	{
 					tr.append('<td>' + b[v] + '</td>')
