@@ -8,7 +8,22 @@ public class RepositioningDrugVO implements Cloneable{
 	String interactionType;
 	String chemblID;
 	String sources;
+	String status;
+	String evidenceScore;
 	
+	
+	public String getEvidenceScore() {
+		return evidenceScore;
+	}
+	public void setEvidenceScore(String evidenceScore) {
+		this.evidenceScore = evidenceScore;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	public String getDiseaseName() {
 		return diseaseName;
 	}

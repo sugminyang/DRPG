@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>
-      DrugProg
+      BIKE-DrugProg
     </title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport" />
@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/dist/css/skins/skin-black.min.css" />
 	<!-- DataTables -->
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/table.css" />
     
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -39,7 +40,7 @@
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>DR</b></span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>Drug</b>Prog</span>
+      <span class="logo-lg">BIKE-<b>Drug</b>Prog</span>
     </a>
 
     <!-- Header Navbar: style can be found in header.less -->
@@ -77,35 +78,38 @@
       Drug Repositioning
       </h1>
     </section>
-
+	
     <!-- Main content -->
     <section class="content">
-      <div class="row">
+    <div class="row">
         <div class="col-xs-12">
           <div class="box">
             <div class="box-body">
-	          <div class="row">
+	          	<div class="col-xs-12">
+					<blockquote>
+						<p>Drug Repositioning</p>
+					</blockquote>
+				</div>
                	<form id="search_form" role="form">
 	              <div class="col-xs-3">
             		<select id="search_type_dr" class="form-contorl" name="search_type" style="width: 100%; height: 34px; border-color: #d2d6de;">
+<!-- 
 	            			<option value="disease_name">Disease Name</option>
 	            			<option value="geneSymbol">Gene symbol</option>
+ -->	            			
 	            			<option value="chemical_name">Chemical Name</option>
 	            	</select>
     	          </div>
                 <div class="col-xs-9">
         		  <div class="input-group input-group">
-            		<input id="search_query_dr" type="text" class="form-control" value="breast neoplasms"/>
+            		<input id="search_query_dr" type="text" class="form-control" value="LETROZOLE"/>
             		  <span class="input-group-btn">
 	                    <button id="search_repositioning" type="button" class="btn btn-gray btn-flat">Search</button>
 	                  </span>
             		</div>
                   </div>
 	        	</form>
-              </div>
-              <div>
-			<hr/>
-	          <div class="row">
+<!-- 
 	          	<div class="col-xs-2" style="float:right;">
 	            	<select id="drug_type_dr" class="form-contorl" name="drug_type" style="width: auto; height: 34px; border-color: #FF9999; float:right;">
 		            	<option value="drug_all">All</option>
@@ -114,21 +118,21 @@
 		            	<option value="drug_interrupted_candidate">Unapproved candidate</option>
 		            </select>
 	            </div>
+ -->	            
 				<div class="col-xs-12" id="result"></div>
 				
 				
-              </div>
-              <hr/>
+              <hr width = "100%" color = "black" size = "10">
+
               
 				<div class="col-xs-12" id="sideeffect">
 					<blockquote>
-	              	<p>
+	              	<p id="se_title">
 	              		Drug Side Effect
 	              	</p>
 	              </blockquote>	
               	</div>
               	<div class="col-xs-12" id="se_result"></div>
-            </div>
             <!-- /.box-body -->
           </div>
           <!-- /.box -->
@@ -136,6 +140,7 @@
         <!-- /.col -->
       </div>
       <!-- /.row -->
+      </div>
     </section>
   </div>
   <!-- /.content-wrapper -->

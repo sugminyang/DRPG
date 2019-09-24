@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>
-      BIKE-DrugProg
+      DrugProg
     </title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport" />
@@ -18,16 +18,15 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/dist/css/AdminLTE.min.css" />
     <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/dist/css/skins/skin-black.min.css" />
-    <!-- DataTables -->
+	<!-- DataTables -->
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css" />
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/img.css" />
+    
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-
   </head>
   
 <body class="hold-transition skin-black sidebar-mini">
@@ -40,7 +39,7 @@
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>DR</b></span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg">BIKE-<b>Drug</b>Prog</span>
+      <span class="logo-lg"><b>Drug</b>Prog</span>
     </a>
 
     <!-- Header Navbar: style can be found in header.less -->
@@ -60,10 +59,10 @@
         <li class="header">Categories</li>
         <li><a href="${pageContext.request.contextPath}/"><i class="fa fa-book"></i> <span>About</span></a></li>        
 		<!--  <li><a href="${pageContext.request.contextPath}/wordcloud"><i class="fa fa-book"></i> <span>Prognostic word statistics</span></a></li> -->
-		<li class="active"><a href="${pageContext.request.contextPath}/litsearch"><i class="fa fa-book"></i> <span>literature search</span></a></li>
-        <li><a href="${pageContext.request.contextPath}/drugrepositor"><i class="fa fa-book"></i> <span>drug repositioning</span></a></li>
+		<li><a href="${pageContext.request.contextPath}/litsearch"><i class="fa fa-book"></i> <span>literature search</span></a></li>
+        <li class="active"><a href="${pageContext.request.contextPath}/drugrepositor"><i class="fa fa-book"></i> <span>drug repositioning</span></a></li>
         <li><a href="${pageContext.request.contextPath}/instruction"><i class="fa fa-book"></i> <span>instruction</span></a></li>
-        <!--  <li><a href="${pageContext.request.contextPath}/dataset"><i class="fa fa-book"></i> <span>Dataset</span></a></li>-->
+        <!-- <li><a href="${pageContext.request.contextPath}/dataset"><i class="fa fa-book"></i> <span>Dataset</span></a></li>-->
 		<li><a href="${pageContext.request.contextPath}/contact"><i class="fa fa-book"></i> <span>Contact</span></a></li>
       </ul>
     </section>
@@ -75,10 +74,10 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-      literature search
+      Drug Repositioning
       </h1>
     </section>
-	
+
     <!-- Main content -->
     <section class="content">
       <div class="row">
@@ -88,28 +87,47 @@
 	          <div class="row">
                	<form id="search_form" role="form">
 	              <div class="col-xs-3">
-            		<select id="search_type" class="form-contorl" name="search_type" style="width: 100%; height: 34px; border-color: #d2d6de;">
+            		<select id="search_type_dr" class="form-contorl" name="search_type" style="width: 100%; height: 34px; border-color: #d2d6de;">
 	            			<option value="disease_name">Disease Name</option>
 	            			<option value="geneSymbol">Gene symbol</option>
-	            			<option value="pmid">pmid</option>
+	            			<option value="chemical_name">Chemical Name</option>
 	            	</select>
     	          </div>
                 <div class="col-xs-9">
         		  <div class="input-group input-group">
-            		<input id="search_query" type="text" class="form-control" value="glioma"/>
+            		<input id="search_query_dr" type="text" class="form-control" value="breast neoplasms"/>
             		  <span class="input-group-btn">
-	                    <button id="search_button" type="button" class="btn btn-gray btn-flat">Search</button>
+	                    <button id="search_repositioning" type="button" class="btn btn-gray btn-flat">Search</button>
 	                  </span>
             		</div>
                   </div>
 	        	</form>
               </div>
-              
+              <div>
+			<hr/>
 	          <div class="row">
-	              <div class="col-xs-12" id="result">
-	              </div>
+	          	<div class="col-xs-2" style="float:right;">
+	            	<select id="drug_type_dr" class="form-contorl" name="drug_type" style="width: auto; height: 34px; border-color: #FF9999; float:right;">
+		            	<option value="drug_all">All</option>
+		            	<option value="drug_approved_reference">FDA-approved control</option>
+		            	<option value="drug_approved_candidate">FDA-approved candidate</option>
+		            	<option value="drug_interrupted_candidate">Unapproved candidate</option>
+		            </select>
+	            </div>
+				<div class="col-xs-12" id="result"></div>
+				
+				
               </div>
-
+              <hr/>
+              
+				<div class="col-xs-12" id="sideeffect">
+					<blockquote>
+	              	<p>
+	              		Drug Side Effect
+	              	</p>
+	              </blockquote>	
+              	</div>
+              	<div class="col-xs-12" id="se_result"></div>
             </div>
             <!-- /.box-body -->
           </div>
@@ -119,7 +137,6 @@
       </div>
       <!-- /.row -->
     </section>
-    <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
 
@@ -139,7 +156,7 @@
 	<script src="${pageContext.request.contextPath}/resources/static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 	<!-- DataTables -->
 	<script src="${pageContext.request.contextPath}/resources/static/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/static/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>	
+	<script src="${pageContext.request.contextPath}/resources/static/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 	<!-- FastClick -->
 	<script src="${pageContext.request.contextPath}/resources/static/bower_components/fastclick/lib/fastclick.js"></script>
 	<!-- AdminLTE App -->
@@ -148,7 +165,7 @@
 	<script src="${pageContext.request.contextPath}/resources/static/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
 	<!-- SlimScroll -->
 	<script src="${pageContext.request.contextPath}/resources/static/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/static/search.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/static/search_drugreposition.js"></script>
 	
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"></link>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>  

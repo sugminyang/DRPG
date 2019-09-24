@@ -261,6 +261,7 @@ public class HomeServiceImpl implements HomeService{
 	
 	/**
 	 * select all types of drug repositioning with disease.
+	 * 
 	 * */
 	@Override
 	public List<RepositioningDrugVO> getAllItemsWithDisease(String disease) {
@@ -615,17 +616,23 @@ public class HomeServiceImpl implements HomeService{
 		
 		//first add 'FDA-approved control'
 		for(RepositioningDrugVO vo: dao.getApprovedReferenceWithDrug(drug)) {
+			vo.setStatus("FDA-approved control");
+			vo.setEvidenceScore("1");
 			vos.add(vo);
 		}
 	
 		//second add 'FDA-approved candidate'
 		//mapping disease-gene-drugs. and remove duplicate sources and interactionType
 		for(RepositioningDrugVO vo: dao.getApprovedCandidateWithDrug(drug)) {
+			vo.setStatus("FDA-approved candidate");
+			vo.setEvidenceScore("0.5");
 			vos.add(vo);
 		}
 
 		//third add 'Unapproved candidate'
 		for(RepositioningDrugVO vo: dao.getInterruptedCandidateWithDrug(drug)) {
+			vo.setStatus("Unapproved candidate");
+			vo.setEvidenceScore("0.3");
 			vos.add(vo);
 		}
 		

@@ -52,7 +52,6 @@ $(function() {
     
     $('#search_type_dr').on('change', function (e) {
     	search_type = $('#search_type_dr option:selected').val()
-    	
     	if(search_type == 'disease_name') {
     		$("#search_query_dr").val("breast neoplasms");
     	} else if(search_type == 'geneSymbol') {
@@ -74,11 +73,14 @@ $(function() {
     
     $(document).on('click','.chemicalBtn',function(){
 //		alert($(this).text());
-		drug_sideEffect($(this).text())
+    	var chemName = $(this).text()
+    	chemName = chemName.trim()
+		drug_sideEffect(chemName)
+    	$('#se_title').text("Drug Side Effect - [" + chemName + "]");
     })
     
     function drug_sideEffect(drugName)	{
-    	console.log(drugName)
+//    	console.log(drugName)
     	url = "sideeffect?drugname=" + drugName
 	    url += "&output=json"
 	        	
@@ -154,9 +156,11 @@ $(function() {
     function search_drugrepositioning()	{
     	search_type = $('#search_type_dr option:selected').val()
     	search_query = $('#search_query_dr').val()
-    	var drugType = $("#drug_type_dr option:selected").text();
+    	//var drugType = $("#drug_type_dr option:selected").text();
+    	var drugType = "All";
+    	
     	query = ""
-    		
+    	
     	if(search_query.trim().length == 0 )	{
 //    		console.log('length of search_query : ' + search_query.length)
     	}
@@ -199,12 +203,14 @@ $(function() {
 		var table = $('<table class="table table-bordered table-hover"><tbody><tr><td>error: ' + error + '</td></tr></tbody></table>')
 		$('#result').append(table)
 		table.DataTable({
-        'paging': true,
-        'lengthChange': false,
-        'searching': false,
-        'ordering': true,
-        'info': true,
-        'autoWidth': true
+			bPaginate : false,		    
+	        'paging': true
+//        'paging': true,
+//        'lengthChange': false,
+//        'searching': false,
+//        'ordering': true,
+//        'info': true,
+//        'autoWidth': true
 		})
 		
     }
@@ -214,7 +220,7 @@ $(function() {
 		var table = $('<table id="MydataTable" class="table table-bordered table-hover"></table>')
 		var tr = $("<tr></tr>")
 		//var vars = ['disease','gene','interaction_types','drug_name','drug_summary','interaction_claim_source']	//old
-		var vars = ['diseaseName','targetGene','drugName','phaseNum','interactionType','chemblID','sources']
+		var vars = ['diseaseName','targetGene','drugName','phaseNum','interactionType','chemblID','sources','status','evidenceScore']
 		$(vars).each(function(k, v) {
 			tr.append('<th>' + v + '</th>')
 		})
@@ -253,11 +259,11 @@ $(function() {
         'searching': true,
         'ordering': true,
         'info': true,
-        "applyFilter":true,
-        "bJQueryUI": true,
         "bFilter": true,
         "bSort": true,
         "order": [[ 3, "desc" ]],
+        scrollX:        true,
+        scrollCollapse: true,
         "retrieve": true
 		})
 		
