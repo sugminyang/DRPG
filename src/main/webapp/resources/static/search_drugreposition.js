@@ -36,12 +36,14 @@ $.fn.dataTable.ext.search.push(
 
 $(function() {
     $('#search_repositioning').click(function() {
+    	$('#se_result').empty()
         search_drugrepositioning()
     })
     
     $(document).keypress(function(e) {
         if (e.which == 13) {
             e.preventDefault();
+            $('#se_result').empty()
             search_drugrepositioning()
         }
     })
@@ -265,7 +267,7 @@ $(function() {
         'info': true,
         "bFilter": true,
         "bSort": true,
-        "order": [[ 3, "desc" ]],
+        "order": [[ 5, "desc" ]],
         scrollX:        true,
         scrollCollapse: true,
         "retrieve": true

@@ -32,5 +32,6 @@ public interface ResultDAO {
 	public List<String> getDRAutoSearchByGene(String gene);
 	public List<String> getDRAutoSearchByDrug(String drug);
 	public List<SideEffectVO> getDrugSideEffect(String drugname);
+	public List<String> getPMIDCount(String diseaseName, String targetGene);
 }
 

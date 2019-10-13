@@ -212,6 +212,15 @@ public class ResultDAOImpl implements ResultDAO{
 
 		return sqlSession.selectList(Namespace+".getDrugSideEffect",map);
 	}
+
+	@Override
+	public List<String> getPMIDCount(String diseaseName, String targetGene) {
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("gene",targetGene);
+		map.put("disease",diseaseName);
+
+		return sqlSession.selectList(Namespace+".getPMIDCount",map);
+	}
 	
 	
 	

@@ -607,6 +607,7 @@ public class HomeServiceImpl implements HomeService{
 	
 	/**
 	 * select all types of drug repositioning with chemical.
+	 * TODO: calculating Evidence score with PMID & side effects. 
 	 * */
 	@Override
 	public List<RepositioningDrugVO> getAllItemsWithDrug(String drug) {
@@ -617,7 +618,23 @@ public class HomeServiceImpl implements HomeService{
 		//first add 'FDA-approved control'
 		for(RepositioningDrugVO vo: dao.getApprovedReferenceWithDrug(drug)) {
 			vo.setStatus("FDA-approved control");
-			vo.setEvidenceScore("1");
+			for(String score : dao.getPMIDCount(vo.getDiseaseName(),vo.getTargetGene()))	{
+				String pmidScore = score;
+//				System.out.println(pmidScore);
+//				vo.setEvidenceScore(pmidScore);
+			}
+			
+			int nSources = vo.getSources().split(",").length;
+			double phaseScore = 0.0;
+			phaseScore = 10;
+			
+			if(nSources > 0)	{
+				vo.setEvidenceScore(nSources * phaseScore + "");
+			}
+			else if(nSources == 0)	{
+				vo.setEvidenceScore(phaseScore + "");
+			}
+			
 			vos.add(vo);
 		}
 	
@@ -625,14 +642,64 @@ public class HomeServiceImpl implements HomeService{
 		//mapping disease-gene-drugs. and remove duplicate sources and interactionType
 		for(RepositioningDrugVO vo: dao.getApprovedCandidateWithDrug(drug)) {
 			vo.setStatus("FDA-approved candidate");
-			vo.setEvidenceScore("0.5");
+
+			for(String score : dao.getPMIDCount(vo.getDiseaseName(),vo.getTargetGene()))	{
+				String pmidScore = score;
+//				System.out.println(vo.getDiseaseName()+"\t"+vo.getTargetGene() + "\t"+pmidScore);
+//				vo.setEvidenceScore(pmidScore);
+			}
+			
+//			int nSources = (vo.getSources().split(",")).length;
+//			System.out.println(nSources + "\t"+vo);
+//			double phaseScore = 0.0;
+//			
+//			if(vo.getPhaseNum().equals("3"))	{
+////				vo.setEvidenceScore("0.8");
+//				phaseScore = 0.8;
+//			}
+//			else if(vo.getPhaseNum().equals("2"))	{
+////				vo.setEvidenceScore("0.7");
+//				phaseScore = 0.7;
+//			}
+//			
+//			if(nSources > 0)	{
+//				vo.setEvidenceScore(nSources * phaseScore + "");
+//			}
+//			else if(nSources == 0)	{
+//				vo.setEvidenceScore(phaseScore + "");
+//			}
+			
 			vos.add(vo);
 		}
 
 		//third add 'Unapproved candidate'
 		for(RepositioningDrugVO vo: dao.getInterruptedCandidateWithDrug(drug)) {
 			vo.setStatus("Unapproved candidate");
-			vo.setEvidenceScore("0.3");
+			for(String score : dao.getPMIDCount(vo.getDiseaseName(),vo.getTargetGene()))	{
+				String pmidScore = score;
+//				System.out.println(vo.getDiseaseName()+"\t"+vo.getTargetGene() + "\t"+pmidScore);
+//				vo.setEvidenceScore(pmidScore);
+			}
+			
+//			int nSources = vo.getSources().split(",").length;
+//			double phaseScore = 0.0;
+//			
+//			if(vo.getPhaseNum().equals("3"))	{
+////				vo.setEvidenceScore("0.5");
+//				phaseScore = 0.5;
+//			}
+//			else if(vo.getPhaseNum().equals("2"))	{
+////				vo.setEvidenceScore("0.4");
+//				phaseScore = 0.4;
+//			}
+//			
+//			if(nSources > 0)	{
+//				vo.setEvidenceScore(nSources * phaseScore + "");
+//			}
+//			else if(nSources == 0)	{
+//				vo.setEvidenceScore(phaseScore + "");
+//			}
+			
 			vos.add(vo);
 		}
 		
@@ -644,7 +711,76 @@ public class HomeServiceImpl implements HomeService{
 
 		for(String key : temp.keySet())	{
 			RepositioningDrugVO vo = temp.get(key);
-
+			int nSources = vo.getSources().split(",").length;
+			double phaseScore = 0.0;
+			
+			if(vo.getStatus().equals("FDA-approved control"))	{
+				int pmidScore = 0;
+				for(String score : dao.getPMIDCount(vo.getDiseaseName(),vo.getTargetGene()))	{
+					pmidScore = Integer.parseInt(score);
+//					System.out.println(vo.getDiseaseName()+"\t"+vo.getTargetGene() + "\t"+pmidScore);
+//					vo.setEvidenceScore(pmidScore);
+				}
+				
+				phaseScore = 10;
+				
+				if(nSources > 0)	{
+					vo.setEvidenceScore(pmidScore + Math.round(nSources * phaseScore*100)/100.0 + "");
+				}
+				else if(nSources == 0)	{
+					vo.setEvidenceScore(pmidScore + phaseScore + "");
+				}
+			}
+			else if(vo.getStatus().equals("FDA-approved candidate"))	{
+				int pmidScore = 0;
+				for(String score : dao.getPMIDCount(vo.getDiseaseName(),vo.getTargetGene()))	{
+					pmidScore = Integer.parseInt(score);
+//					System.out.println(vo.getDiseaseName()+"\t"+vo.getTargetGene() + "\t"+pmidScore);
+//					vo.setEvidenceScore(pmidScore);
+				}
+				
+				if(vo.getPhaseNum().equals("3"))	{
+//					vo.setEvidenceScore("0.8");
+					phaseScore = 0.8;
+				}
+				else if(vo.getPhaseNum().equals("2"))	{
+//					vo.setEvidenceScore("0.7");
+					phaseScore = 0.7;
+				}
+				
+				if(nSources > 0)	{
+					vo.setEvidenceScore(pmidScore + Math.round(nSources * phaseScore*100)/100.0 + "");
+				}
+				else if(nSources == 0)	{
+					vo.setEvidenceScore(pmidScore + phaseScore + "");
+				}
+			}
+			else	{	//Unapproved candidate
+				int pmidScore = 0;
+				for(String score : dao.getPMIDCount(vo.getDiseaseName(),vo.getTargetGene()))	{
+					pmidScore = Integer.parseInt(score);
+//					System.out.println(vo.getDiseaseName()+"\t"+vo.getTargetGene() + "\t"+pmidScore);
+//					vo.setEvidenceScore(pmidScore);
+				}
+				
+				if(vo.getPhaseNum().equals("3"))	{
+//					vo.setEvidenceScore("0.5");
+					phaseScore = 0.5;
+				}
+				else if(vo.getPhaseNum().equals("2"))	{
+//					vo.setEvidenceScore("0.4");
+					phaseScore = 0.4;
+				}
+				
+				if(nSources > 0)	{
+					vo.setEvidenceScore(pmidScore + Math.round(nSources * phaseScore*100)/100.0 + "");
+				}
+				else if(nSources == 0)	{
+					vo.setEvidenceScore(pmidScore + phaseScore + "");
+				}
+			}
+			
+			
 			RepositioningDrugVO deepCopy = null;
 			
 			try {

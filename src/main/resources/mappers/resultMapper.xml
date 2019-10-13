@@ -231,4 +231,12 @@
 			(SELECT CID FROM test.sider_drug_names where drugname like CONCAT('',#{drugname},'%'));
     </select>	
 		 		
+		 
+		 
+	<select id="getPMIDCount" resultType="string" parameterType="java.util.Map">
+    	select distinct count(pmid) as pmidCnt from `test`.`disease-gene_pairs` 
+    	where gene like CONCAT('',#{gene},'') and disease like CONCAT('',#{disease},'')
+    	group by gene;
+    </select>			 		
+	 			 		
 </mapper>
