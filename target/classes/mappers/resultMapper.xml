@@ -74,12 +74,12 @@
 	
 	<!-- FDA-approved control  -->
 	<select id="getApprovedReferenceWithDrug" resultType="RepositioningDrugVO" parameterType="string">
-		select distinct indication.mesh_heading as diseaseName, dgi.gene_name as targetGene, dict.pref_name as drugName, indication.max_phase_for_ind as phaseNum, dgi.interaction_types  as interactionType, dgi.drug_chembl_id as chemblID, dgi.interaction_claim_source as sources
+		select distinct indication.mesh_heading as diseaseName, '' as targetGene, dict.pref_name as drugName, indication.max_phase_for_ind as phaseNum, ''  as interactionType, dgi.drug_chembl_id as chemblID, dgi.interaction_claim_source as sources
 			from chembl_25.drug_indication as indication 
 			join chembl_25.molecule_dictionary as dict
 			join test.dgi_interactions as dgi
 			on(dict.molregno = indication.molregno and dict.chembl_id = dgi.drug_chembl_id)
-			where indication.max_phase_for_ind = 4 and dict.max_phase = 4 and dgi.interaction_claim_source like 'FDA'
+			where indication.max_phase_for_ind = 4 and dict.max_phase = 4
 				and dict.withdrawn_flag = 0 and dict.therapeutic_flag = 1
 				and dict.pref_name like CONCAT('',#{drug},'');
 	</select>	

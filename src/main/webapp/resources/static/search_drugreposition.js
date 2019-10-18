@@ -248,7 +248,12 @@ $(function() {
 //					tr.append('<td>'+'<button> <a href="https://www.ebi.ac.uk/chembl/compound_report_card/' + b['chemblID']+ '">' + b['chemblID'] + '</a></button>' + '</td>')
 				}
 				else if(v == 'targetGene')	{
-					tr.append('<td>'+'<button> <a target="_blank" rel="noopener noreferrer" href="https://www.genecards.org/cgi-bin/carddisp.pl?gene=' + b['targetGene'] + '">' + b['targetGene'] + '</a></button>' + '</td>')
+					if(b['targetGene'].length != 0)	{
+						tr.append('<td>'+'<button> <a target="_blank" rel="noopener noreferrer" href="https://www.genecards.org/cgi-bin/carddisp.pl?gene=' + b['targetGene'] + '">' + b['targetGene'] + '</a></button>' + '</td>')
+					}
+					else	{
+						tr.append('<td>'+ '</td>')
+					}
 				}
 				else	{
 					tr.append('<td>' + b[v] + '</td>')

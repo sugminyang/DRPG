@@ -618,23 +618,6 @@ public class HomeServiceImpl implements HomeService{
 		//first add 'FDA-approved control'
 		for(RepositioningDrugVO vo: dao.getApprovedReferenceWithDrug(drug)) {
 			vo.setStatus("FDA-approved control");
-			for(String score : dao.getPMIDCount(vo.getDiseaseName(),vo.getTargetGene()))	{
-				String pmidScore = score;
-//				System.out.println(pmidScore);
-//				vo.setEvidenceScore(pmidScore);
-			}
-			
-			int nSources = vo.getSources().split(",").length;
-			double phaseScore = 0.0;
-			phaseScore = 10;
-			
-			if(nSources > 0)	{
-				vo.setEvidenceScore(nSources * phaseScore + "");
-			}
-			else if(nSources == 0)	{
-				vo.setEvidenceScore(phaseScore + "");
-			}
-			
 			vos.add(vo);
 		}
 	
@@ -642,64 +625,12 @@ public class HomeServiceImpl implements HomeService{
 		//mapping disease-gene-drugs. and remove duplicate sources and interactionType
 		for(RepositioningDrugVO vo: dao.getApprovedCandidateWithDrug(drug)) {
 			vo.setStatus("FDA-approved candidate");
-
-			for(String score : dao.getPMIDCount(vo.getDiseaseName(),vo.getTargetGene()))	{
-				String pmidScore = score;
-//				System.out.println(vo.getDiseaseName()+"\t"+vo.getTargetGene() + "\t"+pmidScore);
-//				vo.setEvidenceScore(pmidScore);
-			}
-			
-//			int nSources = (vo.getSources().split(",")).length;
-//			System.out.println(nSources + "\t"+vo);
-//			double phaseScore = 0.0;
-//			
-//			if(vo.getPhaseNum().equals("3"))	{
-////				vo.setEvidenceScore("0.8");
-//				phaseScore = 0.8;
-//			}
-//			else if(vo.getPhaseNum().equals("2"))	{
-////				vo.setEvidenceScore("0.7");
-//				phaseScore = 0.7;
-//			}
-//			
-//			if(nSources > 0)	{
-//				vo.setEvidenceScore(nSources * phaseScore + "");
-//			}
-//			else if(nSources == 0)	{
-//				vo.setEvidenceScore(phaseScore + "");
-//			}
-			
 			vos.add(vo);
 		}
 
 		//third add 'Unapproved candidate'
 		for(RepositioningDrugVO vo: dao.getInterruptedCandidateWithDrug(drug)) {
 			vo.setStatus("Unapproved candidate");
-			for(String score : dao.getPMIDCount(vo.getDiseaseName(),vo.getTargetGene()))	{
-				String pmidScore = score;
-//				System.out.println(vo.getDiseaseName()+"\t"+vo.getTargetGene() + "\t"+pmidScore);
-//				vo.setEvidenceScore(pmidScore);
-			}
-			
-//			int nSources = vo.getSources().split(",").length;
-//			double phaseScore = 0.0;
-//			
-//			if(vo.getPhaseNum().equals("3"))	{
-////				vo.setEvidenceScore("0.5");
-//				phaseScore = 0.5;
-//			}
-//			else if(vo.getPhaseNum().equals("2"))	{
-////				vo.setEvidenceScore("0.4");
-//				phaseScore = 0.4;
-//			}
-//			
-//			if(nSources > 0)	{
-//				vo.setEvidenceScore(nSources * phaseScore + "");
-//			}
-//			else if(nSources == 0)	{
-//				vo.setEvidenceScore(phaseScore + "");
-//			}
-			
 			vos.add(vo);
 		}
 		
@@ -719,65 +650,57 @@ public class HomeServiceImpl implements HomeService{
 				for(String score : dao.getPMIDCount(vo.getDiseaseName(),vo.getTargetGene()))	{
 					pmidScore = Integer.parseInt(score);
 //					System.out.println(vo.getDiseaseName()+"\t"+vo.getTargetGene() + "\t"+pmidScore);
-//					vo.setEvidenceScore(pmidScore);
+					//1. PMID
+//					vo.setEvidenceScore(pmidScore + "");
 				}
 				
-				phaseScore = 10;
+				phaseScore = 1;
+				//2. PMID * phase
+//				vo.setEvidenceScore((pmidScore+1) * Math.round(phaseScore*100)/100.0 + "");
 				
-				if(nSources > 0)	{
-					vo.setEvidenceScore(pmidScore + Math.round(nSources * phaseScore*100)/100.0 + "");
-				}
-				else if(nSources == 0)	{
-					vo.setEvidenceScore(pmidScore + phaseScore + "");
-				}
+				//3. PMID * phase * DGI source
+//				vo.setEvidenceScore((pmidScore+1) * Math.round((nSources+1) * phaseScore*100)/100.0 + "");
+				
+				//4. PMID  + phase * DGI source
+				vo.setEvidenceScore((pmidScore+1) + Math.round((nSources+1) * phaseScore*100)/100.0 + "");
 			}
 			else if(vo.getStatus().equals("FDA-approved candidate"))	{
 				int pmidScore = 0;
 				for(String score : dao.getPMIDCount(vo.getDiseaseName(),vo.getTargetGene()))	{
 					pmidScore = Integer.parseInt(score);
 //					System.out.println(vo.getDiseaseName()+"\t"+vo.getTargetGene() + "\t"+pmidScore);
-//					vo.setEvidenceScore(pmidScore);
+					//1. PMID
+//					vo.setEvidenceScore(pmidScore + "");
 				}
 				
-				if(vo.getPhaseNum().equals("3"))	{
-//					vo.setEvidenceScore("0.8");
-					phaseScore = 0.8;
-				}
-				else if(vo.getPhaseNum().equals("2"))	{
-//					vo.setEvidenceScore("0.7");
-					phaseScore = 0.7;
-				}
+				phaseScore = 0.7;
+				//2. PMID * phase
+//				vo.setEvidenceScore((pmidScore+1) * Math.round(phaseScore*100)/100.0 + "");
 				
-				if(nSources > 0)	{
-					vo.setEvidenceScore(pmidScore + Math.round(nSources * phaseScore*100)/100.0 + "");
-				}
-				else if(nSources == 0)	{
-					vo.setEvidenceScore(pmidScore + phaseScore + "");
-				}
+				//3. PMID * phase * DGI source
+//				vo.setEvidenceScore((pmidScore+1) * Math.round((nSources+1) * phaseScore*100)/100.0 + "");
+				
+				//4. PMID  + phase * DGI source
+				vo.setEvidenceScore((pmidScore+1) + Math.round((nSources+1) * phaseScore*100)/100.0 + "");
 			}
 			else	{	//Unapproved candidate
 				int pmidScore = 0;
 				for(String score : dao.getPMIDCount(vo.getDiseaseName(),vo.getTargetGene()))	{
 					pmidScore = Integer.parseInt(score);
 //					System.out.println(vo.getDiseaseName()+"\t"+vo.getTargetGene() + "\t"+pmidScore);
-//					vo.setEvidenceScore(pmidScore);
+					//1. PMID
+//					vo.setEvidenceScore(pmidScore+"");
 				}
 				
-				if(vo.getPhaseNum().equals("3"))	{
-//					vo.setEvidenceScore("0.5");
-					phaseScore = 0.5;
-				}
-				else if(vo.getPhaseNum().equals("2"))	{
-//					vo.setEvidenceScore("0.4");
-					phaseScore = 0.4;
-				}
+				phaseScore = 0.5;
+//				2. PMID * phase
+//				vo.setEvidenceScore((pmidScore+1) * Math.round(phaseScore*100)/100.0 + "");
 				
-				if(nSources > 0)	{
-					vo.setEvidenceScore(pmidScore + Math.round(nSources * phaseScore*100)/100.0 + "");
-				}
-				else if(nSources == 0)	{
-					vo.setEvidenceScore(pmidScore + phaseScore + "");
-				}
+				//3. PMID * phase * DGI source
+//				vo.setEvidenceScore((pmidScore+1) * Math.round((nSources+1) * phaseScore*100)/100.0 + "");
+				
+				//4. PMID  + phase * DGI source
+				vo.setEvidenceScore((pmidScore+1) + Math.round((nSources+1) * phaseScore*100)/100.0 + "");
 			}
 			
 			
