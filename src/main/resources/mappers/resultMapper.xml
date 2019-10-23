@@ -69,64 +69,6 @@
 		
 		
 		
-		
-<!--  dr search with drug -->
-	
-	<!-- FDA-approved control  -->
-	<select id="getApprovedReferenceWithDrug" resultType="RepositioningDrugVO" parameterType="string">
-		select distinct indication.mesh_heading as diseaseName, '' as targetGene, dict.pref_name as drugName, indication.max_phase_for_ind as phaseNum, ''  as interactionType, dgi.drug_chembl_id as chemblID, dgi.interaction_claim_source as sources
-			from chembl_25.drug_indication as indication 
-			join chembl_25.molecule_dictionary as dict
-			join test.dgi_interactions as dgi
-			on(dict.molregno = indication.molregno and dict.chembl_id = dgi.drug_chembl_id)
-			where indication.max_phase_for_ind = 4 and dict.max_phase = 4
-				and dict.withdrawn_flag = 0 and dict.therapeutic_flag = 1
-				and dict.pref_name like CONCAT('',#{drug},'');
-	</select>	
-			    
-			    
-	<!-- FDA-approved candidate -->
-	<select id="getApprovedCandidateWithDrug" resultType="RepositioningDrugVO" parameterType="string">	
-		select distinct indication.mesh_heading as diseaseName, dgi.gene_name as targetGene, dict.pref_name as drugName, indication.max_phase_for_ind as phaseNum, dgi.interaction_types  as interactionType, dgi.drug_chembl_id as chemblID, dgi.interaction_claim_source as sources
-			from chembl_25.drug_indication as indication 
-			join chembl_25.molecule_dictionary as dict
-			join test.dgi_interactions as dgi
-			on(dict.molregno = indication.molregno and dict.chembl_id = dgi.drug_chembl_id)
-			where (indication.max_phase_for_ind = 2 or indication.max_phase_for_ind = 3) and dict.max_phase = 4 
-				and dict.withdrawn_flag = 0 and dict.therapeutic_flag = 1 and dict.pref_name like CONCAT('',#{drug},'')
-				and indication.mesh_heading in (select distinct triplet.disease
-					from test.`disease-gene_pairs` as triplet
-					join chembl_25.drug_indication as indication 
-					on(triplet.disease = indication.mesh_heading)
-					where triplet.gene in (select distinct dgi.gene_name
-						from chembl_25.molecule_dictionary as dict
-						join test.dgi_interactions as dgi
-						on(dict.chembl_id = dgi.drug_chembl_id)
-						where dict.pref_name like CONCAT('',#{drug},'')
-				));
-	</select>		
-	
-	<!-- Unapproved candidate  -->
-	<select id="getInterruptedCandidateWithDrug" resultType="RepositioningDrugVO" parameterType="string">
-		select distinct indication.mesh_heading as diseaseName, dgi.gene_name as targetGene, dict.pref_name as drugName, indication.max_phase_for_ind as phaseNum, dgi.interaction_types  as interactionType, dgi.drug_chembl_id as chemblID, dgi.interaction_claim_source as sources
-			from chembl_25.drug_indication as indication 
-			join chembl_25.molecule_dictionary as dict
-			join test.dgi_interactions as dgi
-			on(dict.molregno = indication.molregno and dict.chembl_id = dgi.drug_chembl_id)
-			where (indication.max_phase_for_ind = 2 or indication.max_phase_for_ind = 3) and dict.max_phase != 4 
-				and dict.withdrawn_flag = 0 and dict.therapeutic_flag = 1 and dict.pref_name like CONCAT('',#{drug},'')
-				and indication.mesh_heading in (select distinct triplet.disease
-					from test.`disease-gene_pairs` as triplet
-					join chembl_25.drug_indication as indication 
-					on(triplet.disease = indication.mesh_heading)
-					where triplet.gene in (select distinct dgi.gene_name
-						from chembl_25.molecule_dictionary as dict
-						join test.dgi_interactions as dgi
-						on(dict.chembl_id = dgi.drug_chembl_id)
-						where dict.pref_name like CONCAT('',#{drug},'')
-				));	
-	</select>		
-	
 	
 	
 <!--  dr search with gene -->
@@ -186,6 +128,25 @@
 	
 	</select>	
 	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
 	<select id="getAutoSearchByDisease" resultType="string" parameterType="string">
         SELECT distinct disease FROM test.`disease-gene_pairs` where disease LIKE CONCAT('',#{disease},'%');
@@ -233,10 +194,64 @@
 		 		
 		 
 		 
+		 
+
+		
+<!--  dr search with drug -->
+	
+	<!-- FDA-approved control  -->
+	<select id="getApprovedReferenceWithDrug" resultType="RepositioningDrugVO" parameterType="string">
+		select distinct concat(mesh_id,'@',indication.mesh_heading) as diseaseName, '' as targetGene, dict.pref_name as drugName, indication.max_phase_for_ind as phaseNum, ''  as interactionType, dgi.drug_chembl_id as chemblID, dgi.interaction_claim_source as sources
+			from chembl_25.drug_indication as indication 
+			join chembl_25.molecule_dictionary as dict
+			join test.dgi_interactions as dgi
+			on(dict.molregno = indication.molregno and dict.chembl_id = dgi.drug_chembl_id)
+			where indication.max_phase_for_ind = 4 and dict.max_phase = 4
+				and dict.withdrawn_flag = 0 and dict.therapeutic_flag = 1
+				and dict.pref_name like CONCAT('',#{drug},'');
+	</select>	
+			    
+			    
+	<!-- FDA-approved candidate -->
+	<select id="getApprovedCandidateWithDrug" resultType="RepositioningDrugVO" parameterType="string">	
+		select distinct concat(mesh_id,'@',indication.mesh_heading) as diseaseName, dgi.gene_name as targetGene, dict.pref_name as drugName, indication.max_phase_for_ind as phaseNum, dgi.interaction_types  as interactionType, dgi.drug_chembl_id as chemblID, dgi.interaction_claim_source as sources
+			from chembl_25.drug_indication as indication 
+			join chembl_25.molecule_dictionary as dict
+			join test.dgi_interactions as dgi
+			on(dict.molregno = indication.molregno and dict.chembl_id = dgi.drug_chembl_id)
+			where (indication.max_phase_for_ind = 2 or indication.max_phase_for_ind = 3) and dict.max_phase = 4 
+				and dict.withdrawn_flag = 0 and dict.therapeutic_flag = 1 and dict.pref_name like CONCAT('',#{drug},'');
+	</select>		
+	
+	<!-- Unapproved candidate  -->
+	<select id="getInterruptedCandidateWithDrug" resultType="RepositioningDrugVO" parameterType="string">
+		select distinct concat(mesh_id,'@',indication.mesh_heading) as diseaseName, dgi.gene_name as targetGene, dict.pref_name as drugName, indication.max_phase_for_ind as phaseNum, dgi.interaction_types  as interactionType, dgi.drug_chembl_id as chemblID, dgi.interaction_claim_source as sources
+			from chembl_25.drug_indication as indication 
+			join chembl_25.molecule_dictionary as dict
+			join test.dgi_interactions as dgi
+			on(dict.molregno = indication.molregno and dict.chembl_id = dgi.drug_chembl_id)
+			where (indication.max_phase_for_ind = 2 or indication.max_phase_for_ind = 3) and dict.max_phase != 4 
+				and dict.withdrawn_flag = 0 and dict.therapeutic_flag = 1 and dict.pref_name like CONCAT('',#{drug},'');	
+	</select>		
+
+
+		 
 	<select id="getPMIDCount" resultType="string" parameterType="java.util.Map">
+    	<!-- Triplet data table.
     	select distinct count(pmid) as pmidCnt from `test`.`disease-gene_pairs` 
     	where gene like CONCAT('',#{gene},'') and disease like CONCAT('',#{disease},'')
     	group by gene;
+    	 -->
+    	 
+    	 <!-- using DisGeNet data -->
+    	select distinct count(pmid) as pmidCnt  from `test`.`disgenet_all_gene_disease_pmid_associations` 
+    	where geneSymbol like CONCAT('',#{gene},'') and diseaseType like 'disease' and diseaseId in (
+        select diseaseId from `test`.`disgenet_disease_mappings` where `code` like CONCAT('',#{disease},''))
+        group by diseaseName
+        order by count(pmid) desc
+        limit 1;
     </select>			 		
+	 			 	
+	 			 	
 	 			 		
 </mapper>

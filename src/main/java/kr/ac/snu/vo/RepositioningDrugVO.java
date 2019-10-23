@@ -67,6 +67,10 @@ public class RepositioningDrugVO implements Cloneable{
 		this.sources = sources;
 	}
 	
+	public String writeCSV()	{
+		return diseaseName + "\t" + targetGene + "\t" + status + "\t" + evidenceScore;
+	}
+	
 	@Override
 	public String toString() {
 		return "RepositioningDrugVO [diseaseName=" + diseaseName + ", targetGene=" + targetGene + ", drugName="
