@@ -201,7 +201,8 @@
 	
 	<!-- FDA-approved control  -->
 	<select id="getApprovedReferenceWithDrug" resultType="RepositioningDrugVO" parameterType="string">
-		select distinct concat(mesh_id,'@',indication.mesh_heading) as diseaseName, '' as targetGene, dict.pref_name as drugName, indication.max_phase_for_ind as phaseNum, ''  as interactionType, dgi.drug_chembl_id as chemblID, dgi.interaction_claim_source as sources
+		<!--select distinct concat(mesh_id,'@',indication.mesh_heading) as diseaseName, '' as targetGene, dict.pref_name as drugName, indication.max_phase_for_ind as phaseNum, ''  as interactionType, dgi.drug_chembl_id as chemblID, dgi.interaction_claim_source as sources--> 
+		select distinct indication.mesh_heading as diseaseName, '' as targetGene, dict.pref_name as drugName, indication.max_phase_for_ind as phaseNum, dgi.interaction_types  as interactionType, dgi.drug_chembl_id as chemblID, dgi.interaction_claim_source as sources
 			from chembl_25.drug_indication as indication 
 			join chembl_25.molecule_dictionary as dict
 			join test.dgi_interactions as dgi
@@ -214,7 +215,8 @@
 			    
 	<!-- FDA-approved candidate -->
 	<select id="getApprovedCandidateWithDrug" resultType="RepositioningDrugVO" parameterType="string">	
-		select distinct concat(mesh_id,'@',indication.mesh_heading) as diseaseName, dgi.gene_name as targetGene, dict.pref_name as drugName, indication.max_phase_for_ind as phaseNum, dgi.interaction_types  as interactionType, dgi.drug_chembl_id as chemblID, dgi.interaction_claim_source as sources
+		<!--	select distinct concat(mesh_id,'@',indication.mesh_heading) as diseaseName, dgi.gene_name as targetGene, dict.pref_name as drugName, indication.max_phase_for_ind as phaseNum, dgi.interaction_types  as interactionType, dgi.drug_chembl_id as chemblID, dgi.interaction_claim_source as sources--> 
+		select distinct indication.mesh_heading as diseaseName, dgi.gene_name as targetGene, dict.pref_name as drugName, indication.max_phase_for_ind as phaseNum, dgi.interaction_types  as interactionType, dgi.drug_chembl_id as chemblID, dgi.interaction_claim_source as sources
 			from chembl_25.drug_indication as indication 
 			join chembl_25.molecule_dictionary as dict
 			join test.dgi_interactions as dgi
@@ -225,7 +227,8 @@
 	
 	<!-- Unapproved candidate  -->
 	<select id="getInterruptedCandidateWithDrug" resultType="RepositioningDrugVO" parameterType="string">
-		select distinct concat(mesh_id,'@',indication.mesh_heading) as diseaseName, dgi.gene_name as targetGene, dict.pref_name as drugName, indication.max_phase_for_ind as phaseNum, dgi.interaction_types  as interactionType, dgi.drug_chembl_id as chemblID, dgi.interaction_claim_source as sources
+	<!--	select distinct concat(mesh_id,'@',indication.mesh_heading) as diseaseName, dgi.gene_name as targetGene, dict.pref_name as drugName, indication.max_phase_for_ind as phaseNum, dgi.interaction_types  as interactionType, dgi.drug_chembl_id as chemblID, dgi.interaction_claim_source as sources--> 
+	select distinct indication.mesh_heading as diseaseName, dgi.gene_name as targetGene, dict.pref_name as drugName, indication.max_phase_for_ind as phaseNum, dgi.interaction_types  as interactionType, dgi.drug_chembl_id as chemblID, dgi.interaction_claim_source as sources 
 			from chembl_25.drug_indication as indication 
 			join chembl_25.molecule_dictionary as dict
 			join test.dgi_interactions as dgi
@@ -237,19 +240,21 @@
 
 		 
 	<select id="getPMIDCount" resultType="string" parameterType="java.util.Map">
-    	<!-- Triplet data table.
+    	<!-- Triplet data table. -->
     	select distinct count(pmid) as pmidCnt from `test`.`disease-gene_pairs` 
     	where gene like CONCAT('',#{gene},'') and disease like CONCAT('',#{disease},'')
     	group by gene;
-    	 -->
     	 
-    	 <!-- using DisGeNet data -->
+    	 
+    	 <!-- using DisGeNet data 
     	select distinct count(pmid) as pmidCnt  from `test`.`disgenet_all_gene_disease_pmid_associations` 
     	where geneSymbol like CONCAT('',#{gene},'') and diseaseType like 'disease' and diseaseId in (
         select diseaseId from `test`.`disgenet_disease_mappings` where `code` like CONCAT('',#{disease},''))
         group by diseaseName
         order by count(pmid) desc
         limit 1;
+        -->
+        
     </select>			 		
 	 			 	
 	 			 	

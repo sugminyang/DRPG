@@ -649,12 +649,12 @@ public class HomeServiceImpl implements HomeService{
 				int pmidScore = 0;
 				
 				//using DisGeNet.
-				String[] items = vo.getDiseaseName().split("@");
-				vo.setDiseaseName(items[1]);				
-				for(String score : dao.getPMIDCount(items[0],vo.getTargetGene()))	{
+//				String[] items = vo.getDiseaseName().split("@");
+//				vo.setDiseaseName(items[1]);
+//				for(String score : dao.getPMIDCount(items[0],vo.getTargetGene()))	{
 					
 				//using triplet.
-//				for(String score : dao.getPMIDCount(vo.getDiseaseName(),vo.getTargetGene()))	{
+				for(String score : dao.getPMIDCount(vo.getDiseaseName(),vo.getTargetGene()))	{
 					pmidScore = Integer.parseInt(score);
 //					System.out.println(vo.getDiseaseName()+"\t"+vo.getTargetGene() + "\t"+pmidScore);
 					//1. PMID
@@ -675,12 +675,12 @@ public class HomeServiceImpl implements HomeService{
 				int pmidScore = 0;
 				
 				//using DisGeNet.
-				String[] items = vo.getDiseaseName().split("@");
-				vo.setDiseaseName(items[1]);
-				for(String score : dao.getPMIDCount(items[0],vo.getTargetGene()))	{
+//				String[] items = vo.getDiseaseName().split("@");
+//				vo.setDiseaseName(items[1]);
+//				for(String score : dao.getPMIDCount(items[0],vo.getTargetGene()))	{
 					
 				//using triplet.
-//				for(String score : dao.getPMIDCount(vo.getDiseaseName(),vo.getTargetGene()))	{					
+				for(String score : dao.getPMIDCount(vo.getDiseaseName(),vo.getTargetGene()))	{					
 					pmidScore = Integer.parseInt(score);
 //					System.out.println(vo.getDiseaseName()+"\t"+vo.getTargetGene() + "\t"+pmidScore);
 					//1. PMID
@@ -708,13 +708,13 @@ public class HomeServiceImpl implements HomeService{
 				int pmidScore = 0;
 				
 				//using DisGeNet.
-				String[] items = vo.getDiseaseName().split("@");
-				vo.setDiseaseName(items[1]);
-				for(String score : dao.getPMIDCount(items[0],vo.getTargetGene()))	{
+//				String[] items = vo.getDiseaseName().split("@");
+//				vo.setDiseaseName(items[1]);
+//				for(String score : dao.getPMIDCount(items[0],vo.getTargetGene()))	{
 					
 					
 				//using triplet.
-//				for(String score : dao.getPMIDCount(vo.getDiseaseName(),vo.getTargetGene()))	{
+				for(String score : dao.getPMIDCount(vo.getDiseaseName(),vo.getTargetGene()))	{
 					pmidScore = Integer.parseInt(score);
 //					System.out.println(vo.getDiseaseName()+"\t"+vo.getTargetGene() + "\t"+pmidScore);
 					//1. PMID

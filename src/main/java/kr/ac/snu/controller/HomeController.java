@@ -306,7 +306,7 @@ public class HomeController {
 			logger.info("[All] - " + items[1] + ", " + drug_type);
 
 			resultList = service.getAllItemsWithDrug(items[1]);
-//			BufferedWriter out = new BufferedWriter(new FileWriter("/Users/dean/Documents/2019/TextMining/repurposing_drug/DisGeNet_results/"+items[1]+".txt"));
+//			BufferedWriter out = new BufferedWriter(new FileWriter("/Users/dean/Documents/2019/TextMining/repurposing_drug/FDA_new_indication_repo_referenceset_DisGeNet/"+items[1]+".txt"));
 //			out.append(items[1]+"\n");
 //			out.append("DiseaseName\ttargetGene\tstatus\tevidenceScore"+"\n");
 //			for(RepositioningDrugVO vo : resultList)	{
