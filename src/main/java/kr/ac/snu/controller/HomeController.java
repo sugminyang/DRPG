@@ -9,6 +9,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.parser.ParseException;
@@ -43,9 +44,36 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
-		return "home";
+		return "mainpage";//"home"
 	}
 
+	@RequestMapping(value = "/drugprog", method = RequestMethod.POST)
+	public String drugprog(HttpServletRequest request, Model model){ 
+		String drugName = request.getParameter("drugname[]");
+		logger.info("DrugName: " +drugName);
+		
+		JSONArray jsonArray = null;
+		List<RepositioningDrugVO> resultList = null;
+		
+		resultList = service.getAllItemsWithDrug(drugName);
+//		BufferedWriter out = new BufferedWriter(new FileWriter("/Users/dean/Documents/2019/TextMining/repurposing_drug/formula1_Triplet/"+items[1]+".txt"));
+//		out.append(items[1]+"\n");
+//		out.append("DiseaseName\ttargetGene\tstatus\tevidenceScore"+"\n");
+//		for(RepositioningDrugVO vo : resultList)	{
+//			out.append(vo.writeCSV()+"\n");	
+//		}
+//		out.close();
+		
+		jsonArray = JSONArray.fromObject(resultList);
+		logger.info("data: " + jsonArray);
+		
+		model.addAttribute("data", jsonArray);
+		model.addAttribute("drugname", drugName);
+		return "drugprogresult";
+		
+	}
+	
+	
 	
 	/**
 	 * wordcloud figure section(hide 1st milstone)
@@ -306,7 +334,7 @@ public class HomeController {
 			logger.info("[All] - " + items[1] + ", " + drug_type);
 
 			resultList = service.getAllItemsWithDrug(items[1]);
-//			BufferedWriter out = new BufferedWriter(new FileWriter("/Users/dean/Documents/2019/TextMining/repurposing_drug/FDA_new_indication_repo_referenceset_DisGeNet/"+items[1]+".txt"));
+//			BufferedWriter out = new BufferedWriter(new FileWriter("/Users/dean/Documents/2019/TextMining/repurposing_drug/formula1_Triplet/"+items[1]+".txt"));
 //			out.append(items[1]+"\n");
 //			out.append("DiseaseName\ttargetGene\tstatus\tevidenceScore"+"\n");
 //			for(RepositioningDrugVO vo : resultList)	{

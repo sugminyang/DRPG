@@ -1,40 +1,42 @@
+//
+//$.fn.dataTable.ext.search.push(
+//	    function( settings, data, dataIndex ) {
+////	    	var drugType = $("#drug_type_dr option:selected").text();
+//	    	var drugType ="All"
+//	    	var min;
+//	        var max;
+//	        var phase = parseFloat( data[3] ) || 0; // use data for the age column
+//	        
+//	        if(drugType == 'All')	{
+//	        	min = 2;
+//	        	max = 4;
+//	        }
+//	        else if(drugType == 'FDA-approved control'){
+//	        	min = 4;
+//	        	max = 4;
+//	        }
+//	        else if(drugType == 'FDA-approved candidate'){	//approved
+//	        	min = 2;
+//	        	max = 4;
+//	        }
+//	        else if(drugType == 'Unapproved candidate'){
+//	        	min = 2;
+//	        	max = 3;
+//	        }
+//	        
+//	        if ( ( isNaN( min ) && isNaN( max ) ) ||
+//	             ( isNaN( min ) && phase <= max ) ||
+//	             ( min <= phase   && isNaN( max ) ) ||
+//	             ( min <= phase   && phase <= max ) )
+//	        {
+//	            return true;
+//	        }
+//	        return false;
+//	    });
 
-$.fn.dataTable.ext.search.push(
-	    function( settings, data, dataIndex ) {
-	    	var drugType = $("#drug_type_dr option:selected").text();
-	    	var min;
-	        var max;
-	        var phase = parseFloat( data[3] ) || 0; // use data for the age column
-	        
-	        if(drugType == 'All')	{
-	        	min = 2;
-	        	max = 4;
-	        }
-	        else if(drugType == 'FDA-approved control'){
-	        	min = 4;
-	        	max = 4;
-	        }
-	        else if(drugType == 'FDA-approved candidate'){	//approved
-	        	min = 2;
-	        	max = 4;
-	        }
-	        else if(drugType == 'Unapproved candidate'){
-	        	min = 2;
-	        	max = 3;
-	        }
-	        
-	        if ( ( isNaN( min ) && isNaN( max ) ) ||
-	             ( isNaN( min ) && phase <= max ) ||
-	             ( min <= phase   && isNaN( max ) ) ||
-	             ( min <= phase   && phase <= max ) )
-	        {
-	            return true;
-	        }
-	        return false;
-	    });
 
-
-$(function() {
+$(function() { 
+	 
     $('#search_repositioning').click(function() {
     	$('#se_result').empty()
         search_drugrepositioning()
@@ -283,7 +285,9 @@ $(function() {
     
     $( "#search_query_dr" ).autocomplete({ 
     	source : function( request, response ) { 
-    		search_type = $('#search_type_dr option:selected').val()
+//    		search_type = $('#search_type_dr option:selected').val()
+//    		console.log("test: autocomplete")
+    		search_type = "chemical_name"
     		search_query = $('#search_query_dr').val()
     		query = ""
     			if(search_type == 'disease_name') {
