@@ -44,6 +44,7 @@ public interface HomeService {
 	public List<String> getDRAutoSearchByGene(String gene);
 	public List<String> getDRAutoSearchByDrug(String drug);
 	public List<SideEffectVO> getDrugSideEffect(String drugname);
+	public List<String> getPMIDList(String genesymbol, String diseasename);
 	
 	
 	

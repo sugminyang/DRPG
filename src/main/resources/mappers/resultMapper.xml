@@ -257,6 +257,13 @@
         -->
         
     </select>			 		
+	 		
+	<select id="getPMIDList" resultType="string" parameterType="java.util.Map">
+        SELECT distinct pmid 
+        	FROM `test`.`disease-gene_pairs` 
+        	where gene like CONCAT('',#{gene},'') and disease like CONCAT('',#{disease},'');
+    </select>		 			 
+	 			 
 	 			 	
 	 			 	
 	 			 		

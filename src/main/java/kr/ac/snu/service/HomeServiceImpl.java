@@ -1078,5 +1078,14 @@ public class HomeServiceImpl implements HomeService{
 		}
 	}
 
+	@Override
+	public List<String> getPMIDList(String genesymbol, String diseasename) {
+		List<String> pmidList = new ArrayList<String>();
+		for(String vo : dao.getPMIDList(genesymbol,diseasename)) {
+			pmidList.add(vo);
+		}
+		return pmidList;
+	}
+
 
 }

@@ -73,6 +73,24 @@ public class HomeController {
 		
 	}
 	
+	@RequestMapping(value = "/rowinfo", method = RequestMethod.GET)
+	public void rowinfo(@RequestParam("genesymbol") String genesymbol, @RequestParam("diseasename") String diseasename, HttpServletResponse response) {
+//		List<RepositioningDrugVO> resultList = null;
+		JSONArray jsonArray = null;
+		System.out.println("geneSymbol: " + genesymbol + "\tdiseasename: " + diseasename);
+		List<String> resultList = null;
+		resultList = service.getPMIDList(genesymbol,diseasename);
+		jsonArray = JSONArray.fromObject(resultList);
+		logger.info("[litsearch] search by disease : result - " + jsonArray);
+		
+		try {
+			if(jsonArray == null)	return ;
+			
+			response.getWriter().print(jsonArray);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	
 	/**

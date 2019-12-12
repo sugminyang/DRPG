@@ -59,6 +59,11 @@
     </div>
 	<div class="table table-bordered table-hover dataTable" id="result"></div>
 
+	<div class="col-lg-12">
+        <h4 class="page-header">1. PMID</h4>
+        <div id="pmidList">
+		</div>
+    </div>
 </div>      
 <footer class="main-footer">
 <div class="pull-right hidden-xs">
@@ -167,11 +172,67 @@ reserved.
         	 
         	$('#MydataTable tbody').on( 'click', 'tr', function () {
         		var table = $('#MydataTable').DataTable();
-        	    alert( 'Row index: '+table.row( this ).index() );
-        	    console.log(table.row( this ).data()[0]);
-        	    console.log(table.row( this ).data()[1]);
+//        	    alert( 'Row index: '+table.row( this ).index() );
+//        	    console.log(table.row( this ).data()[0]);
+//        	    console.log(table.row( this ).data()[1].indexOf("\">"));
+				var diseasename = table.row( this ).data()[0];
+        	    var gene = table.row( this ).data()[1];
+        	    var st = table.row( this ).data()[1].indexOf("\">") + 2;
+        	    var ed = table.row( this ).data()[1].indexOf("</a>");
+//        	    console.log(gene.substring(st,ed))
+        	    gene = gene.substring(st,ed)
+        	    
+        	    
+        	    url = "rowinfo?genesymbol=" + gene + "&diseasename=" + diseasename
+	    		url += "&output=json"
+	    
+        	    $.ajax({
+	            'type': "GET",
+	            'url': url,
+	            'dataType': "json",
+	            'error': rowinfo_fail,
+	            'success': rowinfo_success
+	        	})
         	} );
             
+			function rowinfo_success(data)	{
+				console.log(data)
+				$("#pmidList").text(data)
+				
+				$('#pmidList').empty()
+				var table = $('<table id="pmidTable" class="table table-bordered table-hover"></table>')
+				var tr = $("<tr></tr>")
+				var vars = ['pmidList']
+				$(vars).each(function(k, v) {
+					tr.append('<th>' + v + '</th>')
+				})
+				var thead = $("<thead></thead>")
+				thead.append(tr)
+				$(table).append(thead)
+				var cnt = 0;
+				var tbody = $("<tbody></tbody>")
+				var bindings = data
+				tr = $("<tr></tr>")
+				$(bindings).each(function(k, b) {
+					$(vars).each(function(k2, v) {
+						tr.append('<td>'+'<button> <a href="' + document.location.origin + '/paperviz?pmid='+ b+'">' + b + '</a></button>' + '</td>')
+						cnt = cnt+1;
+					})
+					
+					if(cnt % 10 == 0)	{
+						tbody.append(tr)
+						tr = $("<tr></tr>")
+					}
+				})
+				tbody.append(tr)
+				$(table).append(tbody)
+		
+				$('#pmidList').append(table)
+			}
+        	    
+			function rowinfo_fail(error) {
+        		alert("no information")
+			}
         });
 </script>        
 </body>
