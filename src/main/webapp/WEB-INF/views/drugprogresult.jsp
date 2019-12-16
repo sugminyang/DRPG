@@ -164,12 +164,10 @@
                 "bFilter": true,
                 "bSort": true,
                 "order": [[ 5, "desc" ]],
-                scrollX:        true,
                 scrollCollapse: true,
                 "retrieve": true
         		})
         		
-        		$("#MydataTable_filter").remove();
         	}
         	else {
 //        		console.log(${data})
@@ -223,37 +221,56 @@
 				$('#pmidList').empty()
 				var table = $('<table id="pmidTable" class="table table-bordered table-hover"></table>')
 				var tr = $("<tr></tr>")
-				var vars = ['pmidList']
+				var vars = ['idx','title','author','journal','paperVisualization']
 				$(vars).each(function(k, v) {
 					tr.append('<th>' + v + '</th>')
 				})
 				var thead = $("<thead></thead>")
 				thead.append(tr)
 				$(table).append(thead)
-				var cnt = 0;
+				var cnt = 1;
 				var tbody = $("<tbody></tbody>")
 				var bindings = data
-				tr = $("<tr></tr>")
+				
 				$(bindings).each(function(k, b) {
+					tr = $("<tr></tr>")
 					$(vars).each(function(k2, v) {
-						tr.append('<td>'+'<button> <a target="_blank" href="' + document.location.origin + '${pageContext.request.contextPath}' + '/${mode}/paperviz?pmid='+ b+'">' + b + '</a></button>' + '</td>')
+						if(v == 'paperVisualization')	{
+							tr.append('<td>'+'<button> <a target="_blank" href="' + document.location.origin + '${pageContext.request.contextPath}' + '/${mode}/paperviz?pmid='+ b["pmid"]+'">' + b["pmid"] + '</a></button>' + '</td>')
 //						console.log('<td>'+'<button> <a target="_blank" href="' + document.location.origin + '${pageContext.request.contextPath}' + '/${mode}/paperviz?pmid='+ b+'">' + b + '</a></button>' + '</td>')
-						cnt = cnt+1;
+						}
+						else if(v == 'idx')	{
+							tr.append('<td><p style="text-align: center;">' + cnt + '</p></td>')
+						}
+						else if(v == 'author')	{
+							tr.append('<td><p style="font-size: 10px;">' + b[v] + '</p></td>')
+						}
+						else	{
+        					tr.append('<td>' + b[v] + '</td>')
+        				}
 					})
-					
-					if(cnt % 10 == 0)	{
-						tbody.append(tr)
-						tr = $("<tr></tr>")
-					}
+					cnt++;
+					tbody.append(tr)	
 				})
-				tbody.append(tr)
+				
 				$(table).append(tbody)
 		
 				$('#pmidList').append(table)
+        		table.DataTable({
+                'paging': true,
+                'lengthChange': false,
+                'searching': true,
+                'ordering': true,
+                'info': true,
+                "bFilter": true,
+                "bSort": true,
+                scrollCollapse: true,
+                "retrieve": true
+        		})
 			}
         	    
 			function rowinfo_fail(error) {
-        		alert("no information")
+        		console.log("no information")
 			}
         });
 </script>        

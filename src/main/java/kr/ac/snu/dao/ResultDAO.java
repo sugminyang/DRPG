@@ -3,6 +3,7 @@ package kr.ac.snu.dao;
 import java.util.List;
 
 import kr.ac.snu.vo.DiseaseGeneVO;
+import kr.ac.snu.vo.PaperSummaryVO;
 import kr.ac.snu.vo.RepositioningDrugVO;
 import kr.ac.snu.vo.ResultVO;
 import kr.ac.snu.vo.SideEffectVO;
@@ -34,5 +35,6 @@ public interface ResultDAO {
 	public List<SideEffectVO> getDrugSideEffect(String drugname);
 	public List<String> getPMIDCount(String diseaseName, String targetGene);
 	public List<String> getPMIDList(String genesymbol, String diseasename);
+	public List<PaperSummaryVO> getPaperSummary(String pmid);
 }
 

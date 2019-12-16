@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.ac.snu.service.HomeService;
+import kr.ac.snu.vo.PaperSummaryVO;
 import kr.ac.snu.vo.RepositioningDrugVO;
 import kr.ac.snu.vo.ResultVO;
 import kr.ac.snu.vo.SideEffectVO;
@@ -96,7 +97,8 @@ public class HomeController {
 //		List<RepositioningDrugVO> resultList = null;
 		JSONArray jsonArray = null;
 		System.out.println("geneSymbol: " + genesymbol + "\tdiseasename: " + diseasename);
-		List<String> resultList = null;
+		List<PaperSummaryVO> resultList = null;
+		
 		resultList = service.getPMIDList(genesymbol,diseasename);
 		jsonArray = JSONArray.fromObject(resultList);
 		logger.info("[litsearch] search by disease : result - " + jsonArray);

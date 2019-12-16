@@ -21,6 +21,7 @@ import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
 
 import kr.ac.snu.dao.ResultDAO;
+import kr.ac.snu.vo.PaperSummaryVO;
 import kr.ac.snu.vo.RepositioningDrugVO;
 import kr.ac.snu.vo.ResultVO;
 import kr.ac.snu.vo.SideEffectVO;
@@ -1079,12 +1080,19 @@ public class HomeServiceImpl implements HomeService{
 	}
 
 	@Override
-	public List<String> getPMIDList(String genesymbol, String diseasename) {
+	public List<PaperSummaryVO> getPMIDList(String genesymbol, String diseasename) {
 		List<String> pmidList = new ArrayList<String>();
+		List<PaperSummaryVO> listPSummary = new ArrayList<PaperSummaryVO>();
+		
 		for(String vo : dao.getPMIDList(genesymbol,diseasename)) {
-			pmidList.add(vo);
+//			pmidList.add(vo);
+			
+			for(PaperSummaryVO psummaryVO : dao.getPaperSummary(vo))	{
+				listPSummary.add(psummaryVO);
+			}
+			
 		}
-		return pmidList;
+		return listPSummary;
 	}
 
 	@Override

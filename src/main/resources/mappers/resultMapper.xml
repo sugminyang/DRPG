@@ -255,7 +255,6 @@
         order by count(pmid) desc
         limit 1;
         -->
-        
     </select>			 		
 	 		
 	<select id="getPMIDList" resultType="string" parameterType="java.util.Map">
@@ -264,7 +263,11 @@
         	where gene like CONCAT('',#{gene},'') and disease like CONCAT('',#{disease},'');
     </select>		 			 
 	 			 
-	 			 	
-	 			 	
+	 			 
+	<select id="getPaperSummary" resultType="PaperSummaryVO" parameterType="java.util.Map">	 		
+		SELECT distinct PMID as pmid, publishDate , Title as title, Author as author, Journal as journal 
+			FROM test.paper_summary 
+			where PMID like CONCAT('',#{pmid},'');	 	
+	</select> 			 	
 	 			 		
 </mapper>

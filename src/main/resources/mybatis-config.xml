@@ -7,5 +7,6 @@
             <typeAlias type="kr.ac.snu.vo.ResultVO" alias="resultVO"/>
             <typeAlias type="kr.ac.snu.vo.RepositioningDrugVO" alias="RepositioningDrugVO"/>
             <typeAlias type="kr.ac.snu.vo.SideEffectVO" alias="SideEffectVO"/>
+            <typeAlias type="kr.ac.snu.vo.PaperSummaryVO" alias="PaperSummaryVO"/>
         </typeAliases>
     </configuration>

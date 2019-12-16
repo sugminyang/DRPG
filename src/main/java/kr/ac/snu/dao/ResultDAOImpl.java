@@ -10,6 +10,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import kr.ac.snu.vo.DiseaseGeneVO;
+import kr.ac.snu.vo.PaperSummaryVO;
 import kr.ac.snu.vo.RepositioningDrugVO;
 import kr.ac.snu.vo.ResultVO;
 import kr.ac.snu.vo.SideEffectVO;
@@ -229,6 +230,14 @@ public class ResultDAOImpl implements ResultDAO{
 		map.put("disease",diseasename);
 
 		return sqlSession.selectList(Namespace+".getPMIDList",map);
+	}
+
+	@Override
+	public List<PaperSummaryVO> getPaperSummary(String pmid) {
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("pmid",pmid);
+
+		return sqlSession.selectList(Namespace+".getPaperSummary",map);
 	}
 	
 }

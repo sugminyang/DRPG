@@ -3,6 +3,7 @@ package kr.ac.snu.service;
 import java.util.List;
 import java.util.Map;
 
+import kr.ac.snu.vo.PaperSummaryVO;
 import kr.ac.snu.vo.RepositioningDrugVO;
 import kr.ac.snu.vo.ResultVO;
 import kr.ac.snu.vo.SideEffectVO;
@@ -44,7 +45,7 @@ public interface HomeService {
 	public List<String> getDRAutoSearchByGene(String gene);
 	public List<String> getDRAutoSearchByDrug(String drug);
 	public List<SideEffectVO> getDrugSideEffect(String drugname);
-	public List<String> getPMIDList(String genesymbol, String diseasename);
+	public List<PaperSummaryVO> getPMIDList(String genesymbol, String diseasename);
 	public List<RepositioningDrugVO> getAllItemsWithDrugNDisease(String drugName, String diseaseName);
 	
 }
