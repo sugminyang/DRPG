@@ -1087,5 +1087,151 @@ public class HomeServiceImpl implements HomeService{
 		return pmidList;
 	}
 
+	@Override
+	public List<RepositioningDrugVO> getAllItemsWithDrugNDisease(String drug, String diseaseName) {
+		Map<String, RepositioningDrugVO> temp = new HashMap<String, RepositioningDrugVO>();
+		List<RepositioningDrugVO> voList = new ArrayList<RepositioningDrugVO>();
+		List<RepositioningDrugVO> vos = new ArrayList<RepositioningDrugVO>();
+		
+		diseaseName = diseaseName.toLowerCase();
+		
+		//first add 'FDA-approved control'
+		for(RepositioningDrugVO vo: dao.getApprovedReferenceWithDrug(drug)) {
+			if(vo.getDiseaseName().toLowerCase().contains(diseaseName))	{
+				vo.setStatus("FDA-approved control");
+				vos.add(vo);
+			}
+		}
+	
+		//second add 'FDA-approved candidate'
+		//mapping disease-gene-drugs. and remove duplicate sources and interactionType
+		for(RepositioningDrugVO vo: dao.getApprovedCandidateWithDrug(drug)) {
+			if(vo.getDiseaseName().toLowerCase().contains(diseaseName))	{
+				vo.setStatus("FDA-approved candidate");
+				vos.add(vo);
+			}
+		}
+
+		//third add 'Unapproved candidate'
+		for(RepositioningDrugVO vo: dao.getInterruptedCandidateWithDrug(drug)) {
+			if(vo.getDiseaseName().toLowerCase().contains(diseaseName))	{
+				vo.setStatus("Unapproved candidate");
+				vos.add(vo);
+			}
+		}
+		
+		for(RepositioningDrugVO vo : vos)	{
+			String key =  vo.getDiseaseName() + "@" + vo.getTargetGene() + "@" +vo.getPhaseNum() + "@" + vo.getChemblID();
+
+			removeDuplicateSourcesNinteractionType(temp,vo,key);
+		}
+
+		for(String key : temp.keySet())	{
+			RepositioningDrugVO vo = temp.get(key);
+			int nSources = vo.getSources().split(",").length;
+			double phaseScore = 0.0;
+			
+			if(vo.getStatus().equals("FDA-approved control"))	{
+				int pmidScore = 0;
+				
+				//using DisGeNet.
+//				String[] items = vo.getDiseaseName().split("@");
+//				vo.setDiseaseName(items[1]);
+//				for(String score : dao.getPMIDCount(items[0],vo.getTargetGene()))	{
+					
+				//using triplet.
+				for(String score : dao.getPMIDCount(vo.getDiseaseName(),vo.getTargetGene()))	{
+					pmidScore = Integer.parseInt(score);
+//					System.out.println(vo.getDiseaseName()+"\t"+vo.getTargetGene() + "\t"+pmidScore);
+					//1. PMID
+//					vo.setEvidenceScore(pmidScore + "");
+				}
+				
+				phaseScore = 1;
+				//2. PMID * phase
+//				vo.setEvidenceScore((pmidScore+1) * Math.round(phaseScore*100)/100.0 + "");
+				
+				//3. PMID * phase * DGI source
+//				vo.setEvidenceScore((pmidScore+1) * Math.round((nSources+1) * phaseScore*100)/100.0 + "");
+				
+				//4. PMID  + phase * DGI source
+				vo.setEvidenceScore((pmidScore+1) + Math.round((nSources+1) * phaseScore*100)/100.0 + "");
+			}
+			else if(vo.getStatus().equals("FDA-approved candidate"))	{
+				int pmidScore = 0;
+				
+				//using DisGeNet.
+//				String[] items = vo.getDiseaseName().split("@");
+//				vo.setDiseaseName(items[1]);
+//				for(String score : dao.getPMIDCount(items[0],vo.getTargetGene()))	{
+					
+				//using triplet.
+				for(String score : dao.getPMIDCount(vo.getDiseaseName(),vo.getTargetGene()))	{					
+					pmidScore = Integer.parseInt(score);
+//					System.out.println(vo.getDiseaseName()+"\t"+vo.getTargetGene() + "\t"+pmidScore);
+					//1. PMID
+//					vo.setEvidenceScore(pmidScore + "");
+				}
+				
+				if(pmidScore != 0)	{	//overlapping between triplet and indication&gene => new repurposing target
+					vo.setStatus("repurposing candidate");
+				}
+				else	{
+					vo.setStatus("experimented indication");
+				}
+				
+				phaseScore = 0.7;
+				//2. PMID * phase
+//				vo.setEvidenceScore((pmidScore+1) * Math.round(phaseScore*100)/100.0 + "");
+				
+				//3. PMID * phase * DGI source
+//				vo.setEvidenceScore((pmidScore+1) * Math.round((nSources+1) * phaseScore*100)/100.0 + "");
+				
+				//4. PMID  + phase * DGI source
+				vo.setEvidenceScore((pmidScore+1) + Math.round((nSources+1) * phaseScore*100)/100.0 + "");
+			}
+			else	{	//Unapproved candidate
+				int pmidScore = 0;
+				
+				//using DisGeNet.
+//				String[] items = vo.getDiseaseName().split("@");
+//				vo.setDiseaseName(items[1]);
+//				for(String score : dao.getPMIDCount(items[0],vo.getTargetGene()))	{
+					
+					
+				//using triplet.
+				for(String score : dao.getPMIDCount(vo.getDiseaseName(),vo.getTargetGene()))	{
+					pmidScore = Integer.parseInt(score);
+//					System.out.println(vo.getDiseaseName()+"\t"+vo.getTargetGene() + "\t"+pmidScore);
+					//1. PMID
+//					vo.setEvidenceScore(pmidScore+"");
+				}
+				
+				phaseScore = 0.5;
+//				2. PMID * phase
+//				vo.setEvidenceScore((pmidScore+1) * Math.round(phaseScore*100)/100.0 + "");
+				
+				//3. PMID * phase * DGI source
+//				vo.setEvidenceScore((pmidScore+1) * Math.round((nSources+1) * phaseScore*100)/100.0 + "");
+				
+				//4. PMID  + phase * DGI source
+				vo.setEvidenceScore((pmidScore+1) + Math.round((nSources+1) * phaseScore*100)/100.0 + "");
+			}
+			
+			
+			RepositioningDrugVO deepCopy = null;
+			
+			try {
+				deepCopy = (RepositioningDrugVO)CloneUtils.clone(vo);
+			} catch (CloneNotSupportedException e) {
+				e.printStackTrace();
+			}
+
+			voList.add(deepCopy);
+		}
+		
+		return voList;
+	}
+
 
 }

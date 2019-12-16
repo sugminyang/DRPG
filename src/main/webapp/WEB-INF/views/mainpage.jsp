@@ -29,6 +29,50 @@
             * html .ui-autocomplete {
               height: 100px;
             }
+            .jumbotron {
+            	padding-top: 5px;
+            	background-color: rgba( 255, 255, 255, 0 );
+            }
+            #maincover {
+            	background-image: url("${pageContext.request.contextPath}/resources/img/3-background_drug2.jpg");
+            	background-size:     cover;                      /* <------ */
+    			background-repeat:   no-repeat;
+    			background-position: center;
+            }
+            #logo	{
+            	max-width: 100%;
+    			max-height: 100%;
+            }
+            #lab{
+			  width:500px;
+			  height:25px;  
+			  display: table; 
+			  margin: auto;
+			}
+			#lab_txt {
+			  background: #163851;
+			  width:500px; 
+			  color: white;
+			  text-align:center; 
+			  vertical-align: middle;
+			  display: table-cell;   
+			}
+			#description	{
+				position: absolute;
+				bottom:0px;
+				left: 230px;
+			}
+			#desc_txt	{
+				font-size:15px;  
+				text-align:center; 
+			 	margin: auto auto;
+			}
+			.jumbotron	{
+				position:relative;
+				height: 100%;   
+	
+			}
+			            
     </style>
 </head>
 <body>
@@ -40,131 +84,137 @@
         </div>
         <div class="navbar-collapse collapse" id="navbar-main">
             <ul class="nav navbar-nav navbar-right">                                
-                <li><a href="#" target="_blank">About</a></li>
-                <li><a href="#" target="_blank">Database</a></li>
-                <li><a href="#" target="_blank">Tutorial</a></li>
-                <li><a href="#" target="_blank">Technology</a></li>
-                <li><a href="#" target="_blank">Publication</a></li>
+                <li><a href="${pageContext.request.contextPath}/" target="_blank">About</a></li>
+                <li><a href="${pageContext.request.contextPath}/" target="_blank">Database</a></li>
+                <li><a href="${pageContext.request.contextPath}/" target="_blank">Tutorial</a></li>
             </ul>
         </div>
     </div>
 </div>
 
-<div class="container" >
-    <div class="row">
-	    <div class="jumbotron" style="background: #C3F8FF"> <!-- #add8e6 -->
-	    <h1><b>Drug Prognosis Explorer</b></h1>
-	    <p style="background: black; color: white;">by Biomedical Knowledge Engineering Laboratory</p>
-	    <p class="lead">DrugProg is discovering and proving new proposing candidate drugs associated with disease.</p>
-	    </div>
-	</div>
-
-<div class="row" style="border: 1px dashed">
-<!-- <div id="row" style="border: 1px solid #bcbcbc; text-align: center;" class="well well-lg"> -->
-		<div class="col-lg-12">
-            <h4 class="page-header">1. Make Query</h4>
-                <!--  <div class="bs-component">-->
-                
-                
-                <!-- drug query -->
-                <div class="col-sm-5">
-	                <form method="POST" action="/snu/drugprog" accept-charset="UTF-8" autocomplete="off" name="findForm"><input name="_token" type="hidden" value="fCFVRApoko2AgBExIGU8gvtgtvexKCw3MQpJvTKb">
-	                	<div class="form-group">
-			                <div class="col-sm-8 col-sm-offset-2">
-			                    <table class="table table-bordered" id="tbl_posts" style="text-align: center">
-				                    <thead>
-				                        <tr>
-				                            <td style="text-align: center"><b>Repositioning Entity Name</b></td>
-				                        </tr>
-				                    </thead>
-				                    <tbody id="tbl_posts_body">
-				                        <tr id="rec-1">
-				                            <td>
-				                                <input type="text" id="search_query_dr" name="drugname[]" class="form-control"/>
-				                            </td>
-				                            
-				                        </tr>
-				                    </tbody>
-				                </table>
-				                <div style="text-align: right">
-					            	<button class="btn btn-default">Cancel</button>
-									<button type="submit" class="btn btn-primary" id="submit">Submit</button>
-					            </div>  
-			                </div>
-						</div>                
-					</form>      
+<div class="container">
+	    <div class="row" id="maincover" style="width:1170px; height:330px;">
+	    	<div class="jumbotron">
+			    <div id="logo">
+			    	<img src="${pageContext.request.contextPath}/resources/img/logo.png" style='height: 50px; width: 100px; object-fit: contain; vertical-align: middle;'/>
+			    </div>
+			    <div id="lab" style='vertical-align: middle; display: table;'>
+			    	<p id="lab_txt" style="background: #163851; width:500px; color: white; text-align:center; vertical-align: middle; display: table-cell;">
+			    		by Biomedical Knowledge Engineering Laboratory
+			    	</p>
+			    </div>
+			    <div id="description">
+					<p id="desc_txt" >DrugProg is developed <span style="color: #163851"><b>to aid repurposing pre-existing drugs </b></span>to several diseases by providing open-resource
+					<br><span style="color: #163851"><b>which connect positive prognostic status</b></span> and molecular status, and developing tools to identify targets.</p>
 				</div>
-				<div class="col-sm-1">
-					|</br>
-					|</br>
-					|</br>
-					|</br>
-					|</br>
-					|</br>
-					|</br>
-					|</br>
-					</br>
-				</div>
-				
-				
-				<!-- drug & disease query -->	
-				<div class="col-sm-6">
-	                <form method="POST" action="/snu/drugprog" accept-charset="UTF-8" autocomplete="off" name="findForm"><input name="_token" type="hidden" value="fCFVRApoko2AgBExIGU8gvtgtvexKCw3MQpJvTKb">
-	                	<div class="form-group">
-			                <div class="col-6 col-md-4">
-			                	<table class="table table-bordered" id="tbl_posts" style="text-align: center">
-				                    <thead>
-				                        <tr>
-				                            <td style="text-align: center"><b>Drug Entity Name</b></td>
-				                        </tr>
-				                    </thead>
-				                    <tbody id="tbl_posts_body">
-				                        <tr id="rec-1">
-				                            <td>
-				                                <input type="text" id="cart_value" name="cart_value[]" class="form-control"/>
-				                            </td>
-				                            
-				                        </tr>
-				                    </tbody>
-				                </table>
-							</div>
-							<div class="col-6 col-md-4">
-								
-								<table class="table table-bordered" id="tbl_posts" style="text-align: center">
-				                    <thead>
-				                        <tr>
-				                            <td style="text-align: center"><b>∩</b></td>
-				                        </tr>
-				                    </thead>
-				                </table>
-							</div>
-			                <div class="col-6 col-md-4">							
-			                    <table class="table table-bordered" id="tbl_posts" style="text-align: center">
-				                    <thead>
-				                        <tr>
-				                            <td style="text-align: center"><b>Disease Name</b></td>
-				                        </tr>
-				                    </thead>
-				                    <tbody id="tbl_posts_body">
-				                        <tr id="rec-1">
-				                            <td>
-				                                <input type="text" id="cart_value" name="cart_value[]" class="form-control"/>
-				                            </td>
-				                            
-				                        </tr>
-				                    </tbody>
-				                </table>
-				                <div style="text-align: right">
-					            	<button class="btn btn-default">Cancel</button>
-									<button type="submit" class="btn btn-primary" id="submit">Submit</button>
-					            </div>  
-			                </div>
-						</div>                
-					</form>      
-				</div>								  
+		    </div>
 		</div>
-</div>
-      
+		<div class="row" ><!--  style="border: 1px dashed;background-color: #CCD0D3;" -->
+		<!-- <div id="row" style="border: 1px solid #bcbcbc; text-align: center;" class="well well-lg"> -->
+				<div class="col-lg-12">
+		            <h4 class="page-header">1. Make Query</h4>
+		                <!--  <div class="bs-component">-->
+		                
+		                
+		                <!-- drug query -->
+		                <div class="col-sm-5">
+			                <form method="POST" action="/snu/drugprog1" accept-charset="UTF-8" autocomplete="off" name="findForm"><input name="_token" type="hidden" value="fCFVRApoko2AgBExIGU8gvtgtvexKCw3MQpJvTKb">
+			                	<div class="form-group">
+					                <div class="col-sm-8 col-sm-offset-2">
+					                    <table class="table table-bordered" id="tbl_posts" style="text-align: center">
+						                    <thead>
+						                        <tr>
+						                            <td style="text-align: center"><b>Repositioning Entity Name</b></td>
+						                        </tr>
+						                    </thead>
+						                    <tbody id="tbl_posts_body">
+						                        <tr id="rec-1">
+						                            <td>
+						                                <input type="text" id="search_query_dr" name="drugname[]" class="form-control"/>
+						                            </td>
+						                            
+						                        </tr>
+						                    </tbody>
+						                </table>
+						                <div style="text-align: right">
+							            	<button class="btn btn-default">Cancel</button>
+											<button type="submit" class="btn btn-primary" id="submit" style="background-color: #163851">Submit</button>
+							            </div>  
+					                </div>
+								</div>                
+							</form>      
+						</div>
+						<div class="col-sm-1">
+							|</br>
+							|</br>
+							|</br>
+							|</br>
+							|</br>
+							|</br>
+							|</br>
+							|</br>
+							</br>
+						</div>
+						
+						
+						<!-- drug & disease query -->	
+						<div class="col-sm-6">
+			                <form method="POST" action="/snu/drugprog2" accept-charset="UTF-8" autocomplete="off" name="findForm"><input name="_token" type="hidden" value="fCFVRApoko2AgBExIGU8gvtgtvexKCw3MQpJvTKb">
+			                	<div class="form-group">
+					                <div class="col-6 col-md-4">
+					                	<table class="table table-bordered" id="tbl_posts" style="text-align: center">
+						                    <thead>
+						                        <tr>
+						                            <td style="text-align: center"><b>Drug Entity Name</b></td>
+						                        </tr>
+						                    </thead>
+						                    <tbody id="tbl_posts_body">
+						                        <tr id="rec-1">
+						                            <td>
+						                                <input type="text" id="search_query_dr2" name="drugname[]" class="form-control"/>
+						                            </td>
+						                            
+						                        </tr>
+						                    </tbody>
+						                </table>
+									</div>
+									<div class="col-6 col-md-4">
+										
+										<table class="table table-bordered" id="tbl_posts" style="text-align: center; border:none">
+						                    <thead>
+						                        <tr>
+						                            <td style="text-align: center"><b>∩</b></td>
+						                        </tr>
+						                    </thead>
+						                </table>
+									</div>
+					                <div class="col-6 col-md-4">							
+					                    <table class="table table-bordered" id="tbl_posts" style="text-align: center">
+						                    <thead>
+						                        <tr>
+						                            <td style="text-align: center"><b>Disease Name</b></td>
+						                        </tr>
+						                    </thead>
+						                    <tbody id="tbl_posts_body">
+						                        <tr id="rec-1">
+						                            <td>
+						                                <input type="text" id="search_query_disease" name="diseasename[]" class="form-control"/>
+						                            </td>
+						                            
+						                        </tr>
+						                    </tbody>
+						                </table>
+						                <div style="text-align: right">
+							            	<button class="btn btn-default">Cancel</button>
+											<button type="submit" class="btn btn-primary" id="submit" style="background-color: #163851">Submit</button>
+							            </div>  
+					                </div>
+								</div>                
+							</form>      
+						</div>								  
+				</div>
+		</div>	
+ 	
 </div>      
 <footer class="main-footer">
 <div class="pull-right hidden-xs">

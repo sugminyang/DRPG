@@ -45,8 +45,6 @@ public interface HomeService {
 	public List<String> getDRAutoSearchByDrug(String drug);
 	public List<SideEffectVO> getDrugSideEffect(String drugname);
 	public List<String> getPMIDList(String genesymbol, String diseasename);
-	
-	
-	
+	public List<RepositioningDrugVO> getAllItemsWithDrugNDisease(String drugName, String diseaseName);
 	
 }

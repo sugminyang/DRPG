@@ -43,8 +43,6 @@
                 <li><a href="${pageContext.request.contextPath}/" target="_blank">About</a></li>
                 <li><a href="${pageContext.request.contextPath}/" target="_blank">Database</a></li>
                 <li><a href="${pageContext.request.contextPath}/" target="_blank">Tutorial</a></li>
-                <li><a href="${pageContext.request.contextPath}/" target="_blank">Technology</a></li>
-                <li><a href="${pageContext.request.contextPath}/" target="_blank">Publication</a></li>
             </ul>
         </div>
     </div>
@@ -54,8 +52,8 @@
 	<div class="col-lg-12">
         <h4 class="page-header">Result</h4>
     </div>
-    <div class="col-lg-12">
-    	<p>search drug name: <b>${drugname}</b></p>
+    <div class="col-lg-12" id="searchContent">
+    	<!-- <p>search drug name: <b>${drugname}</b></p> -->
     </div>
 	<div class="table table-bordered table-hover dataTable" id="result"></div>
 
@@ -64,13 +62,22 @@
         <div id="pmidList">
 		</div>
     </div>
+	<div class="col-lg-12">
+        <h4 class="page-header">2. External references</h4>
+        <div id="xref_url">
+		</div>
+    </div>    
+	<div class="col-lg-12">
+        <h4 class="page-header">3. Chemical Structure</h4>
+        <p>Structure of  <b>${drugname}</b></p>
+        <img id="chemstr" style="width: 300px; height:300px"/> 
+    </div>        
 </div>      
 <footer class="main-footer">
 <div class="pull-right hidden-xs">
     <b>Version</b> 1.0
 </div>
-<strong>Copyright © 2019 <a href="http://bike.snu.ac.kr">BiKE LAB</a>.</strong> All rights
-reserved.
+<strong>Copyright © 2019 <a href="http://bike.snu.ac.kr">BiKE LAB</a>.</strong> All rights reserved.
 </footer>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -87,6 +94,19 @@ reserved.
 	
 <script>
         $(document).ready( function () {
+        	/* searchctx = ""
+        	
+        	if("${drugname}".length != 0)	{
+        		//$("#searchContent").innerHTML("<p>search drug name: <b>${drugname}</b></p>");
+        		searchctx = "<p>search drug name: <b>${drugname}</b></p>";
+        	}
+        	
+        	if("${diseasename}".length != 0)	{
+        		searchctx += "<p>search disease name: <b>${diseasename}</b></p>";
+        	}
+        	
+        	$("#searchContent").text(searchctx); */
+        	
         	if(${data} != null)	{
         		$('#result').empty()
         		var table = $('<table id="MydataTable" class="table table-bordered table-hover"></table>')
@@ -104,13 +124,14 @@ reserved.
         		var bindings = ${data}
         		$(bindings).each(function(k, b) {
         			tr = $("<tr></tr>")
-        			/* $("#chemInfo")[0].innerHTML = 'DGI info: ' + '<a target="_blank" rel="noopener noreferrer"  href="http://www.dgidb.org/drugs/' + b['drugName'] + '#_summary">' + 'http://www.dgidb.org/drugs/' + b['drugName'] + '#_summary' +'</a>' 
-        					+ "<br>"+ 'Chemical Name: ' +'<button type="button" class="chemicalBtn"> ' + b['drugName'] + '</button>'
-        					+"<br>" + 'CHEMBL ID: ' + '<button> <a target="_blank" rel="noopener noreferrer" href="https://www.ebi.ac.uk/chembl/compound_report_card/' + b['chemblID']+ '">' + b['chemblID'] + '</a></button>'
-//        			console.log(b['drugName']  + ", " +  b['chemblID']) */
-        					
+        			$("#xref_url")[0].innerHTML = 'DGI info: ' + '<a target="_blank" rel="noopener noreferrer"  href="http://www.dgidb.org/drugs/' + '${drugname}' + '#_summary">' + 'http://www.dgidb.org/drugs/' + '${drugname}' + '#_summary' +'</a>' 
+    					+ "<br>" + 'CHEMBL ID: ' + '<a target="_blank" rel="noopener noreferrer" href="https://www.ebi.ac.uk/chembl/compound_report_card/' + b['chemblID']+ '">' + 'https://www.ebi.ac.uk/chembl/compound_report_card/' + b['chemblID'] + '</a>'
+        				
+    				imgurl="https://www.ebi.ac.uk/chembl/api/data/image/" + b['chemblID'] + ".svg?engine=indigo"
+    				$('#chemstr').attr("src", imgurl);
+    					    					
         			$(vars).each(function(k2, v) {
-        				if(v == 'drugName')	{
+        				if(v == 'drugName')	{	
 //        					tr.append('<td>'+'<button> <a href="http://www.dgidb.org/drugs/' + b['drugName'] + '#_summary">' + b['drugName'] + '</a></button>' + '</td>')
 //        					tr.append('<td>'+'<a href="http://www.dgidb.org/drugs/' + b['drugName'] + '#_summary">' + 'http://www.dgidb.org/drugs/' + b['drugName'] + '#_summary' +'</a>' + '<button type="button" class="chemicalBtn"> ' + b['drugName'] + '</button>' + '</td>')
         				}
@@ -196,7 +217,7 @@ reserved.
         	} );
             
 			function rowinfo_success(data)	{
-				console.log(data)
+//				console.log(data)
 				$("#pmidList").text(data)
 				
 				$('#pmidList').empty()
@@ -215,7 +236,8 @@ reserved.
 				tr = $("<tr></tr>")
 				$(bindings).each(function(k, b) {
 					$(vars).each(function(k2, v) {
-						tr.append('<td>'+'<button> <a href="' + document.location.origin + '/paperviz?pmid='+ b+'">' + b + '</a></button>' + '</td>')
+						tr.append('<td>'+'<button> <a target="_blank" href="' + document.location.origin + '${pageContext.request.contextPath}' + '/${mode}/paperviz?pmid='+ b+'">' + b + '</a></button>' + '</td>')
+//						console.log('<td>'+'<button> <a target="_blank" href="' + document.location.origin + '${pageContext.request.contextPath}' + '/${mode}/paperviz?pmid='+ b+'">' + b + '</a></button>' + '</td>')
 						cnt = cnt+1;
 					})
 					
