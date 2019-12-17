@@ -35,14 +35,14 @@
 <div class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <a href="${pageContext.request.contextPath}/" class="navbar-brand">BiKE <b>DrugProg</b></a>
+            <a href="/" class="navbar-brand">BiKE <b>DrugProg</b></a>
             
         </div>
         <div class="navbar-collapse collapse" id="navbar-main">
             <ul class="nav navbar-nav navbar-right">                                
-                <li><a href="${pageContext.request.contextPath}/" target="_blank">About</a></li>
-                <li><a href="${pageContext.request.contextPath}/" target="_blank">Database</a></li>
-                <li><a href="${pageContext.request.contextPath}/" target="_blank">Tutorial</a></li>
+                <li><a href="/" target="_blank">About</a></li>
+                <li><a href="/" target="_blank">Database</a></li>
+                <li><a href="/" target="_blank">Tutorial</a></li>
             </ul>
         </div>
     </div>
@@ -136,8 +136,8 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/static/search_drugreposition.js"></script>
+    <script src="/resources/static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="/resources/static/search_drugreposition.js"></script>
 	
 <script>
         $(document).ready( function () {
@@ -283,8 +283,8 @@
 					tr = $("<tr></tr>")
 					$(vars).each(function(k2, v) {
 						if(v == 'paperVisualization')	{
-							tr.append('<td>'+'<button> <a target="_blank" href="' + document.location.origin + '${pageContext.request.contextPath}' + '/${mode}/paperviz?pmid='+ b["pmid"]+'">' + b["pmid"] + '</a></button>' + '</td>')
-//						console.log('<td>'+'<button> <a target="_blank" href="' + document.location.origin + '${pageContext.request.contextPath}' + '/${mode}/paperviz?pmid='+ b+'">' + b + '</a></button>' + '</td>')
+							tr.append('<td>'+'<button> <a target="_blank" href="' + document.location.origin + '' + '/${mode}/paperviz?pmid='+ b["pmid"]+'">' + b["pmid"] + '</a></button>' + '</td>')
+//						console.log('<td>'+'<button> <a target="_blank" href="' + document.location.origin + '' + '/${mode}/paperviz?pmid='+ b+'">' + b + '</a></button>' + '</td>')
 						}
 						else if(v == 'idx')	{
 							tr.append('<td><p style="text-align: center;">' + cnt + '</p></td>')

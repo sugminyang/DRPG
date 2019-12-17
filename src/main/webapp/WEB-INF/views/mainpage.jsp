@@ -118,7 +118,7 @@
 		                
 		                <!-- drug query -->
 		                <div class="col-sm-5">
-			                <form method="POST" action="/snu/drugprog1" accept-charset="UTF-8" autocomplete="off" name="findForm"><input name="_token" type="hidden" value="fCFVRApoko2AgBExIGU8gvtgtvexKCw3MQpJvTKb">
+			                <form method="POST" action="/drugprog1" accept-charset="UTF-8" autocomplete="off" name="findForm"><input name="_token" type="hidden" value="fCFVRApoko2AgBExIGU8gvtgtvexKCw3MQpJvTKb">
 			                	<div class="form-group">
 					                <div class="col-sm-8 col-sm-offset-2">
 					                    <table class="table table-bordered" id="tbl_posts" style="text-align: center">
@@ -159,7 +159,7 @@
 						
 						<!-- drug & disease query -->	
 						<div class="col-sm-6">
-			                <form method="POST" action="/snu/drugprog2" accept-charset="UTF-8" autocomplete="off" name="findForm"><input name="_token" type="hidden" value="fCFVRApoko2AgBExIGU8gvtgtvexKCw3MQpJvTKb">
+			                <form method="POST" action="/drugprog2" accept-charset="UTF-8" autocomplete="off" name="findForm"><input name="_token" type="hidden" value="fCFVRApoko2AgBExIGU8gvtgtvexKCw3MQpJvTKb">
 			                	<div class="form-group">
 					                <div class="col-6 col-md-4">
 					                	<table class="table table-bordered" id="tbl_posts" style="text-align: center">
