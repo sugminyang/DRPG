@@ -5,7 +5,7 @@
 <head>
  	<meta charset="utf-8">
  	<meta http-equiv="X-UA-Compatible" content="IE=edge">
- 	<title>BikeDrugProg</title>
+ 	<title>Bike-DrugProg</title>
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 	<script src="${pageContext.request.contextPath}/resources/static/bower_components/jquery/dist/jquery.min.js"></script>
 	<link rel="stylesheet" href="http://bike-bee.snu.ac.kr/css/bootstrap.css">
@@ -138,7 +138,7 @@
 						                </table>
 						                <div style="text-align: right">
 							            	<button class="btn btn-default">Cancel</button>
-											<button type="submit" class="btn btn-primary" id="submit" style="background-color: #163851">Submit</button>
+											<button type="submit" class="btn" id="submit" style="background-color: #163851; color: white;">Submit</button>
 							            </div>  
 					                </div>
 								</div>                
@@ -206,7 +206,7 @@
 						                </table>
 						                <div style="text-align: right">
 							            	<button class="btn btn-default">Cancel</button>
-											<button type="submit" class="btn btn-primary" id="submit" style="background-color: #163851">Submit</button>
+											<button type="submit" class="btn" id="submit" style="background-color: #163851; color: white;">Submit</button>
 							            </div>  
 					                </div>
 								</div>                
@@ -214,6 +214,53 @@
 						</div>								  
 				</div>
 		</div>	
+
+    <!-- .modal -->
+    <div class="modal fade" id="myCartModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              
+              <h4 class="modal-title">Load stored results</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                                                                            </div>    
+            </div>
+            <div class="modal-footer">
+                            
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+<!-- /.modal -->
+
+<!-- .modal -->
+    <div class="modal fade" id="loadModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Loading Now</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    Please Wait..
+                        <i class="fa fa-refresh fa-spin"></i>
+                </div>    
+            </div>
+            <div class="modal-footer">
+            
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+<!-- /.modal --> 	
  	
 </div>      
 <footer class="main-footer">
