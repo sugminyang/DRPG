@@ -7,8 +7,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Bike-DrugProg</title>
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <link rel="stylesheet" href="http://bike-bee.snu.ac.kr/css/bootstrap.css">
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> 
+	<link rel="stylesheet" href="http://bike-bee.snu.ac.kr/css/bootstrap.css">
+	<link rel="stylesheet" href="http://bike-bee.snu.ac.kr/css/usebootstrap.css">
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> 
   
 <link rel="stylesheet"
     href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
@@ -26,6 +27,9 @@
             * html .ui-autocomplete {
               height: 100px;
             }
+           .tutorial	{
+            	text-align: center;
+            }
     </style>
 </head>
 <body>
@@ -37,7 +41,6 @@
         </div>
         <div class="navbar-collapse collapse" id="navbar-main">
             <ul class="nav navbar-nav navbar-right">                                
-				<li><a href="/" target="_blank">About</a></li>
                 <li><a href="/litsearch">Literature-Search</a></li>
                 <li><a href="/overview">Overview</a></li>
                 <li><a href="/tutorial">Tutorial</a></li>
@@ -49,9 +52,28 @@
 
 <div class="container" >
 	<div class="col-lg-12">
-        <h3 class="page-header">Turotial</h3>
+        <h3 class="page-header">How to use(instruction)</h3>
     </div>
-
+    
+    <div class="col-lg-12">
+    	<h4 class="page-header">1. Drug repurposing search</h4>
+    </div>
+	<div class="col-lg-12 tutorial" >
+		<img src="${pageContext.request.contextPath}/resources/img/tutorial1.png" style='width:70%; height:70%; object-fit: contain; vertical-align: middle;'/>
+	</div>
+	<div class="col-lg-12 tutorial" >
+		<img src="${pageContext.request.contextPath}/resources/img/tutorial2.png" style='width:70%; height:70%; object-fit: contain; vertical-align: middle;'/>
+	</div>    
+	<div class="col-lg-12 tutorial" >
+		<img src="${pageContext.request.contextPath}/resources/img/tutorial3.png" style='width:70%; height:70%; object-fit: contain; vertical-align: middle;'/>
+	</div>    
+	
+	<div class="col-lg-12">
+		<h4 class="page-header">2. Literature Search</h4>
+	</div>
+	<div class="col-lg-12 tutorial" >
+		<img src="${pageContext.request.contextPath}/resources/img/tutorial4.png" style='width:70%; height:70%; object-fit: contain; vertical-align: middle;'/>
+	</div>    			    
 </div>  
     
 <footer class="main-footer">
@@ -60,7 +82,9 @@
 </div>
 <strong>Copyright © 2019 <a href="http://bike.snu.ac.kr">BiKE LAB</a>.</strong> All rights reserved.
 </footer>
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/static/bower_components/jquery/dist/jquery.min.js"></script>    
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="http://bike-bee.snu.ac.kr/js/finder.js?newversion"></script>
 </body>
 </html>

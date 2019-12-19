@@ -42,7 +42,6 @@
         </div>
         <div class="navbar-collapse collapse" id="navbar-main">
             <ul class="nav navbar-nav navbar-right">                                
-				<li><a href="/" target="_blank">About</a></li>
                 <li><a href="/litsearch">Literature-Search</a></li>
                 <li><a href="/overview">Overview</a></li>
                 <li><a href="/tutorial">Tutorial</a></li>
@@ -54,7 +53,7 @@
 
 <div class="container" >
 	<div class="col-lg-12">
-        <h3 class="page-header">Overview</h3>
+        <h3 class="page-header">Schematic system overview</h3>
     </div>
 	<div id="overview" class="col-lg-12" >
 		<img src="${pageContext.request.contextPath}/resources/img/DrugProg_Fig_NAR_overview.png" style='width:70%; height:70%; object-fit: contain; vertical-align: middle;'/>
