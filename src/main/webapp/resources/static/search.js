@@ -37,7 +37,7 @@ $(function() {
     		query = ""
     	}
     
-        url = "dbsearch"
+        url = "/dbsearch"
         url += "?query=" + query
         url += "&output=json"
         	
@@ -84,7 +84,7 @@ $(function() {
 			tr = $("<tr></tr>")
 			$(vars).each(function(k2, v) {
 				if(v == 'NER viz')	{
-					tr.append('<td>'+'<button> <a href="' + document.location.origin + '/paperviz?pmid='+ b['pmid']+'">' + b['pmid'] + '</a></button>' + '</td>')
+					tr.append('<td>'+'<button> <a target="_blank" href="' + document.location.origin + '/drugprog1/paperviz?pmid='+ b['pmid']+'">' + b['pmid'] + '</a></button>' + '</td>')
 				}
 				else	{
 					tr.append('<td>' + b[v] + '</td>')
@@ -146,6 +146,38 @@ $(function() {
     	select: function( event, ui ) {}
     });
 
-    
+    $( "#search_query_disease" ).autocomplete({ 
+    	source : function( request, response ) { 
+    		//search_type = $('#search_type option:selected').val()
+    		
+    		search_query = $('#search_query_disease').val()
+    		query = ""
+    		query = "disease_@" + search_query
+
+    		url = "autosearch"
+    		url += "?query=" + query
+    		url += "&output=json"
+    				
+    		$.ajax({ 
+    			//호출할 URL 
+    			'url': url, 
+    			//우선 jsontype json으로 
+    			'dataType': "json", 
+    			// parameter 값이다. 여러개를 줄수도 있다. 
+    			'data': { 
+    				//request.term >> 이거 자체가 text박스내에 입력된 값이다. 
+    				searchValue: request.term 
+    			}, 
+    			success: function( data ) {
+    	            response( data );
+    	          }
+    		}); 
+    	}, 
+    	//최소 몇자 이상되면 통신을 시작하겠다라는 옵션 
+    	minLength: 3, 
+    	//자동완성 목록에서 특정 값 선택시 처리하는 동작 구현 
+    	//구현없으면 단순 text태그내에 값이 들어간다. 
+    	select: function( event, ui ) {}
+    });
     
 })

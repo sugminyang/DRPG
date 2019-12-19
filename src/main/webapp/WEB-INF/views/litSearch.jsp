@@ -1,127 +1,123 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>
-      BIKE-DrugProg
-    </title>
+	<title>Bike-DrugProg</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport" />
-    <!-- Bootstrap 3.3.7 -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/bower_components/bootstrap/dist/css/bootstrap.min.css" />
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/bower_components/font-awesome/css/font-awesome.min.css" />
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/bower_components/Ionicons/css/ionicons.min.css" />
-    <!-- Theme style -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/dist/css/AdminLTE.min.css" />
-    <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/dist/css/skins/skin-black.min.css" />
-    <!-- DataTables -->
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css" />
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/img.css" />
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+	<link rel="stylesheet"
+		href="http://bike-bee.snu.ac.kr/css/bootstrap.css">
+	<link rel="stylesheet"
+		href="http://bike-bee.snu.ac.kr/css/usebootstrap.css">
+	<link rel="stylesheet"
+		href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<link rel="stylesheet" type="text/css"
+		href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css" />
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
-  </head>
+</head>
   
-<body class="hold-transition skin-black sidebar-mini">
-<div class="wrapper">
+<body>
+<div class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="/" class="navbar-brand">BiKE <b>DrugProg</b></a>
+            
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-main">
+            <ul class="nav navbar-nav navbar-right">                                
+				<li><a href="/" target="_blank">About</a></li>
+                <li><a href="/litsearch">Literature-Search</a></li>
+                <li><a href="/overview">Overview</a></li>
+                <li><a href="/tutorial">Tutorial</a></li>
+                <li><a href="/help">Help</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
 
-  <header class="main-header">
+<div class="container" >
+	<div class="col-lg-12">
+        <h3 class="page-header">Literature Search</h3>
+    </div>
+    <div class="col-lg-12" id="searchContent">
+    	<!-- <p>search drug name: <b>${drugname}</b></p> -->
+    </div>
+    <div class="col-lg-12">
+			<div class="col-xs-3">
+				<select id="search_type" class="form-contorl" name="search_type"
+					style="width: 100%; height: 34px; border-color: #d2d6de;">
+					<option value="disease_name">Disease Name</option>
+					<option value="geneSymbol">Gene symbol</option>
+					<option value="pmid">pmid</option>
+				</select>
+			</div>
 
-    <!-- Logo -->
-    <a href="${pageContext.request.contextPath}/" class="logo">
-      <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>DR</b></span>
-      <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg">BIKE-<b>Drug</b>Prog</span>
-    </a>
+			<div class="col-xs-9">
+				<div class="input-group input-group">
+					<input id="search_query" type="text" class="form-control"
+						placeholder="Glioma" /> <span class="input-group-btn">
+						<button id="search_button" type="button"
+							class="btn btn-gray btn-flat">Search</button>
+					</span>
+				</div>
+			</div>
+		</div>
+    
+	<div class="table table-bordered table-hover dataTable" id="result"></div>
 
-    <!-- Header Navbar: style can be found in header.less -->
-    <nav class="navbar navbar-static-top">
-      <!-- Sidebar toggle button-->
-      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-        <span class="sr-only">Toggle navigation</span>
-      </a>
-    </nav>
-  </header>
-  <!-- Left side column. contains the logo and sidebar -->
-  <aside class="main-sidebar">
-    <!-- sidebar: style can be found in sidebar.less -->
-    <section class="sidebar">
-      <!-- sidebar menu: : style can be found in sidebar.less -->
-      <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">Categories</li>
-        <li><a href="${pageContext.request.contextPath}/"><i class="fa fa-book"></i> <span>About</span></a></li>        
-		<!--  <li><a href="${pageContext.request.contextPath}/wordcloud"><i class="fa fa-book"></i> <span>Prognostic word statistics</span></a></li> -->
-		<li class="active"><a href="${pageContext.request.contextPath}/litsearch"><i class="fa fa-book"></i> <span>literature search</span></a></li>
-        <li><a href="${pageContext.request.contextPath}/drugrepositor"><i class="fa fa-book"></i> <span>drug repositioning</span></a></li>
-        <li><a href="${pageContext.request.contextPath}/instruction"><i class="fa fa-book"></i> <span>instruction</span></a></li>
-        <!--  <li><a href="${pageContext.request.contextPath}/dataset"><i class="fa fa-book"></i> <span>Dataset</span></a></li>-->
-		<li><a href="${pageContext.request.contextPath}/contact"><i class="fa fa-book"></i> <span>Contact</span></a></li>
-      </ul>
-    </section>
-    <!-- /.sidebar -->
-  </aside>
 
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <h1>
-      literature search
-      </h1>
-    </section>
-	
-    <!-- Main content -->
-    <section class="content">
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="box">
-            <div class="box-body">
-	          <div class="row">
-               	<form id="search_form" role="form">
-	              <div class="col-xs-3">
-            		<select id="search_type" class="form-contorl" name="search_type" style="width: 100%; height: 34px; border-color: #d2d6de;">
-	            			<option value="disease_name">Disease Name</option>
-	            			<option value="geneSymbol">Gene symbol</option>
-	            			<option value="pmid">pmid</option>
-	            	</select>
-    	          </div>
-                <div class="col-xs-9">
-        		  <div class="input-group input-group">
-            		<input id="search_query" type="text" class="form-control" value="glioma"/>
-            		  <span class="input-group-btn">
-	                    <button id="search_button" type="button" class="btn btn-gray btn-flat">Search</button>
-	                  </span>
-            		</div>
-                  </div>
-	        	</form>
-              </div>
+    <!-- .modal -->
+    <div class="modal fade" id="myCartModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
               
-	          <div class="row">
-	              <div class="col-xs-12" id="result">
-	              </div>
-              </div>
+              <h4 class="modal-title">Load stored results</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                                                                            </div>    
+            </div>
+            <div class="modal-footer">
+                            
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+<!-- /.modal -->
+
+<!-- .modal -->
+    <div class="modal fade" id="loadModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Loading Now</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    Please Wait..
+                        <i class="fa fa-refresh fa-spin"></i>
+                </div>    
+            </div>
+            <div class="modal-footer">            
 
             </div>
-            <!-- /.box-body -->
           </div>
-          <!-- /.box -->
+          <!-- /.modal-content -->
         </div>
-        <!-- /.col -->
+        <!-- /.modal-dialog -->
       </div>
-      <!-- /.row -->
-    </section>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
+<!-- /.modal -->          
+</div>      
 
   <footer class="main-footer">
     <div class="pull-right hidden-xs">
@@ -131,26 +127,20 @@
     reserved.
   </footer>
 
-</div>
+
 <!-- ./wrapper -->
-    <!-- jQuery 3 -->
-    <script src="${pageContext.request.contextPath}/resources/static/bower_components/jquery/dist/jquery.min.js"></script>
-	<!-- Bootstrap 3.3.7 -->
-	<script src="${pageContext.request.contextPath}/resources/static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-	<!-- DataTables -->
-	<script src="${pageContext.request.contextPath}/resources/static/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/static/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>	
-	<!-- FastClick -->
-	<script src="${pageContext.request.contextPath}/resources/static/bower_components/fastclick/lib/fastclick.js"></script>
-	<!-- AdminLTE App -->
-	<script src="${pageContext.request.contextPath}/resources/static/dist/js/adminlte.min.js"></script>
-	<!-- Sparkline -->
-	<script src="${pageContext.request.contextPath}/resources/static/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
-	<!-- SlimScroll -->
-	<script src="${pageContext.request.contextPath}/resources/static/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.flash.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
+    <script src="/resources/static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/static/search.js"></script>
-	
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"></link>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>  
+
   </body>
 </html>

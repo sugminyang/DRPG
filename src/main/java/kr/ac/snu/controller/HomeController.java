@@ -111,8 +111,30 @@ public class HomeController {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
+	@RequestMapping(value = "/overview", method = RequestMethod.GET)
+	public String overview() {
+		logger.info("overview");
+
+		return "overview";
+	}        
+
+    @RequestMapping(value = "/tutorial", method = RequestMethod.GET)
+	public String tutorial() {
+		logger.info("tutorial");
+
+		return "tutorial";
+	}
+
+    @RequestMapping(value = "/help", method = RequestMethod.GET)
+	public String help() {
+		logger.info("help");
+
+		return "help";
+	}    
+
+  
+    
 	/**
 	 * wordcloud figure section(hide 1st milstone)
 	 * */

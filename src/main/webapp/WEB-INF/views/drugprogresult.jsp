@@ -40,9 +40,11 @@
         </div>
         <div class="navbar-collapse collapse" id="navbar-main">
             <ul class="nav navbar-nav navbar-right">                                
-                <li><a href="/" target="_blank">About</a></li>
-                <li><a href="/" target="_blank">Database</a></li>
-                <li><a href="/" target="_blank">Tutorial</a></li>
+				<li><a href="/" target="_blank">About</a></li>
+                <li><a href="/litsearch">Literature-Search</a></li>
+                <li><a href="/overview">Overview</a></li>
+                <li><a href="/tutorial">Tutorial</a></li>
+                <li><a href="/help">Help</a></li>
             </ul>
         </div>
     </div>
@@ -50,7 +52,7 @@
 
 <div class="container" >
 	<div class="col-lg-12">
-        <h4 class="page-header">Result</h4>
+        <h3 class="page-header">Drug Repurposing Result</h3>
     </div>
     <div class="col-lg-12" id="searchContent">
     	<!-- <p>search drug name: <b>${drugname}</b></p> -->
@@ -58,17 +60,18 @@
 	<div class="table table-bordered table-hover dataTable" id="result"></div>
 
 	<div class="col-lg-12">
-        <h4 class="page-header">1. PMID</h4>
+        <h3 class="page-header">1. Literature</h3>
         <div id="pmidList">
+        	please click one row in a table of drug repurposing result.
 		</div>
     </div>
 	<div class="col-lg-12">
-        <h4 class="page-header">2. External references</h4>
+        <h3 class="page-header">2. Biomolecular interactions</h3>
         <div id="xref_url">
 		</div>
     </div>    
 	<div class="col-lg-12">
-        <h4 class="page-header">3. Chemical Structure</h4>
+        <h3 class="page-header">3. Chemical Structure</h3>
         <p>Structure of  <b>${drugname}</b></p>
         <img id="chemstr" style="width: 300px; height:300px"/> 
     </div>        
@@ -119,7 +122,8 @@
       </div>
 <!-- /.modal -->     
     
-</div>      
+</div>  
+    
 <footer class="main-footer">
 <div class="pull-right hidden-xs">
     <b>Version</b> 1.0

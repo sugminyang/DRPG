@@ -35,9 +35,11 @@
         </div>
         <div class="navbar-collapse collapse" id="navbar-main">
             <ul class="nav navbar-nav navbar-right">                                
-                <li><a href="/" target="_blank">About</a></li>
-                <li><a href="/" target="_blank">Database</a></li>
-                <li><a href="/" target="_blank">Tutorial</a></li>
+				<li><a href="/" target="_blank">About</a></li>
+                <li><a href="/litsearch">Literature-Search</a></li>
+                <li><a href="/overview">Overview</a></li>
+                <li><a href="/tutorial">Tutorial</a></li>
+                <li><a href="/help">Help</a></li>
             </ul>
         </div>
     </div>

@@ -12,6 +12,7 @@
 	<link rel="stylesheet" href="http://bike-bee.snu.ac.kr/css/usebootstrap.css">
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> 
 	<script src="${pageContext.request.contextPath}/resources/static/search_drugreposition.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/static/search.js"></script>
 	
 <link rel="stylesheet"
     href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
@@ -72,7 +73,6 @@
 				height: 100%;   
 	
 			}
-			            
     </style>
 </head>
 <body>
@@ -84,9 +84,11 @@
         </div>
         <div class="navbar-collapse collapse" id="navbar-main">
             <ul class="nav navbar-nav navbar-right">                                
-                <li><a href="${pageContext.request.contextPath}/" target="_blank">About</a></li>
-                <li><a href="${pageContext.request.contextPath}/" target="_blank">Database</a></li>
-                <li><a href="${pageContext.request.contextPath}/" target="_blank">Tutorial</a></li>
+				<li><a href="/" target="_blank">About</a></li>
+                <li><a href="/litsearch">Literature-Search</a></li>
+                <li><a href="/overview">Overview</a></li>
+                <li><a href="/tutorial">Tutorial</a></li>
+                <li><a href="/help">Help</a></li>
             </ul>
         </div>
     </div>
@@ -130,14 +132,13 @@
 						                    <tbody id="tbl_posts_body">
 						                        <tr id="rec-1">
 						                            <td>
-						                                <input type="text" id="search_query_dr" name="drugname[]" class="form-control"/>
+						                                <input type="text" id="search_query_dr" name="drugname[]" class="form-control" placeholder="Afatinib"/>
 						                            </td>
 						                            
 						                        </tr>
 						                    </tbody>
 						                </table>
 						                <div style="text-align: right">
-							            	<button class="btn btn-default">Cancel</button>
 											<button type="submit" class="btn" id="submit" style="background-color: #163851; color: white;">Submit</button>
 							            </div>  
 					                </div>
@@ -171,7 +172,7 @@
 						                    <tbody id="tbl_posts_body">
 						                        <tr id="rec-1">
 						                            <td>
-						                                <input type="text" id="search_query_dr2" name="drugname[]" class="form-control"/>
+						                                <input type="text" id="search_query_dr2" name="drugname[]" class="form-control" placeholder="Afatinib"/>
 						                            </td>
 						                            
 						                        </tr>
@@ -198,14 +199,13 @@
 						                    <tbody id="tbl_posts_body">
 						                        <tr id="rec-1">
 						                            <td>
-						                                <input type="text" id="search_query_disease" name="diseasename[]" class="form-control"/>
+						                                <input type="text" id="search_query_disease" name="diseasename[]" class="form-control" placeholder="Lung Neoplasms"/>
 						                            </td>
 						                            
 						                        </tr>
 						                    </tbody>
 						                </table>
 						                <div style="text-align: right">
-							            	<button class="btn btn-default">Cancel</button>
 											<button type="submit" class="btn" id="submit" style="background-color: #163851; color: white;">Submit</button>
 							            </div>  
 					                </div>
@@ -276,6 +276,6 @@ reserved.
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <script src="http://bike-bee.snu.ac.kr/js/finder.js?newversion"></script>
     <script src="${pageContext.request.contextPath}/resources/static/search_drugreposition.js"></script>
-    
+    <script src="${pageContext.request.contextPath}/resources/static/search.js"></script>
 </body>
 </html>
