@@ -118,7 +118,7 @@
 		                
 		                
 		                <!-- drug query -->
-		                <div class="col-sm-5">
+		                <div class="col-sm-5" style="border-right: 1px dashed #000;">
 			                <form method="POST" action="/drugprog1" accept-charset="UTF-8" autocomplete="off" name="findForm"><input name="_token" type="hidden" value="fCFVRApoko2AgBExIGU8gvtgtvexKCw3MQpJvTKb">
 			                	<div class="form-group">
 					                <div class="col-sm-8 col-sm-offset-2">
@@ -144,24 +144,42 @@
 								</div>                
 							</form>      
 						</div>
-						<div class="col-sm-1">
-							|</br>
-							|</br>
-							|</br>
-							|</br>
-							|</br>
-							|</br>
-							|</br>
-							|</br>
-							</br>
-						</div>
-						
 						
 						<!-- drug & disease query -->	
-						<div class="col-sm-6">
+						<div class="col-sm-7">
 			                <form method="POST" action="/drugprog2" accept-charset="UTF-8" autocomplete="off" name="findForm"><input name="_token" type="hidden" value="fCFVRApoko2AgBExIGU8gvtgtvexKCw3MQpJvTKb">
 			                	<div class="form-group">
-					                <div class="col-6 col-md-4">
+					                <div class="col-sm-12">
+					                	<table class="table table-bordered" id="tbl_posts" style="text-align: center">
+					                		<td>
+						                		<div style="margin:10px;">
+						                			<b>Repositioning Entity Name</b>
+						                		</div>
+						                		<div>
+						                			<input type="text" id="search_query_dr2" name="drugname[]" class="form-control" placeholder="Afatinib"/>
+						                		</div>
+					                		</td>
+					                		
+					                		<td style="vertical-align: middle;">
+					                			<b>∩</b>
+					                		</td>
+					                		
+					                		<td>
+					                			<div style="margin:10px;">
+					                				<b>Disease Name</b>
+					                			</div>
+					                			<div>
+					                				<input type="text" id="search_query_disease" name="diseasename[]" class="form-control" placeholder="Lung Neoplasms"/>
+					                			</div>
+					                		</td>
+					                	</table>
+					                	<div style="text-align: right">
+											<button type="submit" class="btn" id="submit" style="background-color: #163851; color: white;">Submit</button>
+									    </div>  
+									</div>
+								</div>
+			                	<!-- <div class="form-group">
+					                <div class="col-5 col-md-4">
 					                	<table class="table table-bordered" id="tbl_posts" style="text-align: center">
 						                    <thead>
 						                        <tr>
@@ -178,7 +196,14 @@
 						                    </tbody>
 						                </table>
 									</div>
-									<div class="col-6 col-md-4">
+									<div class="col-2 col-md-4">
+										<div class='wrap'>
+											<div class='inner-wrap'>
+												<div class='text'>
+													∩
+												</div>
+											</div>
+										</div>
 										
 										<table class="table table-bordered" id="tbl_posts" style="text-align: center; border:none">
 						                    <thead>
@@ -187,8 +212,9 @@
 						                        </tr>
 						                    </thead>
 						                </table>
+						                
 									</div>
-					                <div class="col-6 col-md-4">							
+					                <div class="col-5 col-md-4">							
 					                    <table class="table table-bordered" id="tbl_posts" style="text-align: center">
 						                    <thead>
 						                        <tr>
@@ -208,7 +234,8 @@
 											<button type="submit" class="btn" id="submit" style="background-color: #163851; color: white;">Submit</button>
 							            </div>  
 					                </div>
-								</div>                
+								</div>   
+								 -->             
 							</form>      
 						</div>								  
 				</div>
