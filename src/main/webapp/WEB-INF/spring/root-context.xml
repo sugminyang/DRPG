@@ -23,20 +23,21 @@
         <property name="password" value="1q2w1q2w!"></property>
          -->
          
-         <!-- macos local
+<!-- macos local                 
         <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"></property>
         <property name="url"
             value="jdbc:mysql://127.0.0.1:3306/drugprogDB?useSSL=false&amp;serverTimezone=UTC"></property>
         <property name="username" value="root"></property>
         <property name="password" value="1q2w1q2w"></property> 
-         -->
+-->         
         <!-- 204 server -->
+
         <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"></property>
         <property name="url"
             value="jdbc:mysql://147.47.56.204:3306/drugprogDB?useSSL=false&amp;serverTimezone=UTC"></property>
         <property name="username" value="bike1"></property>
         <property name="password" value="123qweasd!"></property>
-        
+
     </bean>
     
     <!-- mybatis SqlSessionFactoryBean -->

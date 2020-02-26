@@ -21,8 +21,8 @@ public class PubmedTest {
 		String testPmid = "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=" + pmid + "8&resultType=core&pageSize=1&format=json";
 		
 		System.out.println(pmid);
-		System.out.println(getPubmedAbstract(testPmid));
-	}
+//		System.out.println(getPubmedAbstract(testPmid));
+		}
 	
 	public static String getPubmedAbstract(String request_url) throws ParseException {
 		URL url = null;

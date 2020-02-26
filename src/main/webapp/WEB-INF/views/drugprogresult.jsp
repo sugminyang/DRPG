@@ -206,6 +206,10 @@
 
         		$('#result').append(table)
         		table.DataTable({
+        			dom: 'Bfrtip',
+                    buttons: [
+                        'copy', 'csv', 'excel', 'pdf', 'print'
+                    ],
                 'paging': true,
                 'lengthChange': false,
                 'searching': true,
